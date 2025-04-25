@@ -6,7 +6,11 @@
       </div>
     </a>
   
-    <button class="menu-button" id="menuToggle" aria-label="Abrir menú">
+    <button 
+      id="menuToggle" 
+      class="md:hidden bg-transparent border-none cursor-pointer text-text hover:text-primary transition-transform duration-300 hover:rotate-90"
+      aria-label="Abrir menú"
+    >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -15,8 +19,9 @@
     </button>
   
     <nav class="nav" id="mainNav">
+      <a href="/chat" class="nav-link">Chats</a>
       <a href="/empleos" class="nav-link">Empleos</a>
-      <a href="/chat" class="nav-link">Mensajes</a>
+      <a href="/empleos" class="nav-link">Voluntariados</a>
       <a href="/login" class="nav-link">Iniciar Sesión</a>
       <a href="/registro" class="nav-link register-btn">Registrarse</a>
     </nav>

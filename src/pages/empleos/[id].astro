@@ -349,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveButton = document.getElementById('saveButton');
   if (saveButton) {
     saveButton.addEventListener('click', function() {
-      // Cambiar el estado visual del botón
+      // Cambiar el visual del botón
       const isSaved = this.classList.toggle('saved');
       
       if (isSaved) {
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (svgElement) {
           svgElement.setAttribute('fill', 'currentColor');
         }
-        // Aquí se podría guardar el ID del trabajo en localStorage
+        // Aquí se guarda el ID del trabajo en localStorage
         const jobId = window.location.pathname.split('/').pop();
         const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
         if (!savedJobs.includes(jobId)) {
@@ -369,7 +369,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (svgElement) {
           svgElement.setAttribute('fill', 'none');
         }
-        // Aquí se podría eliminar el ID del trabajo de localStorage
+        // Aquí se eliminar el ID del trabajo de localStorage
         const jobId = window.location.pathname.split('/').pop();
         const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
         const updatedJobs = savedJobs.filter((id: string) => id !== jobId);
@@ -395,10 +395,8 @@ document.addEventListener('DOMContentLoaded', () => {
     applicationForm.addEventListener('submit', (e) => {
       e.preventDefault();
       
-      // Aquí se podría implementar la lógica para enviar la postulación
-      // Por ahora, solo mostraremos un mensaje de éxito
       
-      // Crear un elemento para mostrar el mensaje de éxito
+      // Mensaje de éxito
       const successMessage = document.createElement('div');
       successMessage.className = 'success-message';
       successMessage.innerHTML = `

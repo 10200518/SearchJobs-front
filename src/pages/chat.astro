@@ -2,11 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import '../styles/pages/chat.css'
 ---
 
 
 <Layout title='Chat SearchJods'>
-    <header slot="header" />
+    <Header slot="header" />
 
     <div class="container">
         <div class="chat-container">
@@ -56,3 +57,158 @@ import Footer from '../components/Footer.astro';
 
     <Footer slot="footer" />
 </Layout>
+
+<script>
+    const contacts = [
+    {
+      id: 1,
+      name: "María López",
+      role: "Reclutadora",
+      company: "TechCorp",
+      avatar: "/placeholder.svg?height=50&width=50",
+      lastMessage: "Hola, nos gustaría programar una entrevista contigo.",
+      lastMessageTime: "10:30 AM",
+      unread: 2,
+      online: true,
+      isRecruiter: true
+    },
+    {
+      id: 2,
+      name: "Carlos Rodríguez",
+      role: "Gerente de RRHH",
+      company: "CreativeStudio",
+      avatar: "/placeholder.svg?height=50&width=50",
+      lastMessage: "Gracias por tu aplicación. ¿Podrías enviarnos tu portafolio?",
+      lastMessageTime: "Ayer",
+      unread: 0,
+      online: false,
+      isRecruiter: true
+    },
+    {
+      id: 3,
+      name: "Ana Martínez",
+      role: "Directora de Talento",
+      company: "GrowthAgency",
+      avatar: "/placeholder.svg?height=50&width=50",
+      lastMessage: "Hemos revisado tu CV y nos gustaría conocerte mejor.",
+      lastMessageTime: "Lun",
+      unread: 1,
+      online: true,
+      isRecruiter: true
+    },
+    {
+      id: 4,
+      name: "Juan Pérez",
+      role: "Candidato",
+      position: "Desarrollador Frontend",
+      avatar: "/placeholder.svg?height=50&width=50",
+      lastMessage: "Estoy interesado en la posición que publicaron.",
+      lastMessageTime: "Hoy",
+      unread: 3,
+      online: true,
+      isRecruiter: false
+    },
+    {
+      id: 5,
+      name: "Laura Gómez",
+      role: "Candidata",
+      position: "Diseñadora UX/UI",
+      avatar: "/placeholder.svg?height=50&width=50",
+      lastMessage: "Adjunto mi portafolio actualizado.",
+      lastMessageTime: "Ayer",
+      unread: 0,
+      online: false,
+      isRecruiter: false
+    }
+  ];
+
+  const conversationMessages: Record<number, { id: number; sender: string; text: string; timestamp: string; }[]> = {
+    1: [
+      {
+        id: 1,
+        sender: "recruiter",
+        text: "Hola, gracias por aplicar a la posición de Desarrollador Frontend en TechCorp.",
+        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
+      },
+      {
+        id: 2,
+        sender: "recruiter",
+        text: "Hemos revisado tu CV y nos gustaría programar una entrevista contigo para conocerte mejor.",
+        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
+      },
+      {
+        id: 3,
+        sender: "user",
+        text: "¡Hola! Muchas gracias por contactarme. Estoy muy interesado en la posición.",
+        timestamp: new Date(Date.now() - 3600000 * 2).toISOString()
+      },
+      {
+        id: 4,
+        sender: "user",
+        text: "Estoy disponible para una entrevista esta semana. ¿Qué días y horarios les conviene?",
+        timestamp: new Date(Date.now() - 3600000 * 2).toISOString()
+      },
+      {
+        id: 5,
+        sender: "recruiter",
+        text: "Perfecto. ¿Te parece bien este jueves a las 15:00 horas?",
+        timestamp: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: 6,
+        sender: "recruiter",
+        text: "La entrevista sería por videollamada. Te enviaríamos el enlace por correo.",
+        timestamp: new Date(Date.now() - 3600000).toISOString()
+      }
+    ],
+    2: [
+      {
+        id: 1,
+        sender: "recruiter",
+        text: "Hola, gracias por tu aplicación para el puesto de Diseñador UX/UI.",
+        timestamp: new Date(Date.now() - 3600000 * 48).toISOString()
+      },
+      {
+        id: 2,
+        sender: "recruiter",
+        text: "Nos gustaría ver algunos ejemplos de tu trabajo. ¿Podrías enviarnos tu portafolio?",
+        timestamp: new Date(Date.now() - 3600000 * 48).toISOString()
+      },
+      {
+        id: 3,
+        sender: "user",
+        text: "¡Hola! Claro, con gusto les comparto mi portafolio.",
+        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
+      },
+      {
+        id: 4,
+        sender: "user",
+        text: "Pueden encontrarlo en este enlace: www.miportfolio.com",
+        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
+      }
+    ]
+  };
+
+  function formatMessageDate(dateString: string) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) {
+      return 'Hoy';
+    } else if (diffDays === 1) {
+      return 'Ayer';
+    } else if (diffDays < 7) {
+      const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      return days[date.getDay()];
+    } else {
+      return date.toLocaleDateString();
+    }
+  }
+
+  function formatMessageTime(dateString: string) {
+    const date = new Date(dateString);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+</script>
