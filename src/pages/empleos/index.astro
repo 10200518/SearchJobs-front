@@ -19,9 +19,12 @@ interface Job {
 
 const res = await fetch('http://localhost:8080/api/vacantes/listar');
 const data = await res.json();
-console.log(data.vacantes);
-const jobs: Job[] = Array.isArray(data.vacantes) ? data.vacantes : [];
+const totalVacantes = data.vacantes.totalElements;
 
+const pageActual = data.vacantes.pageable.pageNumber;
+const totalPage = data.vacantes.totalPages;
+
+const jobs: Job[] = Array.isArray(data.vacantes.content) ? data.vacantes.content : [];
 ---
 
 <Layout title="Empleos | SearchJobs">
@@ -142,7 +145,7 @@ const jobs: Job[] = Array.isArray(data.vacantes) ? data.vacantes : [];
       <div class="jobs-container">
         <div class="jobs-header">
           <h2 class="jobs-title">Empleos disponibles</h2>
-          <div class="jobs-count">{jobs.length} empleos encontrados</div>
+          <div class="jobs-count">{totalVacantes} empleos encontrados</div>
         </div>
 
         <div class="jobs-grid">
