@@ -3,66 +3,38 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 
-export async function getStaticPaths() {
-// API o base de datos
-const jobs = [
-  {
-    id: 1,
-    title: "Desarrollador Frontend",
-    company: "TechCorp",
-    location: "Bogotá, Colombia",
-    type: "Tiempo completo",
-    experience: "2-3 años",
-    postedDate: "Hace 2 días",
-    logo: "/placeholder.svg?height=100&width=100",
-    description: `
-      <p>Estamos buscando un Desarrollador Frontend talentoso para unirse a nuestro equipo de tecnología en rápido crecimiento. Como Desarrollador Frontend, serás responsable de implementar interfaces de usuario atractivas y funcionales que brinden una experiencia excepcional al usuario.</p>
-      
-      <h4>Responsabilidades:</h4>
-      <ul>
-        <li>Desarrollar interfaces de usuario responsivas y accesibles utilizando HTML, CSS y JavaScript</li>
-        <li>Trabajar con frameworks modernos como React, Vue o Angular</li>
-        <li>Colaborar con diseñadores UX/UI para implementar diseños y prototipos</li>
-        <li>Optimizar aplicaciones para máxima velocidad y escalabilidad</li>
-        <li>Asegurar la compatibilidad entre navegadores y dispositivos</li>
-        <li>Participar en revisiones de código y ayudar a mantener estándares de calidad</li>
-      </ul>
-      
-      <h4>Requisitos:</h4>
-      <ul>
-        <li>2-3 años de experiencia en desarrollo frontend</li>
-        <li>Sólidos conocimientos de HTML5, CSS3 y JavaScript (ES6+)</li>
-        <li>Experiencia con al menos un framework moderno (React, Vue, Angular)</li>
-        <li>Familiaridad con herramientas de construcción como Webpack, Vite o similares</li>
-        <li>Conocimiento de metodologías CSS como BEM, SMACSS o similares</li>
-        <li>Experiencia con control de versiones Git</li>
-        <li>Capacidad para trabajar en equipo y comunicarse efectivamente</li>
-      </ul>
-      
-      <h4>Beneficios:</h4>
-      <ul>
-        <li>Salario competitivo</li>
-        <li>Horario flexible</li>
-        <li>Trabajo remoto parcial</li>
-        <li>Oportunidades de crecimiento profesional</li>
-        <li>Ambiente de trabajo colaborativo e innovador</li>
-        <li>Seguro médico</li>
-      </ul>
-    `,
-  },
-  // Aquí irían más trabajos
-];
-
-return jobs.map(job => ({
-  params: { id: job.id.toString() },
-  props: { job },
-}));
+interface Vacante {
+  nvacantes: string;  
+  titulo: string;
+  nameEmpresa: string;
+  ciudad: string;
+  tipo: string;
+  experiencia: string;
+  imagenEmpresa: string;
 }
 
-const { job } = Astro.props;
+export async function getStaticPaths() {
+  const res = await fetch('http://localhost:8080/api/vacantes/listar');
+  const data = await res.json();
+  const vacantes = Array.isArray(data.vacantes) ? data.vacantes : [];
+
+  return vacantes.map((vacante: Vacante) => ({
+    params: { id: vacante.nvacantes.toString() }, // ← Aquí asegúrate que nvacantes existe
+    props: {
+      job: vacante, 
+    },
+  }));
+}
+
+
+const { id } = Astro.params;
+
+const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`);
+const data = await res.json();
+const job = data.vacanteSeleccionada;
 ---
 
-<Layout title={`${job.title} en ${job.company} | SearchJobs`}>
+<Layout title={`${job.titulo} en ${job.nameEmpresa} | SearchJobs`}>
 <Header slot="header" />
 
 <div class="container">
@@ -78,12 +50,12 @@ const { job } = Astro.props;
   <div class="job-header">
     <div class="job-header-content">
       <div class="company-logo">
-        <img src={job.logo || "/placeholder.svg"} alt={`${job.company} logo`} width="100" height="100" />
+        <img src={job.imagenEmpresa || "/placeholder.svg"} alt={`${job.nameEmpresa} logo`} width="100" height="100" />
       </div>
 
       <div class="job-info">
-        <h1 class="job-title">{job.title}</h1>
-        <h2 class="company-name">{job.company}</h2>
+        <h1 class="job-title">{job.titulo}</h1>
+        <h2 class="company-name">{job.nameEmpresa}</h2>
 
         <div class="job-meta">
           <div class="job-meta-item">
@@ -98,14 +70,14 @@ const { job } = Astro.props;
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
-            <span>{job.type}</span>
+            <span>{job.tipo}</span>
           </div>
           <div class="job-meta-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="job-meta-icon">
               <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
             </svg>
-            <span>{job.experience}</span>
+            <span>{job.experiencia}</span>
           </div>
           <div class="job-meta-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="job-meta-icon">
@@ -114,7 +86,7 @@ const { job } = Astro.props;
               <line x1="8" y1="2" x2="8" y2="6"></line>
               <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
-            <span>{job.postedDate}</span>
+            <span>{job.fechaPublicacion}</span>
           </div>
         </div>
       </div>
@@ -147,7 +119,7 @@ const { job } = Astro.props;
   <div class="content-container">
     <div class="job-description">
       <h3 class="section-title">Descripción del empleo</h3>
-      <div class="description-content" set:html={job.description} />
+      <div class="description-content" set:html={job.descripcion} />
     </div>
 
     <div class="sidebar">
@@ -156,23 +128,31 @@ const { job } = Astro.props;
         <div class="sidebar-content">
           <div class="sidebar-item">
             <span class="sidebar-item-label">Empresa:</span>
-            <span class="sidebar-item-value">{job.company}</span>
+            <span class="sidebar-item-value">{job.nameEmpresa}</span>
+          </div>
+          <div class="sidebar-item">
+            <span class="sidebar-item-label">Cargo:</span>
+            <span class="sidebar-item-value">{job.cargo}</span>
+          </div>
+          <div class="sidebar-item">
+            <span class="sidebar-item-label">Modalidad:</span>
+            <span class="sidebar-item-value">{job.modalidad}</span>
           </div>
           <div class="sidebar-item">
             <span class="sidebar-item-label">Ubicación:</span>
-            <span class="sidebar-item-value">{job.location}</span>
+            <span class="sidebar-item-value">{job.ciudad}</span>
           </div>
           <div class="sidebar-item">
             <span class="sidebar-item-label">Tipo:</span>
-            <span class="sidebar-item-value">{job.type}</span>
+            <span class="sidebar-item-value">{job.tipo}</span>
           </div>
           <div class="sidebar-item">
             <span class="sidebar-item-label">Experiencia:</span>
-            <span class="sidebar-item-value">{job.experience}</span>
+            <span class="sidebar-item-value">{job.experiencia}</span>
           </div>
           <div class="sidebar-item">
             <span class="sidebar-item-label">Publicado:</span>
-            <span class="sidebar-item-value">{job.postedDate}</span>
+            <span class="sidebar-item-value">{job.fechaPublicacion}</span>
           </div>
         </div>
 

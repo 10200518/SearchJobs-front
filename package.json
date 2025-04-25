@@ -12,6 +12,7 @@
     "@astrojs/react": "^4.2.3",
     "astro": "^5.5.6",
     "micromark-util-resolve-all": "^2.0.1",
+    "searchjobs": "file:",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
