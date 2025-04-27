@@ -2,31 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import JobCard from '../../components/JobCard.astro';
+import JobList from '../../components/JobList.jsx';
 import'../../styles/pages/empleos.css';
-import { date } from 'astro:schema'
 
-
-interface Job {
-  nvacantes: String;
-  titulo: string;
-  nameEmpresa: string;
-  ciudad: string;
-  tipo: string;
-  experiencia: string;
-  imagenEmpresa: string;
-}
-
-const page = 0; // segunda página (recuerda que empieza desde 0)
-const size = 6; // 5 vacantes por página
-
+const page = 0; 
+const size = 10; 
 const res = await fetch(`http://localhost:8080/api/vacantes/listar?page=${page}&size=${size}`);
 const data = await res.json();
 const totalVacantes = data.totalElements;
-const pageActual = data.pageActual.pageNumber;
-const totalPage = data.totalPage;
-
-const jobs: Job[] = Array.isArray(data.vacantes) ? data.vacantes : [];
 ---
 
 <Layout title="Empleos | SearchJobs">
@@ -148,127 +131,15 @@ const jobs: Job[] = Array.isArray(data.vacantes) ? data.vacantes : [];
         <div class="jobs-header">
           <h2 class="jobs-title">Empleos disponibles</h2>
           <div class="jobs-count">{totalVacantes} empleos encontrados</div>
-        </div>
-
-        <div class="jobs-grid">
-          {jobs.map(job => (
-            <JobCard job={job} />
-          ))}
-        </div> 
-        <div class="pagination">
-          <button class="pagination-button prev">Anterior</button>
         
-          <div class="pagination-numbers">
-            <!-- Aquí se van a generar los números dinámicamente -->
-          </div>
-        
-          <button class="pagination-button next">Siguiente</button>
         </div>
-
-        <!-- <div class="pagination">
-          <button class="pagination-button" disabled>
-            Anterior
-          </button>
-          <div class="pagination-numbers">
-            <button class="pagination-number active">1</button>
-            <button class="pagination-number">2</button>
-            <button class="pagination-number">3</button>
-          </div>
-          <button class="pagination-button">Siguiente</button>
-        </div> -->
+          <JobList
+            client:only="react"
+            totalItems={totalVacantes} 
+            itemsPerPage={6}  
+          />
       </div>
     </div>
   </div>
-
   <Footer slot="footer" />
 </Layout>
-
-
-
-
-<script>
-  let currentPage = 0;
-  const pageSize = 6;
-
-  const jobsGrid = document.querySelector('.jobs-grid');
-  const paginationNumbers = document.querySelector('.pagination-numbers');
-  const prevButton = document.querySelector('.pagination-button.prev');
-  const nextButton = document.querySelector('.pagination-button.next');
-
-  async function fetchJobs(page) {
-    const res = await fetch(`http://localhost:8080/api/vacantes/listar?page=${page}&size=${pageSize}`);
-    const data = await res.json();
-    return data.vacantes;
-  }
-
-  async function renderJobs(page) {
-    const jobs = await fetchJobs(page);
-    jobsGrid.innerHTML = '';
-
-    if (!jobs || jobs.length === 0) {
-      jobsGrid.innerHTML = '<p>No hay vacantes para mostrar.</p>';
-      return;
-    }
-
-    jobs.forEach(job => {
-      const jobCard = `
-        <div class="job-card">
-          <img src="${job.imagenEmpresa}" alt="Empresa" class="job-card-img" />
-          <div class="job-card-info">
-            <h3>${job.titulo}</h3>
-            <p><strong>Empresa:</strong> ${job.nameEmpresa}</p>
-            <p><strong>Ciudad:</strong> ${job.ciudad}</p>
-            <p><strong>Tipo:</strong> ${job.tipo}</p>
-            <p><strong>Experiencia:</strong> ${job.experiencia}</p>
-          </div>
-        </div>
-      `;
-      jobsGrid.innerHTML += jobCard;
-    });
-  }
-
-  function updatePaginationNumbers(totalPages) {
-    paginationNumbers.innerHTML = '';
-    for (let i = 0; i < totalPages; i++) {
-      const btn = document.createElement('button');
-      btn.classList.add('pagination-number');
-      if (i === currentPage) btn.classList.add('active');
-      btn.innerText = i + 1;
-      btn.addEventListener('click', async () => {
-        currentPage = i;
-        await renderJobs(currentPage);
-        updatePaginationNumbers(totalPages);
-      });
-      paginationNumbers.appendChild(btn);
-    }
-  }
-
-  prevButton.addEventListener('click', async () => {
-    if (currentPage > 0) {
-      currentPage--;
-      await renderJobs(currentPage);
-      updatePaginationNumbers(totalPages);
-    }
-  });
-
-  nextButton.addEventListener('click', async () => {
-    if (currentPage < totalPages - 1) {
-      currentPage++;
-      await renderJobs(currentPage);
-      updatePaginationNumbers(totalPages);
-    }
-  });
-
-  // Inicialización
-  let totalPages = 1; // valor inicial
-
-  async function init() {
-    const res = await fetch(`http://localhost:8080/api/vacantes/listar?page=0&size=${pageSize}`);
-    const data = await res.json();
-    totalPages = data.totalPage || 1;
-    await renderJobs(currentPage);
-    updatePaginationNumbers(totalPages);
-  }
-
-  init();
-</script>

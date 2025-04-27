@@ -10,7 +10,7 @@ const { job } = Astro.props;
       <img src={job.imagenEmpresa || "/placeholder.svg?height=80&width=80"} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
     </div>
     <div class="info">
-      <h3 class="title">{job.title}</h3>
+      <h3 class="title">{job.titulo}</h3>
       <p class="company">{job.nameEmpresa}</p>
     </div>
   </div>
