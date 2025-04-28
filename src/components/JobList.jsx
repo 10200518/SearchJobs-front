@@ -21,13 +21,13 @@ const JobList = ({ totalItems, itemsPerPage }) => {
 
   const handleNext = () => {
     if (currentPage < Math.ceil(totalItems / itemsPerPage)) {
-      setCurrentPage(currentPage + 1);  // ✅ Ya no uses onPageChange
+      setCurrentPage(currentPage + 1);  
     }
   };
 
   const handlePrev = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);  // ✅ Ya no uses onPageChange
+      setCurrentPage(currentPage - 1); 
     }
   };
 
