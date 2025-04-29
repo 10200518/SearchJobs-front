@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/candidato.css';
+---
+
+
+<Layout title="Registro Candidato | SearchJobs">
+  <Header slot="header" />
+
+  <body class="flex items-center justify-center min-h-screen px-4">
+    <main class="w-full max-w-xl">
+      <h1 class="text-3xl font-bold text-center mb-2">Registro de Candidato</h1>
+      <p class="text-center text-gray-500 mb-6">
+        Crea tu cuenta para publicar vacantes y encontrar talento
+      </p>
+
+      <form class="card space-y-4">
+        <div class="form-group">
+          <label for="nombre" class="text-sm font-medium">Nombre de la empresa</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre de tu empresa" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+          <label for="nit" class="text-sm font-medium">NIT / Número de identificación fiscal</label>
+          <input type="text" id="nit" name="nit" placeholder="NIT de tu empresa" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="text-sm font-medium">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="empresa@ejemplo.com" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="text-sm font-medium">Contraseña</label>
+          <input type="password" id="password" name="password" placeholder="Crea una contraseña segura" class="form-control" required />
+          <p class="text-xs text-gray-400 mt-1">La contraseña debe tener al menos 8 caracteres</p>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="text-sm font-medium">Confirmar contraseña</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repite tu contraseña" class="form-control" required />
+        </div>
+
+        <div class="form-group flex items-start gap-2">
+          <input type="checkbox" id="terms" class="mt-1" required />
+          <label for="terms" class="text-sm text-gray-600">
+            Acepto los <a href="#" class="text-blue-600 hover:underline">Términos y Condiciones</a> y la
+            <a href="#" class="text-blue-600 hover:underline">Política de Privacidad</a>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">Crear cuenta</button>
+
+        <p class="text-sm text-center text-gray-600">
+          ¿Ya tienes una cuenta?
+          <a href="/login" class="text-blue-600 hover:underline">Iniciar sesión</a>
+        </p>
+      </form>
+    </main>
+  </body>
+
+  <Footer slot="footer" />
+</Layout>

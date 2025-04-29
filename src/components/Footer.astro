@@ -1,0 +1,70 @@
+---
+const currentYear = new Date().getFullYear();
+
+import '../styles/pages/footer.css';
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="grid">
+      <div class="column">
+        <h3 class="title">SearchJobs</h3>
+        <p class="description">Plataforma intuitiva y moderna para conectar empresas con talentos.</p>
+      </div>
+
+      <div class="column">
+        <h4 class="column-title">Candidatos</h4>
+        <a href="/empleos" class="link">
+          Buscar empleos
+        </a>
+        <a href="/voluntariados" class="link">
+          Voluntariados
+        </a>
+        <a href="/registro/candidato" class="link">
+          Registrarse
+        </a>
+        <a href="/login" class="link">
+          Iniciar sesión
+        </a>
+      </div>
+
+      <div class="column">
+        <h4 class="column-title">Empresas</h4>
+        <a href="/publicar-vacante" class="link">
+          Publicar vacante
+        </a>
+        <a href="/buscar-talento" class="link">
+          Buscar talento
+        </a>
+        <a href="/registro/empresa" class="link">
+          Registrarse
+        </a>
+        <a href="/login" class="link">
+          Iniciar sesión
+        </a>
+      </div>
+
+      <div class="column">
+        <h4 class="column-title">Contacto</h4>
+        <a href="mailto:info@searchjobs.com" class="link">
+          info@searchjobs.com
+        </a>
+        <a href="tel:+123456789" class="link">
+          +1 (234) 567-89
+        </a>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <p class="copyright">© {currentYear} SearchJobs. Todos los derechos reservados.</p>
+      <div class="links">
+        <a href="/terminos" class="bottom-link">
+          Términos y condiciones
+        </a>
+        <a href="/privacidad" class="bottom-link">
+          Política de privacidad
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
