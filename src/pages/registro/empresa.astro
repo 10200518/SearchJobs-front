@@ -5,61 +5,333 @@ import Footer from '../../components/Footer.astro';
 import '../../styles/pages/empresa.css';
 ---
 
-<Layout title="Registro Empresa | SearchJobs">
+
+<Layout title="Registro de Empresa | SearchJobs">
   <Header slot="header" />
   
-  <body class="flex items-center justify-center min-h-screen px-4">
-    <main class="w-full max-w-xl">
-      <h1 class="text-3xl font-bold text-center mb-2">Registro de Empresa</h1>
-      <p class="text-center text-gray-500 mb-6">
-        Crea tu cuenta para publicar vacantes y encontrar talento
-      </p>
-
-      <form class="card space-y-4">
-        <div class="form-group">
-          <label for="nombre" class="text-sm font-medium">Nombre de la empresa</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Nombre de tu empresa" class="form-control" required />
+  <div class="container">
+    <div class="registro-container">
+      <h1 class="title">Crea tu cuenta de empresa</h1>
+      <p class="subtitle">Completa el formulario para comenzar a publicar vacantes y encontrar talento</p>
+      
+      <form id="registroEmpresaForm" class="form">
+        <!-- Paso 1: Información básica -->
+        <div class="step-content active" id="step1">
+          <div class="form-group">
+            <label for="nombreEmpresa">Nombre de la empresa <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="nombreEmpresa" 
+              name="nombreEmpresa" 
+              class="form-control" 
+              placeholder="Nombre legal de la empresa" 
+              required
+            />
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nit">NIT / Identificación fiscal <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="nit" 
+                name="nit" 
+                class="form-control" 
+                placeholder="Número de identificación tributaria" 
+                required
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="tipoEmpresa">Tipo de empresa <span class="required">*</span></label>
+              <select id="tipoEmpresa" name="tipoEmpresa" class="form-control" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="startup">Startup</option>
+                <option value="pyme">PYME</option>
+                <option value="corporacion">Corporación</option>
+                <option value="multinacional">Multinacional</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="emailEmpresa">Correo electrónico corporativo <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="emailEmpresa" 
+              name="emailEmpresa" 
+              class="form-control" 
+              placeholder="ejemplo@empresa.com" 
+              required
+            />
+            <p class="form-hint">Usarás este correo para iniciar sesión</p>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="passwordEmpresa">Contraseña <span class="required">*</span></label>
+              <div class="password-input">
+                <input 
+                  type="password" 
+                  id="passwordEmpresa" 
+                  name="passwordEmpresa" 
+                  class="form-control" 
+                  placeholder="Crea una contraseña segura" 
+                  required
+                />
+                <button type="button" class="password-toggle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirmPasswordEmpresa">Confirmar contraseña <span class="required">*</span></label>
+              <div class="password-input">
+                <input 
+                  type="password" 
+                  id="confirmPasswordEmpresa" 
+                  name="confirmPasswordEmpresa" 
+                  class="form-control" 
+                  placeholder="Repite tu contraseña" 
+                  required
+                />
+                <button type="button" class="password-toggle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="password-requirements">
+            <p class="requirements-title">La contraseña debe contener:</p>
+            <ul>
+              <li id="req-length">Al menos 8 caracteres</li>
+              <li id="req-uppercase">Al menos una letra mayúscula</li>
+              <li id="req-lowercase">Al menos una letra minúscula</li>
+              <li id="req-number">Al menos un número</li>
+              <li id="req-match">Las contraseñas deben coincidir</li>
+            </ul>
+          </div>
+          
+          <div class="step-buttons">
+            <button type="button" class="btn btn-outline" id="btnCancelar">Cancelar</button>
+            <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="nit" class="text-sm font-medium">NIT / Número de identificación fiscal</label>
-          <input type="text" id="nit" name="nit" placeholder="NIT de tu empresa" class="form-control" required />
+        
+        <div class="step-content" id="step2">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefonoEmpresa">Teléfono corporativo <span class="required">*</span></label>
+              <input 
+                type="tel" 
+                id="telefonoEmpresa" 
+                name="telefonoEmpresa" 
+                class="form-control" 
+                placeholder="+57 601 123 4567" 
+                required
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="paisEmpresa">País <span class="required">*</span></label>
+              <select id="paisEmpresa" name="paisEmpresa" class="form-control" required>
+                <option value="" disabled selected>Selecciona tu país</option>
+                <option value="colombia">Colombia</option>
+                <option value="mexico">México</option>
+                <option value="argentina">Argentina</option>
+                <option value="espana">España</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="ciudadEmpresa">Ciudad <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="ciudadEmpresa" 
+              name="ciudadEmpresa" 
+              class="form-control" 
+              placeholder="Ciudad donde opera la empresa" 
+              required
+            />
+          </div>
+          
+          <div class="form-group">
+            <label for="sectorEmpresa">Sector industrial <span class="required">*</span></label>
+            <select id="sectorEmpresa" name="sectorEmpresa" class="form-control" required>
+              <option value="" disabled selected>Selecciona tu sector</option>
+              <option value="tecnologia">Tecnología</option>
+              <option value="finanzas">Finanzas</option>
+              <option value="manufactura">Manufactura</option>
+              <option value="salud">Salud</option>
+            </select>
+          </div>
+          
+          <div class="terms-container">
+            <h3>Términos y condiciones</h3>
+            <div class="terms-content">
+              <p>Al registrarte como empresa en SearchJobs, aceptas:</p>
+              <ol>
+                <li>Publicar únicamente ofertas laborales reales</li>
+                <li>Mantener información veraz y actualizada</li>
+                <li>Cumplir con las leyes laborales de tu país</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="aceptoTerminos" required />
+            <label for="aceptoTerminos">Acepto los términos y condiciones <span class="required">*</span></label>
+          </div>
+          
+          <div class="step-buttons">
+            <button type="button" class="btn btn-outline" id="btnAnterior">Anterior</button>
+            <button type="submit" class="btn btn-primary">Completar registro</button>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="email" class="text-sm font-medium">Correo electrónico</label>
-          <input type="email" id="email" name="email" placeholder="empresa@ejemplo.com" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-          <label for="password" class="text-sm font-medium">Contraseña</label>
-          <input type="password" id="password" name="password" placeholder="Crea una contraseña segura" class="form-control" required />
-          <p class="text-xs text-gray-400 mt-1">La contraseña debe tener al menos 8 caracteres</p>
-        </div>
-
-        <div class="form-group">
-          <label for="confirmPassword" class="text-sm font-medium">Confirmar contraseña</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repite tu contraseña" class="form-control" required />
-        </div>
-
-        <div class="form-group flex items-start gap-2">
-          <input type="checkbox" id="terms" class="mt-1" required />
-          <label for="terms" class="text-sm text-gray-600">
-            Acepto los <a href="#" class="text-blue-600 hover:underline">Términos y Condiciones</a> y la
-            <a href="#" class="text-blue-600 hover:underline">Política de Privacidad</a>
-          </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-full">Crear cuenta</button>
-
-        <p class="text-sm text-center text-gray-600">
-          ¿Ya tienes una cuenta?
-          <a href="/login" class="text-blue-600 hover:underline">Iniciar sesión</a>
-        </p>
       </form>
-    </main>
-  </body>
+      
+      <div class="login-container">
+        <p>¿Ya tienes una cuenta? <a href="/login" class="login-link">Iniciar sesión</a></p>
+      </div>
+    </div>
+  </div>
 
   <Footer slot="footer" />
 </Layout>
 
+<script type="javascript">
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('form'); 
+    const nextButton = document.querySelector('button[type="button"]');
+    const cancelButton = document.querySelector('button[type="button"]:first-child'); 
+    const loginLink = document.querySelector('a[href*="sesion"]'); 
+    
+    const password = document.querySelector('input[type="password"]:first-of-type');
+    const confirmPassword = document.querySelector('input[type="password"]:last-of-type');
+    const passwordRequirements = document.querySelectorAll('.password-requirement'); 
+    
+    const progressFill = document.querySelector('.progress-bar-fill');
+    
+    const validateForm = () => {
+      const companyName = document.querySelector('input[placeholder="Nombre legal de la empresa"]').value;
+      const taxId = document.querySelector('input[placeholder="Número de identificación tributaria"]').value;
+      const companyType = document.querySelector('select').value;
+      const email = document.querySelector('input[type="email"]').value;
+      const passwordValue = password.value;
+      const confirmPasswordValue = confirmPassword.value;
+      
+      if (!companyName || !taxId || companyType === "Selecciona una opción" || !email || !passwordValue || !confirmPasswordValue) {
+        alert('Por favor, completa todos los campos obligatorios.');
+        return false;
+      }
+      
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('Por favor, ingresa un correo electrónico válido.');
+        return false;
+      }
+      
+      const lengthValid = passwordValue.length >= 6;
+      const uppercaseValid = /[A-Z]/.test(passwordValue);
+      const lowercaseValid = /[a-z]/.test(passwordValue);
+      const numberValid = /[0-9]/.test(passwordValue);
+      const matchValid = passwordValue === confirmPasswordValue;
+      
+      if (!lengthValid || !uppercaseValid || !lowercaseValid || !numberValid) {
+        alert('La contraseña no cumple con los requisitos de seguridad.');
+        return false;
+      }
+      
+      if (!matchValid) {
+        alert('Las contraseñas no coinciden.');
+        return false;
+      }
+      
+      return true;
+    };
+    
+    const updatePasswordRequirements = () => {
+      const passwordValue = password.value;
+      
+      passwordRequirements.forEach(req => {
+        const requirement = req.textContent.trim();
+        
+        if (requirement.includes('6 caracteres')) {
+          req.classList.toggle('valid', passwordValue.length >= 6);
+        } else if (requirement.includes('mayúscula')) {
+          req.classList.toggle('valid', /[A-Z]/.test(passwordValue));
+        } else if (requirement.includes('minúscula')) {
+          req.classList.toggle('valid', /[a-z]/.test(passwordValue));
+        } else if (requirement.includes('número')) {
+          req.classList.toggle('valid', /[0-9]/.test(passwordValue));
+        } else if (requirement.includes('coincidir')) {
+          req.classList.toggle('valid', passwordValue === confirmPassword.value && passwordValue !== '');
+        }
+      });
+    };
+    
+    if (nextButton) {
+      nextButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+
+          progressFill.style.width = '100%';
+          alert('Formulario válido. Avanzando al siguiente paso...');
+        
+        }
+      });
+    }
+    
+    if (cancelButton) {
+      cancelButton.addEventListener('click', () => {
+        if (confirm('¿Estás seguro de que quieres cancelar el registro?')) {
+          window.location.href = '/';
+        }
+      });
+    }
+    
+    if (loginLink) {
+      loginLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.location.href = '/iniciar-sesion'; 
+      });
+    }
+    
+    if (password && confirmPassword) {
+      password.addEventListener('input', updatePasswordRequirements);
+      confirmPassword.addEventListener('input', updatePasswordRequirements);
+    }
+    
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+  
+          form.submit();
+        }
+      });
+    }
+  });
+</script>
+
+<style>
+  .password-requirement.valid {
+    color: green;
+    text-decoration: line-through;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+  }
+</style>
