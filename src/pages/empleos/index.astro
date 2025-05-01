@@ -135,6 +135,7 @@ const totalVacantes = data.totalElements;
         </div>
           <JobList
             client:only="react"
+            fetchUrl={"http://localhost:8080/api/vacantes/listar"}
             totalItems={totalVacantes} 
             itemsPerPage={6}  
           />

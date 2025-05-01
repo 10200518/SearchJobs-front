@@ -15,23 +15,6 @@ import '../styles/pages/login.css';
                 <p class="subtitle">Accede a tu cuenta para continuar</p>
             </div>
 
-            <div class="user-type-selector">
-                <button
-                    type="button"
-                    class="user-type-button active"
-                    id="candidatoBtn"
-                >
-                    Candidato
-                </button>
-                <button
-                    type="button"
-                    class="user-type-button"
-                    id="empresaBtn"
-                >
-                    Empresa
-                </button>
-            </div>
-
             <form class="form" id="loginForm">
                 <div class="form-group">
                     <label for="identifier" id="identifierLabel">Correo electrónico</label>
@@ -102,31 +85,9 @@ import '../styles/pages/login.css';
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const candidatoBtn = document.getElementById('candidatoBtn');
-    const empresaBtn = document.getElementById('empresaBtn');
-    const identifierLabel = document.getElementById('identifierLabel');
-    const identifier = document.getElementById('identifier');
     const passwordToggle = document.getElementById('passwordToggle');
     const password = document.getElementById('password');
     const form = document.getElementById("loginForm");
-    
-    if (candidatoBtn && empresaBtn && identifierLabel && identifier) {
-      candidatoBtn.addEventListener('click', () => {
-        candidatoBtn.classList.add('active');
-        empresaBtn.classList.remove('active');
-        identifierLabel.textContent = 'Correo electrónico';
-        (identifier as HTMLInputElement).type = 'email';
-        (identifier as HTMLInputElement).placeholder = 'ejemplo@correo.com';
-      });
-      
-      empresaBtn.addEventListener('click', () => {
-        empresaBtn.classList.add('active');
-        candidatoBtn.classList.remove('active');
-        identifierLabel.textContent = 'NIT / Identificación fiscal';
-        (identifier as HTMLInputElement).type = 'text';
-        (identifier as HTMLInputElement).placeholder = 'NIT de tu empresa';
-      });
-    }
     
     if (passwordToggle && password) {
       passwordToggle.addEventListener('click', () => {

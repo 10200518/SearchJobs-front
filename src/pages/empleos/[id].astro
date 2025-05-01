@@ -110,9 +110,10 @@ const job = data.vacanteSeleccionada;
     </div>
 
     <div class="apply-button-container">
-      <a href="#apply-form" class="btn btn-primary apply-button">
+      <button id="btn-Postulacion" class="btn btn-primary apply-button" data-id={id}>
         Postularme ahora
-      </a>
+      </button>
+      
     </div>
   </div>
 
@@ -171,233 +172,174 @@ const job = data.vacanteSeleccionada;
       </div>
     </div>
   </div>
-
-  <div class="apply-section" id="apply-form">
-    <h2 class="apply-title">Postularme a: {job.title}</h2>
-    
-    <form class="apply-form" id="jobApplicationForm">
-      <div class="form-group">
-        <label for="name">Nombre completo</label>
-        <input type="text" id="name" name="name" class="form-control" required />
-      </div>
-
-      <div class="form-group">
-        <label for="email">Correo electrónico</label>
-        <input type="email" id="email" name="email" class="form-control" required />
-      </div>
-
-      <div class="form-group">
-        <label for="phone">Teléfono</label>
-        <input type="tel" id="phone" name="phone" class="form-control" required />
-      </div>
-
-      <div class="form-group">
-        <label for="resume">Currículum (PDF)</label>
-        <div class="file-input">
-          <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required class="file-input-hidden" />
-          <div class="file-input-wrapper">
-            <button type="button" class="file-input-button" id="fileButton">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="17 8 12 3 7 8"></polyline>
-                <line x1="12" y1="3" x2="12" y2="15"></line>
-              </svg>
-              Seleccionar archivo
-            </button>
-            <span class="file-input-text" id="fileName">Ningún archivo seleccionado</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="coverLetter">Carta de presentación (opcional)</label>
-        <textarea
-          id="coverLetter"
-          name="coverLetter"
-          class="form-control textarea"
-          rows="5"
-          placeholder="Cuéntanos por qué eres el candidato ideal para este puesto..."
-        ></textarea>
-      </div>
-
-      <div class="form-actions">
-        <button type="submit" class="btn btn-primary submit-button">
-          Enviar postulación
-        </button>
-      </div>
-    </form>
-  </div>
 </div>
 
 <Footer slot="footer" />
 </Layout>
 
 <script>
-// Script para mostrar el nombre del archivo seleccionado
-document.addEventListener('DOMContentLoaded', () => {
-  // Manejo del selector de archivo
-  const fileInput = document.getElementById('resume');
-  const fileButton = document.getElementById('fileButton');
-  const fileName = document.getElementById('fileName');
-  
-  if (fileInput && fileButton && fileName) {
-    fileButton.addEventListener('click', () => {
-      fileInput.click();
-    });
+  // Script para mostrar el nombre del archivo seleccionado
+  document.addEventListener('DOMContentLoaded', () => {
+    // Manejo del selector de archivo
+    const fileInput = document.getElementById('resume');
+    const fileButton = document.getElementById('fileButton');
+    const fileName = document.getElementById('fileName');
+    const btnPostulacion = document.getElementById('btn-Postulacion');
     
-    fileInput.addEventListener('change', (e) => {
-      const input = e.target as HTMLInputElement;
-      if (input.files && input.files.length > 0) {
+    if (fileInput && fileButton && fileName) {
+      fileButton.addEventListener('click', () => {
+        fileInput.click();
+      });
+      
+      fileInput.addEventListener('change', (e) => {
         const input = e.target as HTMLInputElement;
         if (input.files && input.files.length > 0) {
-          fileName.textContent = input.files[0].name;
+          const input = e.target as HTMLInputElement;
+          if (input.files && input.files.length > 0) {
+            fileName.textContent = input.files[0].name;
+          }
+        } else {
+          fileName.textContent = 'Ningún archivo seleccionado';
         }
-      } else {
-        fileName.textContent = 'Ningún archivo seleccionado';
-      }
-    });
-  }
-
-  // Manejo de botones de compartir
-  const shareButtons = {
-    facebook: document.getElementById('shareFacebook'),
-    twitter: document.getElementById('shareTwitter'),
-    linkedin: document.getElementById('shareLinkedin'),
-    main: document.getElementById('shareButton')
-  };
-
-  const jobTitle = document.querySelector('.job-title')?.textContent || '';
-  const jobCompany = document.querySelector('.company-name')?.textContent || '';
-  const currentUrl = window.location.href;
-  
-  // Función para compartir en redes sociales
-  const shareOnSocial = (platform: string) => {
-    const text = `Oferta de trabajo: ${jobTitle} en ${jobCompany}`;
-    let url = '';
-    
-    switch(platform) {
-      case 'facebook':
-        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}&quote=${encodeURIComponent(text)}`;
-        break;
-      case 'twitter':
-        url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(currentUrl)}`;
-        break;
-      case 'linkedin':
-        url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
-        break;
+      });
     }
+
+    // Manejo de botones de compartir
+    const shareButtons = {
+      facebook: document.getElementById('shareFacebook'),
+      twitter: document.getElementById('shareTwitter'),
+      linkedin: document.getElementById('shareLinkedin'),
+      main: document.getElementById('shareButton')
+    };
+
+    const jobTitle = document.querySelector('.job-title')?.textContent || '';
+    const jobCompany = document.querySelector('.company-name')?.textContent || '';
+    const currentUrl = window.location.href;
     
-    if (url) {
-      window.open(url, '_blank', 'width=600,height=400');
-    }
-  };
-  
-  // Asignar eventos a los botones de compartir
-  if (shareButtons.facebook) {
-    shareButtons.facebook.addEventListener('click', () => shareOnSocial('facebook'));
-  }
-  
-  if (shareButtons.twitter) {
-    shareButtons.twitter.addEventListener('click', () => shareOnSocial('twitter'));
-  }
-  
-  if (shareButtons.linkedin) {
-    shareButtons.linkedin.addEventListener('click', () => shareOnSocial('linkedin'));
-  }
-  
-  // Botón principal de compartir
-  if (shareButtons.main) {
-    shareButtons.main.addEventListener('click', () => {
-      // Si el navegador soporta la API de compartir nativa
-      if (navigator.share) {
-        navigator.share({
-          title: `${jobTitle} en ${jobCompany}`,
-          text: `Oferta de trabajo: ${jobTitle} en ${jobCompany}`,
-          url: currentUrl
-        }).catch(err => console.error('Error al compartir:', err));
-      } else {
-        // Mostrar opciones de compartir alternativas
-        const shareCard = document.querySelector('.sidebar-card:nth-child(2)');
-        if (shareCard) {
-          shareCard.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
-  }
-  
-  // Botón de guardar trabajo
-  const saveButton = document.getElementById('saveButton');
-  if (saveButton) {
-    saveButton.addEventListener('click', function() {
-      // Cambiar el visual del botón
-      const isSaved = this.classList.toggle('saved');
+    // Función para compartir en redes sociales
+    const shareOnSocial = (platform: string) => {
+      const text = `Oferta de trabajo: ${jobTitle} en ${jobCompany}`;
+      let url = '';
       
-      if (isSaved) {
-        const svgElement = this.querySelector('svg');
+      switch(platform) {
+        case 'facebook':
+          url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}&quote=${encodeURIComponent(text)}`;
+          break;
+        case 'twitter':
+          url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(currentUrl)}`;
+          break;
+        case 'linkedin':
+          url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`;
+          break;
+      }
+      
+      if (url) {
+        window.open(url, '_blank', 'width=600,height=400');
+      }
+    };
+    
+    // Asignar eventos a los botones de compartir
+    if (shareButtons.facebook) {
+      shareButtons.facebook.addEventListener('click', () => shareOnSocial('facebook'));
+    }
+    
+    if (shareButtons.twitter) {
+      shareButtons.twitter.addEventListener('click', () => shareOnSocial('twitter'));
+    }
+    
+    if (shareButtons.linkedin) {
+      shareButtons.linkedin.addEventListener('click', () => shareOnSocial('linkedin'));
+    }
+    
+    // Botón principal de compartir
+    if (shareButtons.main) {
+      shareButtons.main.addEventListener('click', () => {
+        // Si el navegador soporta la API de compartir nativa
+        if (navigator.share) {
+          navigator.share({
+            title: `${jobTitle} en ${jobCompany}`,
+            text: `Oferta de trabajo: ${jobTitle} en ${jobCompany}`,
+            url: currentUrl
+          }).catch(err => console.error('Error al compartir:', err));
+        } else {
+          // Mostrar opciones de compartir alternativas
+          const shareCard = document.querySelector('.sidebar-card:nth-child(2)');
+          if (shareCard) {
+            shareCard.scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      });
+    }
+    
+    // Botón de guardar trabajo
+    const saveButton = document.getElementById('saveButton');
+    if (saveButton) {
+      saveButton.addEventListener('click', function() {
+        // Cambiar el visual del botón
+        const isSaved = this.classList.toggle('saved');
+        
+        if (isSaved) {
+          const svgElement = this.querySelector('svg');
+          if (svgElement) {
+            svgElement.setAttribute('fill', 'currentColor');
+          }
+          // Aquí se guarda el ID del trabajo en localStorage
+          const jobId = window.location.pathname.split('/').pop();
+          const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+          if (!savedJobs.includes(jobId)) {
+            savedJobs.push(jobId);
+            localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
+          }
+        } else {
+          const svgElement = this.querySelector('svg');
+          if (svgElement) {
+            svgElement.setAttribute('fill', 'none');
+          }
+          // Aquí se eliminar el ID del trabajo de localStorage
+          const jobId = window.location.pathname.split('/').pop();
+          const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+          const updatedJobs = savedJobs.filter((id: string) => id !== jobId);
+          localStorage.setItem('savedJobs', JSON.stringify(updatedJobs));
+        }
+      });
+      
+      // Verificar si el trabajo ya está guardado al cargar la página
+      const jobId = window.location.pathname.split('/').pop();
+      const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
+      if (savedJobs.includes(jobId)) {
+        saveButton.classList.add('saved');
+        const svgElement = saveButton.querySelector('svg');
         if (svgElement) {
           svgElement.setAttribute('fill', 'currentColor');
         }
-        // Aquí se guarda el ID del trabajo en localStorage
-        const jobId = window.location.pathname.split('/').pop();
-        const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
-        if (!savedJobs.includes(jobId)) {
-          savedJobs.push(jobId);
-          localStorage.setItem('savedJobs', JSON.stringify(savedJobs));
-        }
-      } else {
-        const svgElement = this.querySelector('svg');
-        if (svgElement) {
-          svgElement.setAttribute('fill', 'none');
-        }
-        // Aquí se eliminar el ID del trabajo de localStorage
-        const jobId = window.location.pathname.split('/').pop();
-        const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
-        const updatedJobs = savedJobs.filter((id: string) => id !== jobId);
-        localStorage.setItem('savedJobs', JSON.stringify(updatedJobs));
-      }
-    });
-    
-    // Verificar si el trabajo ya está guardado al cargar la página
-    const jobId = window.location.pathname.split('/').pop();
-    const savedJobs = JSON.parse(localStorage.getItem('savedJobs') || '[]');
-    if (savedJobs.includes(jobId)) {
-      saveButton.classList.add('saved');
-      const svgElement = saveButton.querySelector('svg');
-      if (svgElement) {
-        svgElement.setAttribute('fill', 'currentColor');
       }
     }
-  }
-  
-  // Manejo del formulario de postulación
-  const applicationForm = document.getElementById('jobApplicationForm');
-  if (applicationForm) {
-    applicationForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      
-      // Mensaje de éxito
-      const successMessage = document.createElement('div');
-      successMessage.className = 'success-message';
-      successMessage.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        </svg>
-        <h3>¡Postulación enviada con éxito!</h3>
-        <p>Hemos recibido tu postulación para ${jobTitle}. Te contactaremos pronto.</p>
-      `;
-      
-      // Reemplazar el formulario con el mensaje de éxito
-      const applySection = document.querySelector('.apply-section');
-      if (applySection) {
-        applySection.innerHTML = '';
-        applySection.appendChild(successMessage);
-        applySection.scrollIntoView({ behavior: 'smooth' });
+
+    /// Peticion HTTP 
+
+    btnPostulacion?.addEventListener("click", async () => {
+      const jobId = btnPostulacion.getAttribute("data-id");
+
+      try {
+        const response = await fetch('http://localhost:8080/api/postulados/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({ nvacantes: jobId })  
+        });
+
+        const data = await response.json();
+        alert(data.message || "Postulación exitosa.");
+        
+      } catch (error) {
+        console.error('Error al postularse:', error);
+        alert("Hubo un error al postularse.");
       }
     });
-  }
-});
+  });
+  
 </script>
 
 

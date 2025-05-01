@@ -16,18 +16,32 @@ import '../../styles/pages/candidato.css'
       <form id="registroForm" class="form">
         <!-- Paso 1: Información básica -->
         <div class="step-content active" id="step1">
-          <div class="form-group">
-            <label for="nombre">Nombre completo <span class="required">*</span></label>
-            <input 
-              type="text" 
-              id="nombre" 
-              name="nombre" 
-              class="form-control" 
-              placeholder="Ingresa tu nombre completo" 
-              required
-            />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre completo <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="nombre" 
+                name="nombre" 
+                class="form-control" 
+                placeholder="Ingresa tu nombre completo" 
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="apellido">Apellido completo <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="apellido" 
+                name="apellido" 
+                class="form-control" 
+                placeholder="Ingresa tu Apellido completo" 
+                required
+              />
+            </div>
           </div>
-          
+
           <div class="form-group">
             <label for="email">Correo electrónico <span class="required">*</span></label>
             <input 
@@ -39,6 +53,32 @@ import '../../styles/pages/candidato.css'
               required
             />
             <p class="form-hint">Usarás este correo para iniciar sesión</p>
+          </div>
+
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input 
+                type="tel" 
+                id="telefono" 
+                name="telefono" 
+                class="form-control" 
+                placeholder="Ej: +57 300 123 4567"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="identificacion">Identificacion<span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="identificacion" 
+                name="identificacion" 
+                class="form-control" 
+                placeholder="Ingresa su numero de identificacion" 
+                required
+              />
+            </div>
           </div>
           
           <div class="form-row">
@@ -104,33 +144,6 @@ import '../../styles/pages/candidato.css'
             </ul>
           </div>
           
-          <div class="form-row">
-            <div class="form-group">
-              <label for="telefono">Teléfono</label>
-              <input 
-                type="tel" 
-                id="telefono" 
-                name="telefono" 
-                class="form-control" 
-                placeholder="Ej: +57 300 123 4567"
-              />
-            </div>
-            
-            <div class="form-group">
-              <label for="pais">País de residencia <span class="required">*</span></label>
-              <select id="pais" name="pais" class="form-control" required>
-                <option value="" disabled selected>Selecciona tu país</option>
-                <option value="colombia">Colombia</option>
-                <option value="mexico">México</option>
-                <option value="argentina">Argentina</option>
-                <option value="chile">Chile</option>
-                <option value="peru">Perú</option>
-                <option value="espana">España</option>
-                <option value="otro">Otro</option>
-              </select>
-            </div>
-          </div>
-          
           <div class="form-group">
             <label for="ciudad">Ciudad <span class="required">*</span></label>
             <input 
@@ -183,7 +196,7 @@ import '../../styles/pages/candidato.css'
           
           <div class="step-buttons">
             <a href="/registro" class="btn btn-outline">Volver</a>
-            <button type="submit" class="btn btn-primary">Completar registro</button>
+            <button type="submit" class="btn btn-primary">Enviar registro</button>
           </div>
         </div>
       </form>
@@ -244,14 +257,14 @@ import '../../styles/pages/candidato.css'
     const validateStep1 = () => {
       const nombre = document.getElementById('nombre').value.trim();
       const email = document.getElementById('email').value.trim();
+      const apellido  = document.getElementById('apellido').value.trim();
+      const identificacion = document.getElementById('identificacion').value.trim();
       const passwordValue = password.value;
       const confirmPasswordValue = confirmPassword.value;
-      const pais = document.getElementById('pais').value.trim();
-      const ciudad = document.getElementById('ciudad').value.trim();
       const terminos = document.getElementById('terminos').checked;
       const privacidad = document.getElementById('privacidad').checked;
 
-      if (!nombre || !email || !passwordValue || !confirmPasswordValue || !pais || !ciudad) {
+      if (!nombre || !email || !passwordValue || !confirmPasswordValue || !apellido || !identificacion) {
         alert('Completa todos los campos requeridos');
         return false;
       }
@@ -310,10 +323,39 @@ import '../../styles/pages/candidato.css'
     password?.addEventListener('input', validatePassword);
     confirmPassword?.addEventListener('input', validatePassword);
 
-    form?.addEventListener('submit', (e) => {
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
+      const formData = new FormData(form);
+      const data = {
+        nombre: formData.get('nombre'),
+        apellido: formData.get('apellido'),
+        correo: formData.get('email'),
+        contrasena: formData.get('password'),
+        telefono: formData.get('telefono'),
+        identificacion: formData.get('identificacion'),
+      };
+
+      // Peticion HTTP
       if (validateStep1()) {
-        window.location.href = '/registro/exito?tipo=candidato';
+        fetch('http://localhost:8080/api/candidatos/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.status)
+          if (data.status === 201) {
+            form.reset();
+            alert(data.mensaje);
+          }
+        })
+        .catch(error => {
+          alert('Ocurrió un error al registrar el candidato');
+          console.error(error);
+        });
       }
     });
   });

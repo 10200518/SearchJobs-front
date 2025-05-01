@@ -41,15 +41,14 @@ import '../../styles/pages/empresa.css';
                 required
               />
             </div>
-            
             <div class="form-group">
-              <label for="tipoEmpresa">Tipo de empresa <span class="required">*</span></label>
-              <select id="tipoEmpresa" name="tipoEmpresa" class="form-control" required>
-                <option value="" disabled selected>Selecciona una opción</option>
-                <option value="startup">Startup</option>
-                <option value="pyme">PYME</option>
-                <option value="corporacion">Corporación</option>
-                <option value="multinacional">Multinacional</option>
+              <label for="sectorEmpresa">Sector Empresa <span class="required">*</span></label>
+              <select id="sectorEmpresa" name="sectorEmpresa" class="form-control" required>
+                <option value="" disabled selected>Selecciona tu sector</option>
+                <option value="tecnologia">Tecnología</option>
+                <option value="finanzas">Finanzas</option>
+                <option value="manufactura">Manufactura</option>
+                <option value="salud">Salud</option>
               </select>
             </div>
           </div>
@@ -66,7 +65,19 @@ import '../../styles/pages/empresa.css';
             />
             <p class="form-hint">Usarás este correo para iniciar sesión</p>
           </div>
-          
+
+          <div class="form-group">
+            <label for="telefonoEmpresa">Teléfono corporativo <span class="required">*</span></label>
+            <input 
+              type="tel" 
+              id="telefonoEmpresa" 
+              name="telefonoEmpresa" 
+              class="form-control" 
+              placeholder="+57 601 123 4567" 
+              required
+            />
+          </div>
+
           <div class="form-row">
             <div class="form-group">
               <label for="passwordEmpresa">Contraseña <span class="required">*</span></label>
@@ -122,24 +133,14 @@ import '../../styles/pages/empresa.css';
           
           <div class="step-buttons">
             <button type="button" class="btn btn-outline" id="btnCancelar">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button>
+            <button type="submit" class="btn btn-primary">Completar registro</button>
+
+            <!-- <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button> -->
           </div>
         </div>
         
-        <div class="step-content" id="step2">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="telefonoEmpresa">Teléfono corporativo <span class="required">*</span></label>
-              <input 
-                type="tel" 
-                id="telefonoEmpresa" 
-                name="telefonoEmpresa" 
-                class="form-control" 
-                placeholder="+57 601 123 4567" 
-                required
-              />
-            </div>
-            
+        <!-- <div class="step-content" id="step2">
+          <div class="form-row">    
             <div class="form-group">
               <label for="paisEmpresa">País <span class="required">*</span></label>
               <select id="paisEmpresa" name="paisEmpresa" class="form-control" required>
@@ -164,17 +165,6 @@ import '../../styles/pages/empresa.css';
             />
           </div>
           
-          <div class="form-group">
-            <label for="sectorEmpresa">Sector industrial <span class="required">*</span></label>
-            <select id="sectorEmpresa" name="sectorEmpresa" class="form-control" required>
-              <option value="" disabled selected>Selecciona tu sector</option>
-              <option value="tecnologia">Tecnología</option>
-              <option value="finanzas">Finanzas</option>
-              <option value="manufactura">Manufactura</option>
-              <option value="salud">Salud</option>
-            </select>
-          </div>
-          
           <div class="terms-container">
             <h3>Términos y condiciones</h3>
             <div class="terms-content">
@@ -196,7 +186,7 @@ import '../../styles/pages/empresa.css';
             <button type="button" class="btn btn-outline" id="btnAnterior">Anterior</button>
             <button type="submit" class="btn btn-primary">Completar registro</button>
           </div>
-        </div>
+        </div> -->
       </form>
       
       <div class="login-container">
@@ -208,7 +198,7 @@ import '../../styles/pages/empresa.css';
   <Footer slot="footer" />
 </Layout>
 
-<script type="javascript">
+<script type="text/javascript">
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form'); 
     const nextButton = document.querySelector('button[type="button"]');
@@ -311,15 +301,43 @@ import '../../styles/pages/empresa.css';
       confirmPassword.addEventListener('input', updatePasswordRequirements);
     }
     
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-  
-          form.submit();
-        }
-      });
-    }
+   
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      console.log("contraseña: ",formData.get('passwordEmpresa') )
+      const data = {
+        nombre: formData.get('nombreEmpresa'),
+        sectorEmpresarial: formData.get('sectorEmpresa'),
+        correo: formData.get('emailEmpresa'),
+        contrasena: formData.get('passwordEmpresa'),
+        telefono: formData.get('telefonoEmpresa'),
+        nit: formData.get('nit'),
+      };
+
+      // Peticion HTTP
+      if (validateForm()) {
+        fetch('http://localhost:8080/api/empresas/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 201) {
+            // form.reset();
+            alert(data.mensaje);
+          }
+        })
+        .catch(error => {
+          alert('Ocurrió un error al registrar la empresa');
+          console.error(error);
+        });
+      }
+    });
+    
   });
 </script>
 
