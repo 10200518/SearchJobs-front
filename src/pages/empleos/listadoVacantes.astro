@@ -1,0 +1,151 @@
+---
+// src/pages/vacantes/listadevacantes.astro
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/listadovacantes.css';
+
+---
+
+<Layout title="Listado de Vacantes">
+  <Header slot="header" />
+  
+  <main class="vacantes-container">
+    <h1>Vacantes Disponibles</h1>
+    
+    <a href="Vacantes" class="btn-crear">Crear Nueva Vacante</a>
+    
+    <div class="vacantes-list">
+      <!-- Ejemplo de vacante 1 -->
+      <article class="vacante-card">
+        <div class="vacante-info">
+            <p class="titulo">👨‍💻 PUESTO: DESARROLLADOR Frontend</p>
+            <p class="nivel">📈NIVEL : Senior</p>
+            <p class="ubicacion">🌍UBICACION : CARTAGENA , COLOMBIA</p>
+            <p class="tipo de contrato">📝TIPO DE CONTRATO: TIEMPO COMPLETO</p>
+            <p class="modalidad">🔀MODALIDAD : HIBRIDO</p>
+            <p class="descripcion">📄Diseñador con experiencia en Figma y diseño de interfaces.</p>
+          </div>
+        <div class="vacante-actions">
+            <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="event.preventDefault()">
+            <input type="hidden" name="id" value="1">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      
+      <!-- Ejemplo de vacante 2 -->
+      <article class="vacante-card">
+        <div class="vacante-info">
+            <p class="titulo"> PUESTO: DESARROLLADOR FULL STACK</p>
+            <p class="nivel">NIVEL : Senior</p>
+            <p class="ubicacion">UBICACION : BOGOTA , COLOMBIA</p>
+            <p class="tipo de contrato">TIPO DE CONTRATO: MEDIO TIEMPO</p>
+            <p class="modalidad">MODALIDAD : HIBRIDO</p>
+            <p class="descripcion">FULL STACK CON EXPERIENCIA DE MINIMO 5 AÑOS.</p>
+        </div>
+        <div class="vacante-actions">
+            <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="event.preventDefault()">
+            <input type="hidden" name="id" value="2">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      <article class="vacante-card">
+        <div class="vacante-info">
+            <p class="titulo"> PUESTO: DESARROLLADOR FULL STACK</p>
+            <p class="nivel">NIVEL : Senior</p>
+            <p class="ubicacion">UBICACION : BOGOTA , COLOMBIA</p>
+            <p class="tipo de contrato">TIPO DE CONTRATO: MEDIO TIEMPO</p>
+            <p class="modalidad">MODALIDAD : HIBRIDO</p>
+            <p class="descripcion">FULL STACK CON EXPERIENCIA DE MINIMO 5 AÑOS.</p>
+        </div>
+        <div class="vacante-actions">
+            <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="event.preventDefault()">
+            <input type="hidden" name="id" value="2">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      <article class="vacante-card">
+        <div class="vacante-info">
+            <p class="titulo"> PUESTO: DESARROLLADOR FULL STACK</p>
+            <p class="nivel">NIVEL : Senior</p>
+            <p class="ubicacion">UBICACION : BOGOTA , COLOMBIA</p>
+            <p class="tipo de contrato">TIPO DE CONTRATO: MEDIO TIEMPO</p>
+            <p class="modalidad">MODALIDAD : HIBRIDO</p>
+            <p class="descripcion">FULL STACK CON EXPERIENCIA DE MINIMO 5 AÑOS.</p>
+        </div>
+        <div class="vacante-actions">
+            <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="event.preventDefault()">
+            <input type="hidden" name="id" value="2">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      <article class="vacante-card">
+        <div class="vacante-info">
+            <p class="titulo"> PUESTO: DESARROLLADOR FULL STACK</p>
+            <p class="nivel">NIVEL : Senior</p>
+            <p class="ubicacion">UBICACION : BOGOTA , COLOMBIA</p>
+            <p class="tipo de contrato">TIPO DE CONTRATO: MEDIO TIEMPO</p>
+            <p class="modalidad">MODALIDAD : HIBRIDO</p>
+            <p class="descripcion">FULL STACK CON EXPERIENCIA DE MINIMO 5 AÑOS.</p>
+        </div>
+        <div class="vacante-actions">
+            <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="event.preventDefault()">
+            <input type="hidden" name="id" value="2">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+    </div>
+        <!-- esto hace que pregunte si esta seguro que quiere eliminar la vacante  -->
+    <div id="confirm-modal" class="modal hidden">
+        <div class="modal-content">
+          <p>¿⚠️Estás seguro de que deseas eliminar esta vacante?</p>
+          <div class="modal-buttons">
+            <button id="confirm-yes">Confirmar</button>
+            <button id="confirm-no">Cancelar</button>
+          </div>
+        </div>
+      </div>
+      
+      <script is:inline>
+        let formToDelete = null;
+      
+        document.addEventListener('DOMContentLoaded', () => {
+          const modal = document.getElementById('confirm-modal');
+          const btnYes = document.getElementById('confirm-yes');
+          const btnNo = document.getElementById('confirm-no');
+      
+          document.querySelectorAll('.btn-eliminar').forEach(boton => {
+            boton.addEventListener('click', function (e) {
+              e.preventDefault();
+              formToDelete = this.closest('form');
+              modal.classList.remove('hidden');
+            });
+          });
+      
+          btnYes.addEventListener('click', () => {
+            if (formToDelete) formToDelete.submit();
+            modal.classList.add('hidden');
+          });
+      
+          btnNo.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            formToDelete = null;
+          });
+        });
+      </script>
+      
+  </main>
+  
+  
+  <Footer slot="footer" />
+</Layout>

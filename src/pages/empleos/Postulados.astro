@@ -1,0 +1,24 @@
+---
+import'../../styles/pages/Postulados.css'
+
+import Layout from '../../layouts/Layout.astro';
+import Footer from '../../components/Footer.astro';
+
+---
+<Layout title="SearchJobs | Encuentra empleo">
+    
+    <section class="pagina">
+        <h1>Postulados</h1>
+        <p>Lista de candidatos que han aplicado a vacantes.</p>
+        <table class="tabla">
+          <thead>
+            <tr><th>Nombre</th><th>Vacante</th><th>Currículum Vitae</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Juan Pérez</td><td>Backend Developer</td><td><a href="#">Ver CV</a></td></tr>
+            <tr><td>Luisa Ramírez</td><td>Diseñador UI</td><td><a href="#">Ver CV</a></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </Layout>
+    <Footer />

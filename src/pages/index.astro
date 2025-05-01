@@ -6,7 +6,6 @@ import JobCard from '../components/JobCard.astro';
 import FeatureCard from '../components/FeatureCard.astro';
 import'../styles/pages/index.css'
 
-
 interface Job {
   nvacantes: String;
   titulo: string;
@@ -20,7 +19,6 @@ interface Job {
 const res = await fetch('http://localhost:8080/api/vacantes/Top/listar');
 const data = await res.json();
 const featuredJobs: Job[] = data.vacantes; 
-
 const features = [
   {
     icon: "search",
@@ -119,7 +117,6 @@ const features = [
       </div>
     </div>
   </section>
-
   <Footer slot="footer" />
 </Layout>
 

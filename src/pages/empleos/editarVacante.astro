@@ -1,0 +1,74 @@
+---
+// src/pages/vacantes/crearvacante.astro
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/editarVacante.css';
+---
+
+<Layout title="Crear Nueva Vacante">
+  <Header slot="header" />
+  
+  <main class="vacante-form-container">
+    <h1 class="vacante-form-title">Editar Vacante</h1>
+    <p class="vacante-form-subtitle">Modifica la información de la vacante</p>
+  
+    <form class="vacante-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="titulo">Título del Puesto</label>
+          <input type="text" id="titulo" value="Desarrollador Frontend" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="nivel">Nivel del Cargo</label>
+          <select id="nivel" required>
+            <option value="Junior">Junior</option>
+            <option value="Semi-Senior">Semi-Senior</option>
+            <option value="Senior" selected>Senior</option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ubicacion">Ubicación</label>
+          <input type="text" id="ubicacion" value="Cartagena, Colombia" required>
+        </div>
+  
+        <div class="form-group">
+          <label for="contrato">Tipo de Contrato</label>
+          <select id="contrato" required>
+            <option value="Medio Tiempo">Medio Tiempo</option>
+            <option value="Tiempo Completo" selected>Tiempo Completo</option>
+            <option value="Freelance">Freelance</option>
+          </select>
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group">
+          <label for="modalidad">Modalidad</label>
+          <select id="modalidad" required>
+            <option value="Presencial">Presencial</option>
+            <option value="Híbrido" selected>Híbrido</option>
+            <option value="Remoto">Remoto</option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="descripcion">Descripción del Puesto</label>
+          <textarea id="descripcion" rows="4" required>Diseñador con experiencia en Figma y diseño de interfaces.</textarea>
+        </div>
+      </div>
+  
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel">Cancelar</button>
+        <button type="submit" class="btn btn-submit">Guardar Cambios</button>
+      </div>
+    </form>
+  </main>
+  
+  
+  <Footer slot="footer" />
+</Layout>
