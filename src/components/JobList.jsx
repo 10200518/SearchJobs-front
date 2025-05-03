@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import Pagination from './Paginacion'; // Importa el componente de paginación
-import '../styles/pages/JobCard.css';
-
-const JobList = ({ fetchUrl, totalItems, itemsPerPage }) => {
+const JobList = ({ fetchUrl, totalItems, itemsPerPage, filters = {} }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [jobs, setJobs] = useState([]);
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await fetch(`${fetchUrl}?page=${currentPage - 1}&size=${itemsPerPage}`);
+        const queryParams = new URLSearchParams({
+          page: currentPage - 1,
+          size: itemsPerPage
+        });
+
+        for (const key in filters) {
+          const value = filters[key];
+          if (value !== null && value !== undefined && value !== '') {
+            queryParams.append(key, value);
+          }
+        }
+        const res = await fetch(`${fetchUrl}?${queryParams.toString()}`);
         const data = await res.json();
         setJobs(data.vacantes || []);
       } catch (error) {
@@ -18,8 +25,7 @@ const JobList = ({ fetchUrl, totalItems, itemsPerPage }) => {
     };
 
     fetchJobs();
-  }, [fetchUrl, currentPage, itemsPerPage]);
-
+  }, [fetchUrl, currentPage, itemsPerPage, filters]);
 
   return (
     <div>
