@@ -1,34 +1,68 @@
-<header class="header">
-  <div class="container">
-    <a href="/" class="flex items-center">
-      <div class="text-2xl font-extrabold">
-        <span class="bg-gradient-primary bg-clip-text text-transparent">SearchJobs</span>
-      </div>
-    </a>
+---
+// src/components/Header.astro
+const { userRole } = Astro.props;
+---
   
-
-    <button 
-      id="menuToggle" 
-      class="md:hidden bg-transparent border-none cursor-pointer text-text hover:text-primary transition-transform duration-300 hover:rotate-90"
-      aria-label="Abrir menú"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
-      </svg>
-    </button>
+  <header class="header">
+    <div class="container">
+      <a href="/" class="flex items-center">
+        <div class="text-2xl font-extrabold">
+          <span class="bg-gradient-primary bg-clip-text text-transparent">SearchJobs</span>
+        </div>
+      </a>
   
-    <nav class="nav" id="mainNav">
-      <a href="/chat" class="nav-link">Chats</a>
-      <a href="/empleos" class="nav-link">Empleos</a>
-      <a href="/empleos" class="nav-link">Voluntariados</a>
-      <a href="/login" class="nav-link">Iniciar Sesión</a>
-      <a href="/registro" class="nav-link register-btn">Registrarse</a>
-    </nav>
-  </div>
+      <button 
+        id="menuToggle" 
+        class="md:hidden bg-transparent border-none cursor-pointer text-text hover:text-primary transition-transform duration-300 hover:rotate-90"
+        aria-label="Abrir menú"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+  
+      <nav class="nav" id="mainNav">
+        {userRole === 'candidato' && (
+          <>
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/chat" class="nav-link">Chats</a>
+            <a href="/empleos" class="nav-link">Empleos</a>
+            <a href="/perfil/candidato" class="nav-link">Perfil</a>
+          </>
+        )}
+        {userRole === 'empresa' && (
+          <>
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/empleo/editarVacante" class="nav-link">Publicar Empleo</a>
+            <a href="/empleos/listadoVacante" class="nav-link">Mis Vacantes</a>
+            <a href="/chat" class="nav-link">Chats</a>
+            <a href="/perfil/PerfilUsuario" class="nav-link">Perfil</a>
+          </>
+        )}
+        {userRole === 'admin' && (
+          <>
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/empleos" class="nav-link">Empleos</a>
+            <a href="/admin/dashboard" class="nav-link">Dashboard</a>
+            <a href="/admin/usuarios" class="nav-link">Usuarios</a>
+          </>
+        )}
+        {userRole ? (
+          <a href="/logout" class="nav-link">Cerrar sesión</a>
+        ) : (
+          <>
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/empleos" class="nav-link">Empleos</a>
+            <a href="/login" class="nav-link">Iniciar Sesión</a>
+            <a href="/registro" class="nav-link register-btn">Registrarse</a>
+          </>
+        )}
+      </nav>
+    </div>
   </header>
-  
+
   <script>
     // Script menú móvil
     document.addEventListener('DOMContentLoaded', () => {
