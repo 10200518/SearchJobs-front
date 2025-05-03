@@ -1,36 +1,36 @@
-const JobList = ({ fetchUrl, totalItems, itemsPerPage, filters = {} }) => {
+import { useEffect, useState } from 'react';
+import '../styles/pages/JobCard.css';
+import Paginacion from './Paginacion';
+
+
+const JobList = ({ jobs, totalItems, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobs, setJobs] = useState([]);
+  const [currentJobs, setCurrentJobs] = useState([]);
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const queryParams = new URLSearchParams({
-          page: currentPage - 1,
-          size: itemsPerPage
-        });
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setCurrentJobs(jobs.slice(startIndex, endIndex));
+  }, [currentPage, jobs, itemsPerPage]);
 
-        for (const key in filters) {
-          const value = filters[key];
-          if (value !== null && value !== undefined && value !== '') {
-            queryParams.append(key, value);
-          }
-        }
-        const res = await fetch(`${fetchUrl}?${queryParams.toString()}`);
-        const data = await res.json();
-        setJobs(data.vacantes || []);
-      } catch (error) {
-        console.error('Error cargando vacantes:', error);
-      }
-    };
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
-    fetchJobs();
-  }, [fetchUrl, currentPage, itemsPerPage, filters]);
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div>
       <div className="jobs-grid">
-        {jobs.map((job) => (
+        {currentJobs.map((job) => (
           <a href={`/empleos/${job.nvacantes}`} className="card" key={job.nvacantes}>
             <div className="header">
               <div className="logo">
@@ -78,7 +78,7 @@ const JobList = ({ fetchUrl, totalItems, itemsPerPage, filters = {} }) => {
         ))}
       </div>
       
-      <Pagination 
+      <Paginacion 
         totalItems={totalItems}
         itemsPerPage={itemsPerPage}
         currentPage={currentPage}
@@ -89,3 +89,4 @@ const JobList = ({ fetchUrl, totalItems, itemsPerPage, filters = {} }) => {
 };
 
 export default JobList;
+
