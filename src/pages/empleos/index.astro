@@ -86,10 +86,11 @@ import "../../styles/pages/empleos.css";
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
+          
           <input
             type="text"
             placeholder="Cargo, habilidad o palabra clave"
-            class="search-input"
+            class="search-input"  
           />
         </div>
         <div class="search-input-group">
@@ -160,6 +161,83 @@ import "../../styles/pages/empleos.css";
               // setJobs(filteredData.);
               // setTotalJobs(filteredData.totalElements);
             }}
+
+        <div class="filter-group">
+          <h4 class="filter-group-title">Tipo de empleo</h4>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input type="checkbox" name="jobType" value="fullTime" />
+              <span>Tiempo completo</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="jobType" value="partTime" />
+              <span>Medio tiempo</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="jobType" value="contract" />
+              <span>Por contrato</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="jobType" value="freelance" />
+              <span>Freelance</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h4 class="filter-group-title">Experiencia</h4>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input type="checkbox" name="experience" value="entry" />
+              <span>Sin experiencia</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="experience" value="junior" />
+              <span>1-2 años</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="experience" value="mid" />
+              <span>3-5 años</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="experience" value="senior" />
+              <span>5+ años</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h4 class="filter-group-title">Modalidad</h4>
+          <div class="filter-options">
+            <label class="filter-option">
+              <input type="checkbox" name="modality" value="remote" />
+              <span>Remoto</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="modality" value="office" />
+              <span>Presencial</span>
+            </label>
+            <label class="filter-option">
+              <input type="checkbox" name="modality" value="hybrid" />
+              <span>Híbrido</span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-outline clear-filters-button">Limpiar filtros</button>
+      </div>
+
+      <div class="jobs-container">
+        <div class="jobs-header">
+          <h2 class="jobs-title">Empleos disponibles</h2>
+          <div class="jobs-count">{totalVacantes} empleos encontrados</div>
+        
+        </div>
+          <JobList
+            client:only="react"
+            fetchUrl={"http://localhost:8080/api/vacantes/listar"}
+            totalItems={totalVacantes} 
+            itemsPerPage={6}  
           />
             <div class="jobs-header">
               <h2 class="jobs-title">Empleos disponibles</h2>

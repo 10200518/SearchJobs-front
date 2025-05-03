@@ -2,213 +2,1332 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import '../styles/pages/chat.css'
 ---
 
+<Layout title="Chat | SearchJobs">
+<Header slot="header" />
 
-<Layout title='Chat SearchJods'>
-    <Header slot="header" />
-
-    <div class="container">
-        <div class="chat-container">
-            <div class="sidebar">
-                <div class="sidebar-header">
-                    <h2 class="sidebar-title">Chat</h2>
-
-                    <div class="contacts-list" id="contactsList">
-
-                    </div>
-                </div>
-
-                <div class="chat-main">
-                    <div id="emptyChatState" class="empty-chat-state">
-                        <div class="empy-chat-content">
-                            <img src="" alt="Select a chat" width="200" height="200">
-                                <h3>Selecciona una conversación</h3>
-                                <p>Elige un contacto para ver tus mensajes</p>
-                        </div>
-                    </div>
-
-                    <div class="message-input-container">
-                        <button class="attach-button" arial-label="Adjuntar archivo">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
-                            </svg>
-                        </button>
-
-                        <input 
-                            type="text"   
-                            id="messageInput"
-                            class="message-input"
-                            placeholder="Escribe un mensaje"
-                        />
-
-                        <button id="sendButton" class="send-button" disabled>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
+<div class="container">
+  <div class="chat-container">
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2 class="sidebar-title">Mensajes</h2>
+        <div class="sidebar-actions">
+          <button class="sidebar-action-button" aria-label="Nuevo mensaje">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+          <button class="sidebar-action-button" aria-label="Filtrar mensajes">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+            </svg>
+          </button>
         </div>
+      </div>
+
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="search-input" placeholder="Buscar conversaciones..." />
+        </div>
+      </div>
+
+      <div class="contacts-tabs">
+        <button class="contacts-tab active" data-tab="all">Todos</button>
+        <button class="contacts-tab" data-tab="unread">No leídos</button>
+        <button class="contacts-tab" data-tab="archived">Archivados</button>
+      </div>
+
+      <div class="contacts-list" id="contactsList">
+        <!-- La lista de contactos se cargará dinámicamente -->
+      </div>
     </div>
 
-    <Footer slot="footer" />
+    <div class="chat-main">
+      <div id="emptyChatState" class="empty-chat-state">
+        <div class="empty-chat-content">
+          <div class="empty-chat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <h3>Tus mensajes</h3>
+          <p>Selecciona una conversación para ver tus mensajes o inicia una nueva</p>
+          <button class="new-chat-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Nuevo mensaje
+          </button>
+        </div>
+      </div>
+
+      <div id="chatInterface" class="hidden chat-interface">
+        <div class="chat-header" id="chatHeader">
+          <!-- El encabezado del chat se cargará dinámicamente -->
+        </div>
+
+        <div class="messages-container" id="messagesContainer">
+          <!-- Los mensajes se cargarán dinámicamente -->
+        </div>
+
+        <div class="message-input-container">
+          <button class="message-action-button" aria-label="Adjuntar archivo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            </svg>
+          </button>
+          
+          <button class="message-action-button" aria-label="Insertar emoji">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+              <line x1="9" y1="9" x2="9.01" y2="9"></line>
+              <line x1="15" y1="9" x2="15.01" y2="9"></line>
+            </svg>
+          </button>
+
+          <div class="message-input-wrapper">
+            <textarea
+              id="messageInput"
+              class="message-input"
+              placeholder="Escribe un mensaje..."
+              rows="1"
+            ></textarea>
+          </div>
+
+          <button id="sendButton" class="send-button" disabled>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<Footer slot="footer" />
 </Layout>
 
-<script>
-    const contacts = [
-    {
-      id: 1,
-      name: "María López",
-      role: "Reclutadora",
-      company: "TechCorp",
-      avatar: "/placeholder.svg?height=50&width=50",
-      lastMessage: "Hola, nos gustaría programar una entrevista contigo.",
-      lastMessageTime: "10:30 AM",
-      unread: 2,
-      online: true,
-      isRecruiter: true
-    },
-    {
-      id: 2,
-      name: "Carlos Rodríguez",
-      role: "Gerente de RRHH",
-      company: "CreativeStudio",
-      avatar: "/placeholder.svg?height=50&width=50",
-      lastMessage: "Gracias por tu aplicación. ¿Podrías enviarnos tu portafolio?",
-      lastMessageTime: "Ayer",
-      unread: 0,
-      online: false,
-      isRecruiter: true
-    },
-    {
-      id: 3,
-      name: "Ana Martínez",
-      role: "Directora de Talento",
-      company: "GrowthAgency",
-      avatar: "/placeholder.svg?height=50&width=50",
-      lastMessage: "Hemos revisado tu CV y nos gustaría conocerte mejor.",
-      lastMessageTime: "Lun",
-      unread: 1,
-      online: true,
-      isRecruiter: true
-    },
-    {
-      id: 4,
-      name: "Juan Pérez",
-      role: "Candidato",
-      position: "Desarrollador Frontend",
-      avatar: "/placeholder.svg?height=50&width=50",
-      lastMessage: "Estoy interesado en la posición que publicaron.",
-      lastMessageTime: "Hoy",
-      unread: 3,
-      online: true,
-      isRecruiter: false
-    },
-    {
-      id: 5,
-      name: "Laura Gómez",
-      role: "Candidata",
-      position: "Diseñadora UX/UI",
-      avatar: "/placeholder.svg?height=50&width=50",
-      lastMessage: "Adjunto mi portafolio actualizado.",
-      lastMessageTime: "Ayer",
-      unread: 0,
-      online: false,
-      isRecruiter: false
-    }
-  ];
+<script type="js">
+  
+// Función para formatear la fecha
+function formatMessageDate(dateString) {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 0) {
+    return 'Hoy';
+  } else if (diffDays === 1) {
+    return 'Ayer';
+  } else if (diffDays < 7) {
+    const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+    return days[date.getDay()];
+  } else {
+    return date.toLocaleDateString();
+  }
+}
 
-  const conversationMessages: Record<number, { id: number; sender: string; text: string; timestamp: string; }[]> = {
-    1: [
-      {
-        id: 1,
-        sender: "recruiter",
-        text: "Hola, gracias por aplicar a la posición de Desarrollador Frontend en TechCorp.",
-        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
-      },
-      {
-        id: 2,
-        sender: "recruiter",
-        text: "Hemos revisado tu CV y nos gustaría programar una entrevista contigo para conocerte mejor.",
-        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
-      },
-      {
-        id: 3,
-        sender: "user",
-        text: "¡Hola! Muchas gracias por contactarme. Estoy muy interesado en la posición.",
-        timestamp: new Date(Date.now() - 3600000 * 2).toISOString()
-      },
-      {
-        id: 4,
-        sender: "user",
-        text: "Estoy disponible para una entrevista esta semana. ¿Qué días y horarios les conviene?",
-        timestamp: new Date(Date.now() - 3600000 * 2).toISOString()
-      },
-      {
-        id: 5,
-        sender: "recruiter",
-        text: "Perfecto. ¿Te parece bien este jueves a las 15:00 horas?",
-        timestamp: new Date(Date.now() - 3600000).toISOString()
-      },
-      {
-        id: 6,
-        sender: "recruiter",
-        text: "La entrevista sería por videollamada. Te enviaríamos el enlace por correo.",
-        timestamp: new Date(Date.now() - 3600000).toISOString()
-      }
-    ],
-    2: [
-      {
-        id: 1,
-        sender: "recruiter",
-        text: "Hola, gracias por tu aplicación para el puesto de Diseñador UX/UI.",
-        timestamp: new Date(Date.now() - 3600000 * 48).toISOString()
-      },
-      {
-        id: 2,
-        sender: "recruiter",
-        text: "Nos gustaría ver algunos ejemplos de tu trabajo. ¿Podrías enviarnos tu portafolio?",
-        timestamp: new Date(Date.now() - 3600000 * 48).toISOString()
-      },
-      {
-        id: 3,
-        sender: "user",
-        text: "¡Hola! Claro, con gusto les comparto mi portafolio.",
-        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
-      },
-      {
-        id: 4,
-        sender: "user",
-        text: "Pueden encontrarlo en este enlace: www.miportfolio.com",
-        timestamp: new Date(Date.now() - 3600000 * 24).toISOString()
-      }
-    ]
-  };
+// Función para formatear la hora
+function formatMessageTime(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
 
-  function formatMessageDate(dateString: string) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffDays = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+document.addEventListener('DOMContentLoaded', () => {
+  const contactsList = document.getElementById('contactsList');
+  const emptyChatState = document.getElementById('emptyChatState');
+  const chatInterface = document.getElementById('chatInterface');
+  const chatHeader = document.getElementById('chatHeader');
+  const messagesContainer = document.getElementById('messagesContainer');
+  const messageInput = document.getElementById('messageInput');
+  const sendButton = document.getElementById('sendButton');
+  const contactsTabs = document.querySelectorAll('.contacts-tab');
+  const searchInput = document.querySelector('.search-input');
+  const newChatButton = document.querySelector('.new-chat-button');
+  
+  let currentFilter = 'all';
+  let activeContactId = null;
+
+  // Función para cargar la lista de contactos
+  function loadContacts(filter = 'all', searchTerm = '') {
+    contactsList.innerHTML = '';
     
-    if (diffDays === 0) {
-      return 'Hoy';
-    } else if (diffDays === 1) {
-      return 'Ayer';
-    } else if (diffDays < 7) {
-      const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-      return days[date.getDay()];
-    } else {
-      return date.toLocaleDateString();
+    const filteredContacts = contacts.filter(contact => {
+      // Filtrar por pestaña
+      if (filter === 'unread' && contact.unread === 0) return false;
+      if (filter === 'archived' && contact.status !== 'archived') return false;
+      if (filter === 'all' && contact.status === 'archived') return false;
+      
+      // Filtrar por término de búsqueda
+      if (searchTerm) {
+        const searchLower = searchTerm.toLowerCase();
+        return (
+          contact.name.toLowerCase().includes(searchLower) ||
+          (contact.company && contact.company.toLowerCase().includes(searchLower)) ||
+          (contact.position && contact.position.toLowerCase().includes(searchLower))
+        );
+      }
+      
+      return true;
+    });
+    
+    if (filteredContacts.length === 0) {
+      const emptyState = document.createElement('div');
+      emptyState.className = 'empty-contacts-state';
+      emptyState.innerHTML = `
+        <p>No se encontraron conversaciones${searchTerm ? ' para "' + searchTerm + '"' : ''}.</p>
+      `;
+      contactsList.appendChild(emptyState);
+      return;
+    }
+    
+    filteredContacts.forEach(contact => {
+      const contactElement = document.createElement('div');
+      contactElement.className = `contact-item ${activeContactId === contact.id ? 'active' : ''}`;
+      contactElement.dataset.id = contact.id;
+      
+      contactElement.innerHTML = `
+        <div class="contact-avatar">
+          <img src="${contact.avatar}" alt="${contact.name}" width="50" height="50" />
+          ${contact.online ? '<span class="online-indicator"></span>' : ''}
+        </div>
+        <div class="contact-info">
+          <div class="contact-header">
+            <h3 class="contact-name">${contact.name}</h3>
+            <span class="contact-time">${contact.lastMessageTime}</span>
+          </div>
+          <p class="contact-role">${contact.isRecruiter ? `${contact.role} en ${contact.company}` : `${contact.role} - ${contact.position}`}</p>
+          ${contact.isTyping ? 
+            `<p class="contact-typing">
+              <span class="typing-indicator">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+              </span>
+              Escribiendo...
+            </p>` : 
+            `<p class="contact-last-message">${contact.lastMessage}</p>`
+          }
+        </div>
+        ${contact.unread > 0 ? `<div class="unread-badge">${contact.unread}</div>` : ''}
+        <div class="contact-actions">
+          <button class="contact-action-button" data-action="archive" aria-label="${contact.status === 'archived' ? 'Desarchivar' : 'Archivar'}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              ${contact.status === 'archived' ? 
+                '<polyline points="9 14 4 9 9 4"></polyline><path d="M20 20v-7a4 4 0 0 0-4-4H4"></path>' : 
+                '<polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>'
+              }
+            </svg>
+          </button>
+        </div>
+      `;
+      
+      contactsList.appendChild(contactElement);
+      
+      // Agregar evento de clic para mostrar la conversación
+      contactElement.addEventListener('click', (e) => {
+        // Si se hizo clic en un botón de acción, no mostrar la conversación
+        if (e.target.closest('.contact-action-button')) {
+          return;
+        }
+        
+        // Remover clase activa de todos los contactos
+        document.querySelectorAll('.contact-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        
+        // Agregar clase activa al contacto seleccionado
+        contactElement.classList.add('active');
+        activeContactId = contact.id;
+        
+        // Ocultar el estado vacío y mostrar la interfaz de chat
+        emptyChatState.classList.add('hidden');
+        chatInterface.classList.remove('hidden');
+        
+        // Actualizar el encabezado del chat
+        updateChatHeader(contact);
+        
+        // Cargar los mensajes de la conversación
+        loadMessages(contact.id);
+        
+        // Si hay mensajes no leídos, marcarlos como leídos
+        if (contact.unread > 0) {
+          const unreadBadge = contactElement.querySelector('.unread-badge');
+          if (unreadBadge) {
+            unreadBadge.remove();
+          }
+          contact.unread = 0;
+          
+          // Marcar mensajes como leídos
+          if (conversationMessages[contact.id]) {
+            conversationMessages[contact.id].forEach(msg => {
+              if (msg.status === 'unread' && msg.sender === 'recruiter') {
+                msg.status = 'read';
+              }
+            });
+          }
+        }
+      });
+      
+      // Agregar eventos a los botones de acción
+      const archiveButton = contactElement.querySelector('[data-action="archive"]');
+      if (archiveButton) {
+        archiveButton.addEventListener('click', () => {
+          contact.status = contact.status === 'archived' ? 'active' : 'archived';
+          loadContacts(currentFilter, searchInput.value);
+          
+          // Si el contacto archivado es el activo, mostrar el estado vacío
+          if (activeContactId === contact.id && contact.status === 'archived' && currentFilter !== 'archived') {
+            chatInterface.classList.add('hidden');
+            emptyChatState.classList.remove('hidden');
+            activeContactId = null;
+          }
+        });
+      }
+    });
+  }
+  
+  // Función para actualizar el encabezado del chat
+  function updateChatHeader(contact) {
+    chatHeader.innerHTML = `
+      <div class="chat-header-left">
+        <button class="back-button" id="backButton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <div class="chat-header-avatar">
+          <img src="${contact.avatar}" alt="${contact.name}" width="40" height="40" />
+          ${contact.online ? '<span class="header-online-indicator"></span>' : ''}
+        </div>
+        <div class="chat-header-info">
+          <h3 class="chat-header-name">${contact.name}</h3>
+          <p class="chat-header-role">${contact.isRecruiter ? `${contact.role} en ${contact.company}` : `${contact.role} - ${contact.position}`}</p>
+        </div>
+      </div>
+      <div class="chat-header-actions">
+        <button class="header-action-button" aria-label="Ver perfil">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+        <button class="header-action-button" aria-label="Llamada">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        </button>
+        <button class="header-action-button" aria-label="Videollamada">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="23 7 16 12 23 17 23 7"></polygon>
+            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+          </svg>
+        </button>
+        <button class="header-action-button" aria-label="Más opciones">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="1"></circle>
+            <circle cx="12" cy="5" r="1"></circle>
+            <circle cx="12" cy="19" r="1"></circle>
+          </svg>
+        </button>
+      </div>
+    `;
+    
+    // Agregar evento al botón de retroceso
+    document.getElementById('backButton').addEventListener('click', () => {
+      chatInterface.classList.add('hidden');
+      emptyChatState.classList.remove('hidden');
+      document.querySelectorAll('.contact-item').forEach(item => {
+        item.classList.remove('active');
+      });
+      activeContactId = null;
+    });
+  }
+  
+  // Función para cargar los mensajes de una conversación
+  function loadMessages(contactId) {
+    messagesContainer.innerHTML = '';
+    
+    const messages = conversationMessages[contactId] || [];
+    if (messages.length === 0) {
+      messagesContainer.innerHTML = `
+        <div class="no-messages">
+          <p>No hay mensajes aún. ¡Comienza la conversación!</p>
+        </div>
+      `;
+      return;
+    }
+    
+    let currentDate = '';
+    
+    messages.forEach(message => {
+      const messageDate = formatMessageDate(message.timestamp);
+      
+      // Agregar separador de fecha si cambia
+      if (messageDate !== currentDate) {
+        currentDate = messageDate;
+        const dateElement = document.createElement('div');
+        dateElement.className = 'message-date';
+        dateElement.innerHTML = `<span>${messageDate}</span>`;
+        messagesContainer.appendChild(dateElement);
+      }
+      
+      const messageElement = document.createElement('div');
+      messageElement.className = `message ${message.sender === 'user' ? 'outgoing' : 'incoming'}`;
+      
+      let messageContent = `
+        <div class="message-content">
+          <p>${message.text}</p>
+      `;
+      
+      // Si hay un archivo adjunto
+      if (message.attachment) {
+        messageContent += `
+          <div class="message-attachment">
+            <div class="attachment-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <div class="attachment-info">
+              <span class="attachment-name">${message.attachment.name}</span>
+              <span class="attachment-size">${message.attachment.size}</span>
+            </div>
+            <button class="attachment-download">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </button>
+          </div>
+        `;
+      }
+      
+      messageContent += `
+          <span class="message-time">${formatMessageTime(message.timestamp)}</span>
+          ${message.sender === 'user' ? `
+            <span class="message-status">
+              ${message.status === 'read' ? 
+                '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L9.1 15 6 12"></path><path d="M18 14L9.1 23 6 20"></path></svg>' : 
+                '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>'}
+            </span>
+          ` : ''}
+        </div>
+      `;
+      
+      messageElement.innerHTML = messageContent;
+      messagesContainer.appendChild(messageElement);
+    });
+    
+    // Scroll al final de los mensajes
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  }
+  
+  // Función para ajustar la altura del textarea
+  function adjustTextareaHeight() {
+    messageInput.style.height = 'auto';
+    messageInput.style.height = (messageInput.scrollHeight) + 'px';
+  }
+  
+  // Manejar el envío de mensajes
+  messageInput.addEventListener('input', () => {
+    sendButton.disabled = messageInput.value.trim() === '';
+    adjustTextareaHeight();
+  });
+  
+  messageInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey && messageInput.value.trim() !== '') {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+  
+  sendButton.addEventListener('click', () => {
+    if (messageInput.value.trim() !== '') {
+      sendMessage();
+    }
+  });
+  
+  function sendMessage() {
+    if (!activeContactId) return;
+    
+    const messageText = messageInput.value.trim();
+    
+    // Crear nuevo mensaje
+    const newMessage = {
+      id: Date.now(),
+      sender: 'user',
+      text: messageText,
+      timestamp: new Date().toISOString(),
+      status: 'sent'
+    };
+    
+    // Agregar mensaje a la conversación
+    if (!conversationMessages[activeContactId]) {
+      conversationMessages[activeContactId] = [];
+    }
+    conversationMessages[activeContactId].push(newMessage);
+    
+    // Actualizar la interfaz
+    loadMessages(activeContactId);
+    
+    // Actualizar el último mensaje en la lista de contactos
+    const contact = contacts.find(c => c.id === activeContactId);
+    if (contact) {
+      contact.lastMessage = messageText;
+      contact.lastMessageTime = 'Ahora';
+      
+      // Actualizar la lista de contactos
+      loadContacts(currentFilter, searchInput.value);
+    }
+    
+    // Limpiar el input y resetear su altura
+    messageInput.value = '';
+    messageInput.style.height = 'auto';
+    sendButton.disabled = true;
+    
+    // Cambiar el estado del mensaje a "entregado" después de un momento
+    setTimeout(() => {
+      newMessage.status = 'delivered';
+      loadMessages(activeContactId);
+    }, 1000);
+    
+    // Cambiar el estado del mensaje a "leído" después de otro momento
+    setTimeout(() => {
+      newMessage.status = 'read';
+      loadMessages(activeContactId);
+    }, 2000);
+    
+    // Simular respuesta después de un tiempo aleatorio
+    const contactIndex = contacts.findIndex(c => c.id === activeContactId);
+    if (contactIndex !== -1) {
+      // Primero mostrar "escribiendo..."
+      setTimeout(() => {
+        contacts[contactIndex].isTyping = true;
+        loadContacts(currentFilter, searchInput.value);
+      }, 1500);
+      
+      // Luego enviar la respuesta
+      setTimeout(() => {
+        contacts[contactIndex].isTyping = false;
+        
+        const responses = [
+          "Gracias por tu mensaje. Lo revisaré y te responderé pronto.",
+          "Perfecto, lo tendré en cuenta.",
+          "Entendido. ¿Hay algo más que necesites?",
+          "Excelente, seguiremos en contacto.",
+          "Gracias por la información. Te contactaré pronto con más detalles."
+        ];
+        
+        const responseMessage = {
+          id: Date.now(),
+          sender: 'recruiter',
+          text: responses[Math.floor(Math.random() * responses.length)],
+          timestamp: new Date().toISOString(),
+          status: 'read'
+        };
+        
+        conversationMessages[activeContactId].push(responseMessage);
+        
+        // Actualizar el último mensaje en la lista de contactos
+        contacts[contactIndex].lastMessage = responseMessage.text;
+        contacts[contactIndex].lastMessageTime = 'Ahora';
+        
+        loadMessages(activeContactId);
+        loadContacts(currentFilter, searchInput.value);
+      }, 3000 + Math.random() * 2000);
     }
   }
+  
+  // Manejar las pestañas de contactos
+  contactsTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      contactsTabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentFilter = tab.dataset.tab;
+      loadContacts(currentFilter, searchInput.value);
+    });
+  });
+  
+  // Manejar la búsqueda
+  searchInput.addEventListener('input', () => {
+    loadContacts(currentFilter, searchInput.value);
+  });
+  
+  // Manejar el botón de nuevo mensaje
+  newChatButton.addEventListener('click', () => {
+    // Aquí se podría implementar la funcionalidad para iniciar una nueva conversación
+    alert('Funcionalidad para iniciar una nueva conversación');
+  });
+  
+  // Cargar contactos iniciales
+  loadContacts();
+});
+</script>
 
-  function formatMessageTime(dateString: string) {
-    const date = new Date(dateString);
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+<style>
+.chat-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 80vh;
+  margin: 40px 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+
+.sidebar {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.sidebar-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.sidebar-action-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sidebar-action-button:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.search-container {
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.search-input-wrapper {
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 10px 10px 36px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  background-color: white;
+}
+
+.contacts-tabs {
+  display: flex;
+  padding: 0 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.contacts-tab {
+  flex: 1;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-light);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contacts-tab:hover {
+  color: var(--primary);
+}
+
+.contacts-tab.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.contacts-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.contact-item {
+  display: flex;
+  padding: 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  margin-bottom: 4px;
+}
+
+.contact-item:hover {
+  background-color: rgba(37, 99, 235, 0.05);
+}
+
+.contact-item.active {
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.contact-avatar {
+  position: relative;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.contact-avatar img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.online-indicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  background-color: #34c759;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.contact-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.contact-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.contact-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-time {
+  font-size: 12px;
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.contact-role {
+  font-size: 13px;
+  color: var(--primary);
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-last-message {
+  font-size: 13px;
+  color: var(--text-light);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-typing {
+  font-size: 13px;
+  color: var(--primary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.typing-dot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  animation: typing-animation 1.5s infinite ease-in-out;
+}
+
+.typing-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.typing-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing-animation {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-4px);
+  }
+}
+
+.unread-badge {
+  min-width: 20px;
+  height: 20px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  margin-left: 8px;
+}
+
+.contact-actions {
+  display: none;
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.contact-item:hover .contact-actions {
+  display: flex;
+}
+
+.contact-action-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-action-button:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.empty-contacts-state {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.chat-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.chat-header-left {
+  display: flex;
+  align-items: center;
+}
+
+.back-button {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  margin-right: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--primary);
+}
+
+.chat-header-avatar {
+  position: relative;
+  margin-right: 12px;
+}
+
+.chat-header-avatar img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.header-online-indicator {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  background-color: #34c759;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.chat-header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-header-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.chat-header-role {
+  font-size: 13px;
+  color: var(--primary);
+  margin: 0;
+}
+
+.chat-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.header-action-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--primary);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-action-button:hover {
+  background-color: var(--primary);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.messages-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: rgba(245, 245, 247, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.message-date {
+  text-align: center;
+  margin: 10px 0;
+}
+
+.message-date span {
+  font-size: 12px;
+  color: var(--text-light);
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.message {
+  display: flex;
+  max-width: 70%;
+}
+
+.incoming {
+  align-self: flex-start;
+}
+
+.outgoing {
+  align-self: flex-end;
+}
+
+.message-content {
+  padding: 12px 16px;
+  border-radius: 18px;
+  position: relative;
+}
+
+.incoming .message-content {
+  background-color: white;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.outgoing .message-content {
+  background: var(--gradient-primary);
+  color: white;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 10px rgba(37, 99, 235, 0.2);
+}
+
+.message-content p {
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.message-attachment {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+}
+
+.attachment-icon {
+  margin-right: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.attachment-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.attachment-name {
+  display: block;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.attachment-size {
+  display: block;
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.attachment-download {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.attachment-download:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.incoming .message-attachment {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.incoming .attachment-icon,
+.incoming .attachment-download {
+  color: var(--text-light);
+}
+
+.message-time {
+  font-size: 11px;
+  position: absolute;
+  bottom: 8px;
+  right: 12px;
+}
+
+.message-status {
+  display: inline-flex;
+  margin-left: 4px;
+  position: relative;
+  bottom: -2px;
+}
+
+.outgoing .message-time {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.incoming .message-time {
+  color: var(--text-light);
+}
+
+.message-input-container {
+  display: flex;
+  align-items: flex-end;
+  padding: 12px 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: white;
+}
+
+.message-action-button {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin-right: 4px;
+}
+
+.message-action-button:hover {
+  color: var(--primary);
+  background-color: rgba(37, 99, 235, 0.1);
+}
+
+.message-input-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.message-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  margin: 0 12px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  resize: none;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.message-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.send-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  flex-shrink: 0;
+}
+
+.send-button:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.send-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty-chat-state {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(245, 245, 247, 0.5);
+}
+
+.empty-chat-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.empty-chat-icon {
+  width: 80px;
+  height: 80px;
+  background-color: rgba(37, 99, 235, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: var(--primary);
+}
+
+.empty-chat-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 16px 0 8px;
+  color: var(--text);
+}
+
+.empty-chat-content p {
+  color: var(--text-light);
+  margin: 0 0 24px;
+}
+
+.new-chat-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+  margin: 0 auto;
+}
+
+.new-chat-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px99,235,0.3);
+  margin: 0 auto;
+}
+
+.new-chat-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+}
+
+.no-messages {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--text-light);
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 992px) {
+  .chat-container {
+    grid-template-columns: 1fr;
+    height: 85vh;
   }
 
-</script>
+  .sidebar {
+    display: none;
+  }
+
+  .back-button {
+    display: flex;
+  }
+
+  .chat-main {
+    border-left: none;
+  }
+
+  .sidebar.mobile-visible {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background-color: white;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message {
+  animation: fadeIn 0.3s ease-out;
+}
+</style>

@@ -1,64 +1,362 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import '../../styles/pages/candidato.css';
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import '../../styles/pages/candidato.css'
 ---
 
-<Layout title="Registro Candidato | SearchJobs">
+<Layout title="Registro de Candidato | SearchJobs">
   <Header slot="header" />
+  
+  <div class="container">
+    <div class="registro-container">
+      <h1 class="title">Crea tu cuenta de candidato</h1>
+      <p class="subtitle">Completa el formulario para acceder a todas las oportunidades laborales</p>
+      
+      <form id="registroForm" class="form">
+        <!-- Paso 1: Información básica -->
+        <div class="step-content active" id="step1">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre completo <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="nombre" 
+                name="nombre" 
+                class="form-control" 
+                placeholder="Ingresa tu nombre completo" 
+                required
+              />
+            </div>
 
-  <body class="flex items-center justify-center min-h-screen px-4">
-    <main class="w-full max-w-xl">
-      <h1 class="text-3xl font-bold text-center mb-2">Registro de Candidato</h1>
-      <p class="text-center text-gray-500 mb-6">
-        Crea tu cuenta para publicar vacantes y encontrar talento
-      </p>
+            <div class="form-group">
+              <label for="apellido">Apellido completo <span class="required">*</span></label>
+              <input 
+                type="text" 
+                id="apellido" 
+                name="apellido" 
+                class="form-control" 
+                placeholder="Ingresa tu Apellido completo" 
+                required
+              />
+            </div>
+          </div>
 
-      <form class="card space-y-4">
-        <div class="form-group">
-          <label for="nombre" class="text-sm font-medium">Nombre de la empresa</label>
-          <input type="text" id="nombre" name="nombre" placeholder="Nombre de tu empresa" class="form-control" required />
+          <div class="form-group">
+            <label for="email">Correo electrónico <span class="required">*</span></label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              class="form-control" 
+              placeholder="ejemplo@correo.com" 
+              required
+            />
+            <p class="form-hint">Usarás este correo para iniciar sesión</p>
+          </div>
+
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input 
+                type="tel" 
+                id="telefono" 
+                name="telefono" 
+                class="form-control" 
+                placeholder="Ej: +57 300 123 4567"
+              />
+            </div>
+            
+            <div class="form-group">
+              <label for="identificacion">Identificacion<span class="required">*</span></label>
+              <input 
+                type="number" 
+                id="identificacion" 
+                name="identificacion" 
+                class="form-control" 
+                placeholder="Ingresa su numero de identificacion" 
+                required
+              />
+            </div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="password">Contraseña <span class="required">*</span></label>
+              <div class="password-input">
+                <input 
+                  type="password" 
+                  id="password" 
+                  name="password" 
+                  class="form-control" 
+                  placeholder="Crea una contraseña segura" 
+                  required
+                />
+                <button 
+                  type="button" 
+                  class="password-toggle" 
+                  id="passwordToggle" 
+                  aria-label="Mostrar contraseña"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirmPassword">Confirmar contraseña <span class="required">*</span></label>
+              <div class="password-input">
+                <input 
+                  type="password" 
+                  id="confirmPassword" 
+                  name="confirmPassword" 
+                  class="form-control" 
+                  placeholder="Repite tu contraseña" 
+                  required
+                />
+                <button 
+                  type="button" 
+                  class="password-toggle" 
+                  id="confirmPasswordToggle" 
+                  aria-label="Mostrar contraseña"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="password-requirements">
+            <p class="requirements-title">La contraseña debe contener:</p>
+            <ul>
+              <li id="req-length">Al menos 8 caracteres</li>
+              <li id="req-uppercase">Al menos una letra mayúscula</li>
+              <li id="req-lowercase">Al menos una letra minúscula</li>
+              <li id="req-number">Al menos un número</li>
+              <li id="req-match">Las contraseñas deben coincidir</li>
+            </ul>
+          </div>
+          
+          <div class="form-group">
+            <label for="ciudad">Ciudad <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="ciudad" 
+              name="ciudad" 
+              class="form-control" 
+              placeholder="Ingresa tu ciudad" 
+              required
+            />
+          </div>
+          
+          <div class="form-group">
+            <div class="terms-container">
+              <h3>Términos y condiciones</h3>
+              <div class="terms-content">
+                <p>Al registrarte en SearchJobs, aceptas los siguientes términos y condiciones:</p>
+                <ol>
+                  <li>SearchJobs actúa como una plataforma de conexión entre candidatos y empresas, pero no es responsable de las ofertas laborales publicadas por terceros.</li>
+                  <li>La información proporcionada en tu perfil debe ser veraz y actualizada.</li>
+                  <li>Eres responsable de mantener la confidencialidad de tu contraseña y cuenta.</li>
+                  <li>SearchJobs puede enviar notificaciones relacionadas con ofertas de empleo y actualizaciones de la plataforma.</li>
+                  <li>Tu información personal será tratada de acuerdo con nuestra Política de Privacidad.</li>
+                </ol>
+                <p>Para más información, consulta nuestros <a href="/terminos" class="terms-link">Términos y Condiciones</a> completos y nuestra <a href="/privacidad" class="terms-link">Política de Privacidad</a>.</p>
+              </div>
+            </div>
+            
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="terminos" name="terminos" required />
+                <span class="checkbox-text">Acepto los términos y condiciones <span class="required">*</span></span>
+              </label>
+            </div>
+            
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="privacidad" name="privacidad" required />
+                <span class="checkbox-text">Acepto la política de privacidad <span class="required">*</span></span>
+              </label>
+            </div>
+            
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="comunicaciones" name="comunicaciones" />
+                <span class="checkbox-text">Deseo recibir comunicaciones sobre ofertas de empleo y novedades</span>
+              </label>
+            </div>
+          </div>
+          
+          <div class="step-buttons">
+            <a href="/registro" class="btn btn-outline">Volver</a>
+            <button type="submit" class="btn btn-primary">Enviar registro</button>
+          </div>
         </div>
-
-        <div class="form-group">
-          <label for="nit" class="text-sm font-medium">NIT / Número de identificación fiscal</label>
-          <input type="text" id="nit" name="nit" placeholder="NIT de tu empresa" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-          <label for="email" class="text-sm font-medium">Correo electrónico</label>
-          <input type="email" id="email" name="email" placeholder="empresa@ejemplo.com" class="form-control" required />
-        </div>
-
-        <div class="form-group">
-          <label for="password" class="text-sm font-medium">Contraseña</label>
-          <input type="password" id="password" name="password" placeholder="Crea una contraseña segura" class="form-control" required />
-          <p class="text-xs text-gray-400 mt-1">La contraseña debe tener al menos 8 caracteres</p>
-        </div>
-
-        <div class="form-group">
-          <label for="confirmPassword" class="text-sm font-medium">Confirmar contraseña</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repite tu contraseña" class="form-control" required />
-        </div>
-
-        <div class="form-group flex items-start gap-2">
-          <input type="checkbox" id="terms" class="mt-1" required />
-          <label for="terms" class="text-sm text-gray-600">
-            Acepto los <a href="#" class="text-blue-600 hover:underline">Términos y Condiciones</a> y la
-            <a href="#" class="text-blue-600 hover:underline">Política de Privacidad</a>
-          </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-full">Crear cuenta</button>
-
-        <p class="text-sm text-center text-gray-600">
-          ¿Ya tienes una cuenta?
-          <a href="/login" class="text-blue-600 hover:underline">Iniciar sesión</a>
-        </p>
       </form>
-    </main>
-  </body>
+      
+      <div class="login-container">
+        <p>
+          ¿Ya tienes una cuenta?{" "}
+          <a href="/login" class="login-link">
+            Iniciar sesión
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
 
   <Footer slot="footer" />
 </Layout>
+
+<script type="text/javascript">
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('registroForm');
+    const stepsContainer = [document.getElementById('step1')];
+    const progressFill = document.getElementById('progressFill');
+    const steps = document.querySelectorAll('.step');
+
+    const password = document.getElementById('password');
+    const confirmPassword = document.getElementById('confirmPassword');
+    const passwordToggle = document.getElementById('passwordToggle');
+    const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+    
+    const reqLength = document.getElementById('req-length');
+    const reqUppercase = document.getElementById('req-uppercase');
+    const reqLowercase = document.getElementById('req-lowercase');
+    const reqNumber = document.getElementById('req-number');
+    const reqMatch = document.getElementById('req-match');
+
+    const updateProgress = (step) => {
+      const width = ((step - 1) / (stepsContainer.length)) * 100;
+      if (progressFill) {
+        progressFill.style.width = `${width}%`;
+      }
+      
+      steps.forEach((stepEl) => {
+        const stepNum = parseInt(stepEl.dataset.step, 10);
+        if (stepNum < step) {
+          stepEl.classList.add('completed');
+          stepEl.classList.remove('active');
+        } else if (stepNum === step) {
+          stepEl.classList.add('active');
+          stepEl.classList.remove('completed');
+        } else {
+          stepEl.classList.remove('active', 'completed');
+        }
+      });
+    };
+
+    const validateStep1 = () => {
+      const nombre = document.getElementById('nombre').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const apellido  = document.getElementById('apellido').value.trim();
+      const identificacion = document.getElementById('identificacion').value.trim();
+      const passwordValue = password.value;
+      const confirmPasswordValue = confirmPassword.value;
+      const terminos = document.getElementById('terminos').checked;
+      const privacidad = document.getElementById('privacidad').checked;
+
+      if (!nombre || !email || !passwordValue || !confirmPasswordValue || !apellido || !identificacion) {
+        alert('Completa todos los campos requeridos');
+        return false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('Ingresa un correo electrónico válido');
+        return false;
+      }
+
+      const passwordValidations = {
+        length: passwordValue.length >= 8,
+        uppercase: /[A-Z]/.test(passwordValue),
+        lowercase: /[a-z]/.test(passwordValue),
+        number: /[0-9]/.test(passwordValue),
+        match: passwordValue === confirmPasswordValue
+      };
+
+      if (Object.values(passwordValidations).includes(false)) {
+        alert('La contraseña no cumple los requisitos');
+        return false;
+      }
+
+      if (!terminos || !privacidad) {
+        alert('Debes aceptar los términos y condiciones');
+        return false;
+      }
+
+      return true;
+    };
+
+    const togglePasswordVisibility = (input, toggleButton) => {
+      toggleButton.addEventListener('click', () => {
+        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+        input.setAttribute('type', type);
+        toggleButton.innerHTML = type === 'text' 
+          ? '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
+          : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
+      });
+    };
+
+    if (password && passwordToggle) togglePasswordVisibility(password, passwordToggle);
+    if (confirmPassword && confirmPasswordToggle) togglePasswordVisibility(confirmPassword, confirmPasswordToggle);
+
+    const validatePassword = () => {
+      const passwordValue = password.value;
+      const confirmPasswordValue = confirmPassword.value;
+
+      reqLength.classList.toggle('valid', passwordValue.length >= 8);
+      reqUppercase.classList.toggle('valid', /[A-Z]/.test(passwordValue));
+      reqLowercase.classList.toggle('valid', /[a-z]/.test(passwordValue));
+      reqNumber.classList.toggle('valid', /[0-9]/.test(passwordValue));
+      reqMatch.classList.toggle('valid', passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue);
+    };
+
+    password?.addEventListener('input', validatePassword);
+    confirmPassword?.addEventListener('input', validatePassword);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = {
+        nombre: formData.get('nombre'),
+        apellido: formData.get('apellido'),
+        correo: formData.get('email'),
+        contrasena: formData.get('password'),
+        telefono: formData.get('telefono'),
+        identificacion: formData.get('identificacion'),
+      };
+
+      // Peticion HTTP
+      if (validateStep1()) {
+        fetch('http://localhost:8080/api/candidatos/add', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data.status)
+          if (data.status === 201) {
+            form.reset();
+            alert(data.mensaje);
+          }
+        })
+        .catch(error => {
+          alert('Ocurrió un error al registrar el candidato');
+          console.error(error);
+        });
+      }
+    });
+  });
+</script>
