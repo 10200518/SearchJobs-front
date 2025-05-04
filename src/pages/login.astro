@@ -144,13 +144,14 @@ import '../styles/pages/login.css';
           divError.classList.add("hidden");
           const data = await response.json();
           const roles = data.roles as string[];
+          const rolPrincipal = data.rolPrincipal;
           // Redirección basada en roles
-          if (roles.includes("ROLE_ADMIN") || roles.includes("ROLE_SUPER_ADMIN")) {
-            alert("/admin");
-          } else if (roles.includes("ROLE_EMPRESA")) {
-            alert("/empleos");
+          if (rolPrincipal === "ROLE_ADMIN" || rolPrincipal === "ROLE_SUPER_ADMIN") {
+            window.location.href = "/dashboard/admin";
+          } else if (rolPrincipal === "ROLE_EMPRESA") {
+            window.location.href = "/dashboard/empresa";
           } else {
-            alert("/chat");
+            window.location.href = "/dashboard/candidato";
           }
         } else {
           const errorData = await response.json();  

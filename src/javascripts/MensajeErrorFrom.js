@@ -22,6 +22,7 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
           alert(responseData.mensaje || "Formulario enviado correctamente");
           if (redirectUrl) {
             window.location.href = redirectUrl;
+            alert("redireccion")
           }
         } else if (response.status === 400 && responseData.errors) {
           mostrarErrores(responseData.errors);

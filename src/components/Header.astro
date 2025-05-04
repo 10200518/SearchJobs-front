@@ -1,6 +1,9 @@
 ---
-// src/components/Header.astro
-const { userRole } = Astro.props;
+const res = await fetch('http://localhost:8080/api/usuarios/rol', {
+  credentials: 'include', 
+});
+const data = await res.json();
+const userRole = data.rolPrincipal;
 ---
   
   <header class="header">
@@ -24,7 +27,28 @@ const { userRole } = Astro.props;
       </button>
   
       <nav class="nav" id="mainNav">
-        {userRole === 'candidato' && (
+        { userRole === 'ROLE_SUPER_ADMIN' && (
+          <>
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/empleos" class="nav-link">Empleos</a>
+            <a href="/404" class="nav-link">Crear admins </a>
+            <a href="/dashboard/admin" class="nav-link">Dashboard</a>
+            <a href="/admin/usuarios" class="nav-link">Usuarios</a>
+            <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
+          </>
+        )}
+
+        {userRole === 'ROLE_ADMIN' && (
+          <>
+            <a href="/" class="nav-link">Inicio</a>
+            <a href="/empleos" class="nav-link">Empleos</a>
+            <a href="/dashboard/admin" class="nav-link">Dashboard</a>
+            <a href="/admin/usuarios" class="nav-link">Usuarios</a>
+            <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
+          </>
+        )}
+
+        {userRole === 'ROLE_CANDIDATO' && (
           <>
             <a href="/" class="nav-link">Inicio</a>
             <a href="/chat" class="nav-link">Chats</a>
@@ -32,34 +56,30 @@ const { userRole } = Astro.props;
             <a href="/perfil/candidato" class="nav-link">Perfil</a>
           </>
         )}
-        {userRole === 'empresa' && (
+      
+        {userRole === 'ROLE_EMPRESA' && (
           <>
             <a href="/" class="nav-link">Inicio</a>
-            <a href="/empleo/editarVacante" class="nav-link">Publicar Empleo</a>
-            <a href="/empleos/listadoVacante" class="nav-link">Mis Vacantes</a>
+            <a href="/empleos/editarVacante" class="nav-link">Publicar Empleo</a>
+            <a href="/empleos/listadoVacantes" class="nav-link">Mis Vacantes</a>
             <a href="/chat" class="nav-link">Chats</a>
             <a href="/perfil/PerfilUsuario" class="nav-link">Perfil</a>
           </>
         )}
-        {userRole === 'admin' && (
-          <>
-            <a href="/" class="nav-link">Inicio</a>
-            <a href="/empleos" class="nav-link">Empleos</a>
-            <a href="/admin/dashboard" class="nav-link">Dashboard</a>
-            <a href="/admin/usuarios" class="nav-link">Usuarios</a>
-          </>
-        )}
-        {userRole ? (
-          <a href="/logout" class="nav-link">Cerrar sesión</a>
+  
+        {userRole && userRole !== 'ROLE_INVITADO' ? (
+          <a href="/logout" class="nav-link register-btn">Cerrar sesión</a>
+          <a href="/registro" class="nav-link register-btn">{userRole}</a>
         ) : (
           <>
             <a href="/" class="nav-link">Inicio</a>
             <a href="/empleos" class="nav-link">Empleos</a>
             <a href="/login" class="nav-link">Iniciar Sesión</a>
             <a href="/registro" class="nav-link register-btn">Registrarse</a>
+            <a href="/registro" class="nav-link register-btn">{userRole}</a>
           </>
         )}
-      </nav>
+      </nav>      
     </div>
   </header>
 
