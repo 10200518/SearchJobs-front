@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import JobCard from '../components/JobCard.astro';
-import FeatureCard from '../components/FeatureCard.astro';
-import'../styles/pages/index.css'
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import JobCard from '../../components/JobCard.astro';
+import FeatureCard from '../../components/FeatureCard.astro';
+import'../../styles/pages/index.css'
 
 interface Job {
   nvacantes: String;
@@ -44,7 +44,7 @@ const features = [
 ---
 
 <Layout title="SearchJobs | Encuentra empleo">
-  <Header slot="header" userRole={null}/>
+  <Header slot="header"/>
   
   <section class="hero">
     <div class="container">
@@ -54,11 +54,11 @@ const features = [
           Conectamos empresas con los mejores talentos a través de una plataforma intuitiva y moderna
         </p>
         <div class="hero-cta">
-          <a href="/registro/candidato" class="btn btn-primary">
+          <a href="/empleos" class="btn btn-primary">
             Buscar empleo
           </a>
-          <a href="/registro/empresa" class="btn btn-outline">
-            Publicar vacante
+          <a href="404" class="btn btn-outline">
+            Ver Postulaciones
           </a>
         </div>
       </div>
@@ -98,27 +98,6 @@ const features = [
       </div>
     </div>
   </section>
-
-  <section class="cta-section section">
-    <div class="container">
-      <div class="cta-card">
-        <h2 class="cta-title">¿Listo para comenzar?</h2>
-        <p class="cta-description">
-          Únete a miles de profesionales y empresas que ya confían en SearchJobs
-        </p>
-        <div class="cta-buttons">
-          <a href="/registro/candidato" class="btn btn-primary">
-            Registrarse como candidato
-          </a>
-          <a href="/registro/empresa" class="btn btn-outline cta-outline">
-            Registrarse como empresa
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
   <Footer slot="footer" />
 </Layout>
-
-
 
