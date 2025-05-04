@@ -2,319 +2,353 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import '../../styles/pages/candidato.css'
+import "../../styles/registro/candidato.css";
 ---
 
 <Layout title="Registro de Candidato | SearchJobs">
   <Header slot="header" />
   
-  <div class="container">
-    <div class="registro-container">
-      <h1 class="title">Crea tu cuenta de candidato</h1>
-      <p class="subtitle">Completa el formulario para acceder a todas las oportunidades laborales</p>
-      
-      <form id="registroForm" class="form">
-        <!-- Paso 1: Información básica -->
-        <div class="step-content active" id="step1">
-          <div class="form-group">
-            <label for="nombre">Nombre completo <span class="required">*</span></label>
-            <input 
-              type="text" 
-              id="nombre" 
-              name="nombre" 
-              class="form-control" 
-              placeholder="Ingresa tu nombre completo" 
-              required
-            />
-          </div>
-          
-          <div class="form-group">
-            <label for="email">Correo electrónico <span class="required">*</span></label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              class="form-control" 
-              placeholder="ejemplo@correo.com" 
-              required
-            />
-            <p class="form-hint">Usarás este correo para iniciar sesión</p>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="password">Contraseña <span class="required">*</span></label>
-              <div class="password-input">
-                <input 
-                  type="password" 
-                  id="password" 
-                  name="password" 
-                  class="form-control" 
-                  placeholder="Crea una contraseña segura" 
-                  required
-                />
-                <button 
-                  type="button" 
-                  class="password-toggle" 
-                  id="passwordToggle" 
-                  aria-label="Mostrar contraseña"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                </button>
-              </div>
-            </div>
-            
-            <div class="form-group">
-              <label for="confirmPassword">Confirmar contraseña <span class="required">*</span></label>
-              <div class="password-input">
-                <input 
-                  type="password" 
-                  id="confirmPassword" 
-                  name="confirmPassword" 
-                  class="form-control" 
-                  placeholder="Repite tu contraseña" 
-                  required
-                />
-                <button 
-                  type="button" 
-                  class="password-toggle" 
-                  id="confirmPasswordToggle" 
-                  aria-label="Mostrar contraseña"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                    <circle cx="12" cy="12" r="3"></circle>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-          
-          <div class="password-requirements">
-            <p class="requirements-title">La contraseña debe contener:</p>
-            <ul>
-              <li id="req-length">Al menos 8 caracteres</li>
-              <li id="req-uppercase">Al menos una letra mayúscula</li>
-              <li id="req-lowercase">Al menos una letra minúscula</li>
-              <li id="req-number">Al menos un número</li>
-              <li id="req-match">Las contraseñas deben coincidir</li>
-            </ul>
-          </div>
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="telefono">Teléfono</label>
+  <main class="max-w-screen-md px-4 py-8 mx-auto">
+    <h1 class="mb-2 text-2xl font-bold text-center text-transparent bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text">Registro de Candidato</h1>
+    <p class="mb-8 text-center text-gray-600">Completa el formulario para comenzar a buscar oportunidades laborales</p>
+    
+    <div class="bg-white border border-gray-100 rounded-lg shadow-sm">
+      <form id="candidatoForm" class="p-6">
+        <!-- Nombre completo -->
+        <div class="mb-6">
+          <label for="nombre" class="block mb-1 text-sm font-medium text-gray-700">
+            Nombre completo <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="nombre" 
+            name="nombre" 
+            placeholder="Tu nombre y apellidos"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+            required
+          />
+        </div>
+        
+        <!-- Correo electrónico -->
+        <div class="mb-6">
+          <label for="email" class="block mb-1 text-sm font-medium text-gray-700">
+            Correo electrónico <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            placeholder="ejemplo@correo.com"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+            required
+          />
+          <p class="mt-1 text-xs text-gray-500">Usarás este correo para iniciar sesión</p>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
+          <!-- Contraseña -->
+          <div>
+            <label for="password" class="block mb-1 text-sm font-medium text-gray-700">
+              Contraseña <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
               <input 
-                type="tel" 
-                id="telefono" 
-                name="telefono" 
-                class="form-control" 
-                placeholder="Ej: +57 300 123 4567"
+                type="password" 
+                id="password" 
+                name="password" 
+                placeholder="Crea una contraseña segura"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+                required
               />
-            </div>
-            
-            <div class="form-group">
-              <label for="pais">País de residencia <span class="required">*</span></label>
-              <select id="pais" name="pais" class="form-control" required>
-                <option value="" disabled selected>Selecciona tu país</option>
-                <option value="colombia">Colombia</option>
-                <option value="mexico">México</option>
-                <option value="argentina">Argentina</option>
-                <option value="chile">Chile</option>
-                <option value="peru">Perú</option>
-                <option value="espana">España</option>
-                <option value="otro">Otro</option>
-              </select>
+              <button 
+                type="button" 
+                id="togglePassword" 
+                class="absolute text-gray-400 -translate-y-1/2 right-3 top-1/2 hover:text-gray-600"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
             </div>
           </div>
           
-          <div class="form-group">
-            <label for="ciudad">Ciudad <span class="required">*</span></label>
-            <input 
-              type="text" 
-              id="ciudad" 
-              name="ciudad" 
-              class="form-control" 
-              placeholder="Ingresa tu ciudad" 
-              required
-            />
-          </div>
-          
-          <div class="form-group">
-            <div class="terms-container">
-              <h3>Términos y condiciones</h3>
-              <div class="terms-content">
-                <p>Al registrarte en SearchJobs, aceptas los siguientes términos y condiciones:</p>
-                <ol>
-                  <li>SearchJobs actúa como una plataforma de conexión entre candidatos y empresas, pero no es responsable de las ofertas laborales publicadas por terceros.</li>
-                  <li>La información proporcionada en tu perfil debe ser veraz y actualizada.</li>
-                  <li>Eres responsable de mantener la confidencialidad de tu contraseña y cuenta.</li>
-                  <li>SearchJobs puede enviar notificaciones relacionadas con ofertas de empleo y actualizaciones de la plataforma.</li>
-                  <li>Tu información personal será tratada de acuerdo con nuestra Política de Privacidad.</li>
-                </ol>
-                <p>Para más información, consulta nuestros <a href="/terminos" class="terms-link">Términos y Condiciones</a> completos y nuestra <a href="/privacidad" class="terms-link">Política de Privacidad</a>.</p>
-              </div>
+          <div>
+            <label for="confirmPassword" class="block mb-1 text-sm font-medium text-gray-700">
+              Confirmar contraseña <span class="text-red-500">*</span>
+            </label>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="confirmPassword" 
+                name="confirmPassword" 
+                placeholder="Repite tu contraseña"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+                required
+              />
+              <button 
+                type="button" 
+                id="toggleConfirmPassword" 
+                class="absolute text-gray-400 -translate-y-1/2 right-3 top-1/2 hover:text-gray-600"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
             </div>
-            
-            <div class="checkbox-group">
-              <label class="checkbox-label">
-                <input type="checkbox" id="terminos" name="terminos" required />
-                <span class="checkbox-text">Acepto los términos y condiciones <span class="required">*</span></span>
-              </label>
-            </div>
-            
-            <div class="checkbox-group">
-              <label class="checkbox-label">
-                <input type="checkbox" id="privacidad" name="privacidad" required />
-                <span class="checkbox-text">Acepto la política de privacidad <span class="required">*</span></span>
-              </label>
-            </div>
-            
-            <div class="checkbox-group">
-              <label class="checkbox-label">
-                <input type="checkbox" id="comunicaciones" name="comunicaciones" />
-                <span class="checkbox-text">Deseo recibir comunicaciones sobre ofertas de empleo y novedades</span>
-              </label>
-            </div>
-          </div>
-          
-          <div class="step-buttons">
-            <a href="/registro" class="btn btn-outline">Volver</a>
-            <button type="submit" class="btn btn-primary">Completar registro</button>
           </div>
         </div>
+        
+        <div class="p-4 mb-6 rounded-md bg-gray-50">
+          <p class="mb-2 text-sm font-medium text-gray-700">La contraseña debe contener:</p>
+          <ul class="space-y-1">
+            <li class="flex items-center text-xs text-gray-600" id="req-length">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Al menos 8 caracteres
+            </li>
+            <li class="flex items-center text-xs text-gray-600" id="req-uppercase">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Al menos una letra mayúscula
+            </li>
+            <li class="flex items-center text-xs text-gray-600" id="req-lowercase">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Al menos una letra minúscula
+            </li>
+            <li class="flex items-center text-xs text-gray-600" id="req-number">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Al menos un número
+            </li>
+            <li class="flex items-center text-xs text-gray-600" id="req-match">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+              Las contraseñas deben coincidir
+            </li>
+          </ul>
+        </div>
+        
+        <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
+          
+          <div>
+            <label for="telefono" class="block mb-1 text-sm font-medium text-gray-700">
+              Teléfono <span class="text-red-500">*</span>
+            </label>
+            <input 
+              type="tel" 
+              id="telefono" 
+              name="telefono" 
+              placeholder="Tu número de teléfono"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+              required
+            />
+          </div>
+          
+          <div>
+            <label for="pais" class="block mb-1 text-sm font-medium text-gray-700">
+              País <span class="text-red-500">*</span>
+            </label>
+            <select 
+              id="pais" 
+              name="pais" 
+              class="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 bg-select-arrow" 
+              required
+            >
+              <option value="">Selecciona un país</option>
+              <option value="colombia">Colombia</option>
+              <option value="mexico">México</option>
+              <option value="argentina">Argentina</option>
+              <option value="chile">Chile</option>
+              <option value="peru">Perú</option>
+              <option value="espana">España</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <label for="ciudad" class="block mb-1 text-sm font-medium text-gray-700">
+            Ciudad <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="ciudad" 
+            name="ciudad" 
+            placeholder="Tu ciudad de residencia"
+            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+            required
+          />
+        </div>
+        
+        <div class="mb-8">
+          <label class="flex items-start">
+            <input 
+              type="checkbox" 
+              name="terminos" 
+              id="terminos" 
+              class="mt-1 mr-2" 
+              required
+            />
+            <span class="text-sm text-gray-600">
+              He leído y acepto los <a href="/terminos" class="text-blue-600 hover:underline">Términos y Condiciones</a> y la <a href="/privacidad" class="text-blue-600 hover:underline">Política de Privacidad</a> de SearchJobs
+            </span>
+          </label>
+        </div>
+        
+        <!-- Botones de acción -->
+        <div class="flex justify-between">
+          <button 
+            type="button" 
+            class="px-4 py-2 text-gray-700 transition-colors border border-gray-300 rounded-md hover:bg-gray-50"
+          >
+            Cancelar
+          </button>
+          
+          <button 
+            type="submit" 
+            class="px-4 py-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700"
+          >
+            Siguiente
+          </button>
+        </div>
       </form>
-      
-      <div class="login-container">
-        <p>
-          ¿Ya tienes una cuenta?{" "}
-          <a href="/login" class="login-link">
-            Iniciar sesión
-          </a>
-        </p>
-      </div>
     </div>
-  </div>
+    
+    <p class="mt-6 text-sm text-center text-gray-600">
+      ¿Ya tienes una cuenta? <a href="/login" class="font-medium text-blue-600 hover:underline">Iniciar sesión</a>
+    </p>
+  </main>
 
   <Footer slot="footer" />
 </Layout>
 
 <script type="text/javascript">
-  
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('registroForm');
-    const stepsContainer = [document.getElementById('step1')];
-    const progressFill = document.getElementById('progressFill');
-    const steps = document.querySelectorAll('.step');
-
+    const togglePassword = document.getElementById('togglePassword');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
     const password = document.getElementById('password');
     const confirmPassword = document.getElementById('confirmPassword');
-    const passwordToggle = document.getElementById('passwordToggle');
-    const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+    const form = document.getElementById('candidatoForm');
     
     const reqLength = document.getElementById('req-length');
     const reqUppercase = document.getElementById('req-uppercase');
     const reqLowercase = document.getElementById('req-lowercase');
     const reqNumber = document.getElementById('req-number');
     const reqMatch = document.getElementById('req-match');
-
-    const updateProgress = (step) => {
-      const width = ((step - 1) / (stepsContainer.length)) * 100;
-      if (progressFill) {
-        progressFill.style.width = `${width}%`;
+    
+    const updateIcon = (element, isValid) => {
+      const icon = element.querySelector('svg');
+      if (isValid) {
+        icon.innerHTML = `
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        `;
+        icon.classList.remove('text-gray-400');
+        icon.classList.add('text-green-500');
+      } else {
+        icon.innerHTML = `
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        `;
+        icon.classList.remove('text-green-500');
+        icon.classList.add('text-gray-400');
       }
-      
-      steps.forEach((stepEl) => {
-        const stepNum = parseInt(stepEl.dataset.step, 10);
-        if (stepNum < step) {
-          stepEl.classList.add('completed');
-          stepEl.classList.remove('active');
-        } else if (stepNum === step) {
-          stepEl.classList.add('active');
-          stepEl.classList.remove('completed');
-        } else {
-          stepEl.classList.remove('active', 'completed');
-        }
-      });
     };
-
-    const validateStep1 = () => {
-      const nombre = document.getElementById('nombre').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const passwordValue = password.value;
-      const confirmPasswordValue = confirmPassword.value;
-      const pais = document.getElementById('pais').value.trim();
-      const ciudad = document.getElementById('ciudad').value.trim();
-      const terminos = document.getElementById('terminos').checked;
-      const privacidad = document.getElementById('privacidad').checked;
-
-      if (!nombre || !email || !passwordValue || !confirmPasswordValue || !pais || !ciudad) {
-        alert('Completa todos los campos requeridos');
-        return false;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert('Ingresa un correo electrónico válido');
-        return false;
-      }
-
-      const passwordValidations = {
-        length: passwordValue.length >= 8,
-        uppercase: /[A-Z]/.test(passwordValue),
-        lowercase: /[a-z]/.test(passwordValue),
-        number: /[0-9]/.test(passwordValue),
-        match: passwordValue === confirmPasswordValue
-      };
-
-      if (Object.values(passwordValidations).includes(false)) {
-        alert('La contraseña no cumple los requisitos');
-        return false;
-      }
-
-      if (!terminos || !privacidad) {
-        alert('Debes aceptar los términos y condiciones');
-        return false;
-      }
-
-      return true;
-    };
-
-    const togglePasswordVisibility = (input, toggleButton) => {
-      toggleButton.addEventListener('click', () => {
-        const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
-        input.setAttribute('type', type);
-        toggleButton.innerHTML = type === 'text' 
-          ? '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>'
-          : '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>';
-      });
-    };
-
-    if (password && passwordToggle) togglePasswordVisibility(password, passwordToggle);
-    if (confirmPassword && confirmPasswordToggle) togglePasswordVisibility(confirmPassword, confirmPasswordToggle);
-
+    
     const validatePassword = () => {
       const passwordValue = password.value;
-      const confirmPasswordValue = confirmPassword.value;
-
-      reqLength.classList.toggle('valid', passwordValue.length >= 8);
-      reqUppercase.classList.toggle('valid', /[A-Z]/.test(passwordValue));
-      reqLowercase.classList.toggle('valid', /[a-z]/.test(passwordValue));
-      reqNumber.classList.toggle('valid', /[0-9]/.test(passwordValue));
-      reqMatch.classList.toggle('valid', passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue);
+      const confirmValue = confirmPassword.value;
+ 
+      const hasLength = passwordValue.length >= 8;
+      const hasUppercase = /[A-Z]/.test(passwordValue);
+      const hasLowercase = /[a-z]/.test(passwordValue);
+      const hasNumber = /[0-9]/.test(passwordValue);
+      const doMatch = passwordValue === confirmValue && passwordValue !== '';
+    
+      updateIcon(reqLength, hasLength);
+      updateIcon(reqUppercase, hasUppercase);
+      updateIcon(reqLowercase, hasLowercase);
+      updateIcon(reqNumber, hasNumber);
+      updateIcon(reqMatch, doMatch);
+      
+      return hasLength && hasUppercase && hasLowercase && hasNumber && doMatch;
     };
-
-    password?.addEventListener('input', validatePassword);
-    confirmPassword?.addEventListener('input', validatePassword);
-
-    form?.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (validateStep1()) {
+ 
+    if (togglePassword && password) {
+      togglePassword.addEventListener('click', () => {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        
+        if (type === 'text') {
+          togglePassword.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          `;
+        } else {
+          togglePassword.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          `;
+        }
+      });
+    }
+    
+    if (toggleConfirmPassword && confirmPassword) {
+      toggleConfirmPassword.addEventListener('click', () => {
+        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPassword.setAttribute('type', type);
+        
+        if (type === 'text') {
+          toggleConfirmPassword.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          `;
+        } else {
+          toggleConfirmPassword.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          `;
+        }
+      });
+    }
+   
+    if (password && confirmPassword) {
+      password.addEventListener('input', validatePassword);
+      confirmPassword.addEventListener('input', validatePassword);
+    }
+    
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+      
+        if (!validatePassword()) {
+          alert('Por favor, asegúrate de cumplir con todos los requisitos de la contraseña.');
+          return;
+        }
+       
         window.location.href = '/registro/exito?tipo=candidato';
-      }
-    });
+      });
+    }
   });
 </script>
