@@ -1,122 +1,94 @@
 .pagina {
-    max-width: 1000px;
-    margin: 2rem auto;
-    padding: 2rem;
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  }
-  
-  .pagina h1 {
-    color: #1d4ed8;
-    margin-bottom: 1.5rem;
-    font-weight: 700;
-    font-size: 2rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-  }
-  
-  .pagina h1::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background-color: #1d4ed8;
-  }
-  
-  .pagina p {
-    color: #4b5563;
-    margin-bottom: 2rem;
-    font-size: 1.05rem;
-    line-height: 1.5;
-  }
-  
-  .tabla-container {
-    overflow-x: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
-  
-  .tabla {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .tabla thead {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
-    color: white;
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .tabla th {
-    padding: 1rem 1.25rem;
-    text-align: left;
-    font-weight: 600;
-  }
-  
-  .tabla tbody tr {
-    transition: all 0.2s ease;
-  }
-  
-  .tabla tbody tr:nth-child(even) {
-    background-color: #f8fafc;
-  }
-  
-  .tabla tbody tr:hover {
-    background-color: #eff6ff;
-    transform: translateX(2px);
-  }
-  
-  .tabla td {
-    padding: 1rem 1.25rem;
-    color: #334155;
-    border-bottom: 1px solid #e2e8f0;
-    font-size: 0.95rem;
-  }
-  
-  .tabla td:first-child {
-    font-weight: 500;
-    color: #1e293b;
-  }
-  
-  .tabla a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #1d4ed8;
-    color: white;
-    border-radius: 4px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: all 0.2s ease;
-  }
-  
-  .tabla a:hover {
-    background-color: #1e40af;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Efecto para el último elemento de la fila */
-  .tabla td:last-child {
-    text-align: center;
-  }
-  
-  /* Responsive */
-  @media (max-width: 768px) {
-    .pagina {
-      padding: 1.5rem;
-    }
-    
-    .tabla th, .tabla td {
-      padding: 0.75rem;
-    }
-  }
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.pagina h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.pagina p {
+  margin-bottom: 1.5rem;
+  color: #555;
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabla thead {
+  background-color: #1d4ed8;
+  color: white;
+}
+
+.tabla th,
+.tabla td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.tabla a:hover {
+  text-decoration: underline;
+}
+
+/* style para botones de seguir paginacion*/
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+}
+
+.btn-pagina {
+  padding: 8px 16px;
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.btn-pagina:hover {
+  background-color: #005fa3;
+}
+
+.btn-pagina:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+#page-number {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+}
+.cv-link {
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease;
+}
+
+.cv-link:hover {
+  background-color: #f0f0f0;
+  color: #005fa3;
+}
