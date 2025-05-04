@@ -1,49 +1,46 @@
 ---
-// PerfilEmpresa.astro
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import '../../styles/pages/perfilEmpresa.css';
+import '../../styles/pages/perfilempresa.css';
 
-// Simulación de datos que normalmente vendrían del backend:
+// Datos simulados (estos serán reemplazados con los datos del backend en producción)
 const empresa = {
-  nombre: "TechNova S.A.S.",
-  email: "contacto@technova.com",
-  sectorEmpresarial: "Tecnología",
-  sitioWeb: "https://www.technova.com",
-  nit: "900123456",
-  vacantes: [
-    { titulo: "Desarrollador Backend", fecha: "2025-04-01" },
-    { titulo: "Diseñador UX", fecha: "2025-03-28" }
-  ]
+  nombre: 'Empresa XYZ',
+  descripcion: 'Empresa líder en soluciones tecnológicas.',
+  sector: 'Tecnología',
+  nit: '1234567890',
+  sitioWeb: 'http://www.empresa.xyz',
+  telefono: '+57 3001234567',
+  correo: 'contacto@empresa.xyz',
+  imagenPerfil: '/img/empresa-perfil.png'
 };
 ---
 
-<Layout title="SearchJobs | Perfil Empresa">
-  <Header />
+<Layout title="Perfil de Empresa">
+  <Header slot="header" />
 
-  <section class="perfil-empresa">
-    <h1>🏬 Perfil de Empresa</h1>
+  <main class="perfil-empresa-container">
+    <h1>📄 Perfil de Empresa</h1>
 
-    <div class="info">
-      <p><strong>Nombre:</strong> {empresa.nombre}</p>
-      <p><strong>Email:</strong> {empresa.email}</p>
-      <p><strong>Sector empresarial:</strong> {empresa.sectorEmpresarial}</p>
-      <p><strong>Sitio web:</strong> <a href={empresa.sitioWeb} target="_blank">{empresa.sitioWeb}</a></p>
-      <p><strong>NIT:</strong> {empresa.nit}</p>
+    <div class="perfil-card">
+      <div class="imagen-contenedor">
+        <img src={empresa.imagenPerfil} alt="Imagen de perfil de la empresa" />
+      </div>
+
+      <div class="datos-contenedor">
+        <p><strong>🏢 Nombre:</strong> {empresa.nombre}</p>
+        <p><strong>📝 Descripción:</strong> {empresa.descripcion}</p>
+        <p><strong>🏷️ Sector:</strong> {empresa.sector}</p>
+        <p><strong>🧾 NIT:</strong> {empresa.nit}</p>
+        <p><strong>🌐 Sitio Web:</strong> <a href={empresa.sitioWeb} target="_blank">{empresa.sitioWeb}</a></p>
+        <p><strong>📞 Teléfono:</strong> {empresa.telefono}</p>
+        <p><strong>📧 Correo:</strong> <a href={`mailto:${empresa.correo}`}>{empresa.correo}</a></p>
+      </div>
     </div>
 
-    <div class="vacantes">
-      <h2>📌 Vacantes Publicadas</h2>
-      <ul>
-        {empresa.vacantes.map(vacante => (
-          <li>
-            <strong>{vacante.titulo}</strong> – Publicada el {vacante.fecha}
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+    <a href="editarEmpresa" class="btn-editar-perfil">✏️ Editar Perfil</a>
+  </main>
 
-  <Footer />
+  <Footer slot="footer" />
 </Layout>

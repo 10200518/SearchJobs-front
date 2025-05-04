@@ -1,0 +1,72 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/editarEmpresa.css';
+---
+
+<Layout title="Editar Perfil de Empresa">
+  <Header slot="header" />
+
+  <main class="empresa-form-container">
+    <h1 class="empresa-form-title">Editar Perfil de Empresa</h1>
+    <p class="empresa-form-subtitle">Actualiza la información de tu empresa</p>
+
+    <!-- Note que ya no es realmente un <form> que haga submit -->
+    <div class="empresa-form">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre de la empresa</label>
+          <input type="text" id="nombre" name="nombre" value="Empresa XYZ" required />
+        </div>
+        <div class="form-group">
+          <label for="sector">Sector empresarial</label>
+          <input type="text" id="sector" name="sectorEmpresarial" value="Tecnología" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" required>Una empresa de tecnología innovadora.</textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nit">NIT</label>
+          <input type="text" id="nit" name="nit" value="1234567890" required />
+        </div>
+        <div class="form-group">
+          <label for="sitioWeb">Sitio Web</label>
+          <input type="url" id="sitioWeb" name="sitioWeb" value="http://www.empresa.xyz" />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" value="123456789" required />
+        </div>
+        <div class="form-group">
+          <label for="correo">Correo electrónico</label>
+          <input type="email" id="correo" name="correo" value="contacto@empresa.xyz" required />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="imagenPerfil">Imagen de perfil (URL)</label>
+        <input type="url" id="imagenPerfil" name="imagenPerfil" value="http://www.empresa.xyz/logo.png" />
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel" onclick="history.back()">Cancelar</button>
+        <!-- Ahora es button type="button" para NO enviar nada -->
+        <button type="button" class="btn btn-submit" onclick="alert('¡Cambios guardados!')">
+          Guardar Cambios
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <Footer slot="footer" />
+</Layout>
