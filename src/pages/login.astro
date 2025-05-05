@@ -147,7 +147,7 @@ import '../styles/pages/login.css';
           const rolPrincipal = data.rolPrincipal;
           // Redirección basada en roles
           if (rolPrincipal === "ROLE_ADMIN" || rolPrincipal === "ROLE_SUPER_ADMIN") {
-            window.location.href = "/dashboard/admin";
+            window.location.href = "/admin";
           } else if (rolPrincipal === "ROLE_EMPRESA") {
             window.location.href = "/dashboard/empresa";
           } else {
