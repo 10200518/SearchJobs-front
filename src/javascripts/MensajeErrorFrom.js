@@ -16,15 +16,17 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
         });
   
         const responseData = await response.json();
-  
-        if (response.ok && response.status === 201) {
+        console.log(response.status)
+        console.log(responseData.status)
+        debugger;///
+
+        if (responseData.status === 201) {
           form.reset();
           alert(responseData.mensaje || "Formulario enviado correctamente");
           if (redirectUrl) {
             window.location.href = redirectUrl;
-            alert("redireccion")
           }
-        } else if (response.status === 400 && responseData.errors) {
+        } else if (responseData.errors) {
           mostrarErrores(responseData.errors);
         } else {
           alert(responseData.message || "Error desconocido");
