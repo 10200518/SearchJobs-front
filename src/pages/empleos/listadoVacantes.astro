@@ -1,0 +1,213 @@
+---
+// src/pages/vacantes/listadevacantes.astro
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/listadovacantes.css';
+---
+
+<Layout title="Listado de Vacantes">
+  <Header slot="header" />
+  
+  <main class="vacantes-container">
+    <h1>Vacantes Disponibles</h1>
+    
+    <a href="Vacantes" class="btn-crear">Crear Nueva Vacante</a>
+    
+    <div class="vacantes-list">
+      <!-- Vacantes Simuladas -->
+      <article class="vacante-card">
+        <div class="vacante-info">
+          <p class="titulo">PUESTO: Analista de Datos</p>
+          <p class="cargo">CARGO: Especialista en BI</p>
+          <p class="ubicacion">UBICACIÓN: Medellín, Antioquia</p>
+          <p class="fecha">FECHA DE PUBLICACIÓN: 2025-04-28</p>
+          <p class="departamento">DEPARTAMENTO: Antioquia</p>
+          <p class="tipo-contrato">TIPO DE CONTRATO: Tiempo Completo</p>
+          <p class="modalidad">MODALIDAD: Híbrido</p>
+          <p class="sueldo">SUELDO: $4.200.000</p>
+          <p class="experiencia">EXPERIENCIA: 3 años con Power BI</p>
+          <p class="tipo">TIPO: Contrato a término fijo</p>
+          <p class="descripcion">Manejo de grandes volúmenes de datos y visualización.</p>
+        </div>
+        <div class="vacante-actions">
+          <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="return confirmarEliminacion(event)">
+            <input type="hidden" name="id" value="5">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      
+      <article class="vacante-card">
+        <div class="vacante-info">
+          <p class="titulo">PUESTO: Desarrollador Full Stack</p>
+          <p class="cargo">CARGO: Diseñador UI/UX</p>
+          <p class="ubicacion">UBICACIÓN: Cali, Bolívar</p>
+          <p class="fecha">FECHA DE PUBLICACIÓN: 2025-04-30</p>
+          <p class="departamento">DEPARTAMENTO: Bolívar</p>
+          <p class="tipo-contrato">TIPO DE CONTRATO: Medio Tiempo</p>
+          <p class="modalidad">MODALIDAD: Remoto</p>
+          <p class="sueldo">SUELDO: $3.000.000</p>
+          <p class="experiencia">EXPERIENCIA: 2 años en desarrollo web</p>
+          <p class="tipo">TIPO: Permanente</p>
+          <p class="descripcion">Desarrollador con experiencia en React y Express.js.</p>
+        </div>
+        <div class="vacante-actions">
+          <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="return confirmarEliminacion(event)">
+            <input type="hidden" name="id" value="4">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      <article class="vacante-card">
+        <div class="vacante-info">
+          <p class="titulo">PUESTO: Desarrollador Full Stack</p>
+          <p class="cargo">CARGO: Diseñador UI/UX</p>
+          <p class="ubicacion">UBICACIÓN: Cali, Bolívar</p>
+          <p class="fecha">FECHA DE PUBLICACIÓN: 2025-04-30</p>
+          <p class="departamento">DEPARTAMENTO: Bolívar</p>
+          <p class="tipo-contrato">TIPO DE CONTRATO: Medio Tiempo</p>
+          <p class="modalidad">MODALIDAD: Remoto</p>
+          <p class="sueldo">SUELDO: $3.000.000</p>
+          <p class="experiencia">EXPERIENCIA: 2 años en desarrollo web</p>
+          <p class="tipo">TIPO: Permanente</p>
+          <p class="descripcion">Desarrollador con experiencia en React y Express.js.</p>
+        </div>
+        <div class="vacante-actions">
+          <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="return confirmarEliminacion(event)">
+            <input type="hidden" name="id" value="4">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      <article class="vacante-card">
+        <div class="vacante-info">
+          <p class="titulo">PUESTO: Desarrollador Full Stack</p>
+          <p class="cargo">CARGO: Diseñador UI/UX</p>
+          <p class="ubicacion">UBICACIÓN: Cali, Bolívar</p>
+          <p class="fecha">FECHA DE PUBLICACIÓN: 2025-04-30</p>
+          <p class="departamento">DEPARTAMENTO: Bolívar</p>
+          <p class="tipo-contrato">TIPO DE CONTRATO: Medio Tiempo</p>
+          <p class="modalidad">MODALIDAD: Remoto</p>
+          <p class="sueldo">SUELDO: $3.000.000</p>
+          <p class="experiencia">EXPERIENCIA: 2 años en desarrollo web</p>
+          <p class="tipo">TIPO: Permanente</p>
+          <p class="descripcion">Desarrollador con experiencia en React y Express.js.</p>
+        </div>
+        <div class="vacante-actions">
+          <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="return confirmarEliminacion(event)">
+            <input type="hidden" name="id" value="4">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+      <article class="vacante-card">
+        <div class="vacante-info">
+          <p class="titulo">PUESTO: Desarrollador Full Stack</p>
+          <p class="cargo">CARGO: Diseñador UI/UX</p>
+          <p class="ubicacion">UBICACIÓN: Cali, Bolívar</p>
+          <p class="fecha">FECHA DE PUBLICACIÓN: 2025-04-30</p>
+          <p class="departamento">DEPARTAMENTO: Bolívar</p>
+          <p class="tipo-contrato">TIPO DE CONTRATO: Medio Tiempo</p>
+          <p class="modalidad">MODALIDAD: Remoto</p>
+          <p class="sueldo">SUELDO: $3.000.000</p>
+          <p class="experiencia">EXPERIENCIA: 2 años en desarrollo web</p>
+          <p class="tipo">TIPO: Permanente</p>
+          <p class="descripcion">Desarrollador con experiencia en React y Express.js.</p>
+        </div>
+        <div class="vacante-actions">
+          <a href="editarVacante" class="btn-editar">Editar</a>
+          <form method="post" onsubmit="return confirmarEliminacion(event)">
+            <input type="hidden" name="id" value="4">
+            <button type="submit" class="btn-eliminar">Eliminar</button>
+          </form>
+        </div>
+      </article>
+
+      <!-- Puedes añadir más vacantes aquí como en el ejemplo anterior -->
+      
+    </div>
+
+    <!-- Controles de paginación -->
+    <div class="pagination">
+      <button id="prev" class="btn-pagina">Anterior</button>
+      <span id="page-number">Página 1</span>
+      <button id="next" class="btn-pagina">Siguiente</button>
+    </div>
+  </main>
+  
+  <Footer slot="footer" />
+  
+  <script is:inline>
+    let currentPage = 1;
+    const itemsPerPage = 2;
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const vacantes = document.querySelectorAll('.vacante-card');
+      const totalPages = Math.ceil(vacantes.length / itemsPerPage);
+      
+      const prevButton = document.getElementById('prev');
+      const nextButton = document.getElementById('next');
+      const pageNumber = document.getElementById('page-number');
+      
+      // Función para actualizar las vacantes que se muestran
+      const updateVacantes = () => {
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        
+        vacantes.forEach((vacante, index) => {
+          if (index >= start && index < end) {
+            vacante.style.display = 'block';  // Muestra la vacante
+          } else {
+            vacante.style.display = 'none';  // Oculta la vacante
+          }
+        });
+        
+        pageNumber.textContent = `Página ${currentPage}`;
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
+      };
+      
+      // Botón anterior
+      prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          updateVacantes();
+        }
+      });
+      
+      // Botón siguiente
+      nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          updateVacantes();
+        }
+      });
+
+      // Inicializar las vacantes en la primera página
+      updateVacantes();
+    });
+    
+  </script>
+  <script is:inline>
+    // ... ya tienes tu script de paginación aquí
+  
+    // Confirmación al eliminar vacante
+    function confirmarEliminacion(event) {
+      const confirmar = confirm('¿Estás seguro de eliminar esta vacante?');
+      if (!confirmar) {
+        event.preventDefault();
+        return false;
+      }
+      // Si quieres enviar el formulario realmente, elimina esta línea:
+      event.target.submit();
+      return true;
+    }
+  </script>
+  
+
+</Layout>

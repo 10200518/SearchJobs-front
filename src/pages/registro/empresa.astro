@@ -22,11 +22,12 @@ import '../../styles/pages/empresa.css';
             <input 
               type="text" 
               id="nombreEmpresa" 
-              name="nombreEmpresa" 
+              name="nombre" 
               class="form-control" 
               placeholder="Nombre legal de la empresa" 
               required
             />
+            <p class="error-text hidden" id="error-nombre"></p>
           </div>
           
           <div class="form-row">
@@ -40,6 +41,7 @@ import '../../styles/pages/empresa.css';
                 placeholder="Número de identificación tributaria" 
                 required
               />
+              <p class="error-text hidden" id="error-nit"></p>
             </div>
             <div class="form-group">
               <label for="sectorEmpresa">Sector Empresa <span class="required">*</span></label>
@@ -58,12 +60,13 @@ import '../../styles/pages/empresa.css';
             <input 
               type="email" 
               id="emailEmpresa" 
-              name="emailEmpresa" 
+              name="correo" 
               class="form-control" 
               placeholder="ejemplo@empresa.com" 
               required
             />
             <p class="form-hint">Usarás este correo para iniciar sesión</p>
+            <p class="error-text hidden" id="error-correo"></p>
           </div>
 
           <div class="form-group">
@@ -71,11 +74,12 @@ import '../../styles/pages/empresa.css';
             <input 
               type="tel" 
               id="telefonoEmpresa" 
-              name="telefonoEmpresa" 
+              name="telefono" 
               class="form-control" 
               placeholder="+57 601 123 4567" 
               required
             />
+            <p class="error-text hidden" id="error-telefono"></p>
           </div>
 
           <div class="form-row">
@@ -129,6 +133,23 @@ import '../../styles/pages/empresa.css';
               <li id="req-number">Al menos un número</li>
               <li id="req-match">Las contraseñas deben coincidir</li>
             </ul>
+          </div>
+
+          <div class="terms-container">
+            <h3>Términos y condiciones</h3>
+            <div class="terms-content">
+              <p>Al registrarte como empresa en SearchJobs, aceptas:</p>
+              <ol>
+                <li>Publicar únicamente ofertas laborales reales</li>
+                <li>Mantener información veraz y actualizada</li>
+                <li>Cumplir con las leyes laborales de tu país</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="aceptoTerminos" required />
+            <label for="aceptoTerminos">Acepto los términos y condiciones <span class="required">*</span></label>
           </div>
           
           <div class="step-buttons">
@@ -194,152 +215,10 @@ import '../../styles/pages/empresa.css';
       </div>
     </div>
   </div>
-
   <Footer slot="footer" />
 </Layout>
 
-<script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('form'); 
-    const nextButton = document.querySelector('button[type="button"]');
-    const cancelButton = document.querySelector('button[type="button"]:first-child'); 
-    const loginLink = document.querySelector('a[href*="sesion"]'); 
-    
-    const password = document.querySelector('input[type="password"]:first-of-type');
-    const confirmPassword = document.querySelector('input[type="password"]:last-of-type');
-    const passwordRequirements = document.querySelectorAll('.password-requirement'); 
-    
-    const progressFill = document.querySelector('.progress-bar-fill');
-    
-    const validateForm = () => {
-      const companyName = document.querySelector('input[placeholder="Nombre legal de la empresa"]').value;
-      const taxId = document.querySelector('input[placeholder="Número de identificación tributaria"]').value;
-      const companyType = document.querySelector('select').value;
-      const email = document.querySelector('input[type="email"]').value;
-      const passwordValue = password.value;
-      const confirmPasswordValue = confirmPassword.value;
-      
-      if (!companyName || !taxId || companyType === "Selecciona una opción" || !email || !passwordValue || !confirmPasswordValue) {
-        alert('Por favor, completa todos los campos obligatorios.');
-        return false;
-      }
-      
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert('Por favor, ingresa un correo electrónico válido.');
-        return false;
-      }
-      
-      const lengthValid = passwordValue.length >= 6;
-      const uppercaseValid = /[A-Z]/.test(passwordValue);
-      const lowercaseValid = /[a-z]/.test(passwordValue);
-      const numberValid = /[0-9]/.test(passwordValue);
-      const matchValid = passwordValue === confirmPasswordValue;
-      
-      if (!lengthValid || !uppercaseValid || !lowercaseValid || !numberValid) {
-        alert('La contraseña no cumple con los requisitos de seguridad.');
-        return false;
-      }
-      
-      if (!matchValid) {
-        alert('Las contraseñas no coinciden.');
-        return false;
-      }
-      
-      return true;
-    };
-    
-    const updatePasswordRequirements = () => {
-      const passwordValue = password.value;
-      
-      passwordRequirements.forEach(req => {
-        const requirement = req.textContent.trim();
-        
-        if (requirement.includes('6 caracteres')) {
-          req.classList.toggle('valid', passwordValue.length >= 6);
-        } else if (requirement.includes('mayúscula')) {
-          req.classList.toggle('valid', /[A-Z]/.test(passwordValue));
-        } else if (requirement.includes('minúscula')) {
-          req.classList.toggle('valid', /[a-z]/.test(passwordValue));
-        } else if (requirement.includes('número')) {
-          req.classList.toggle('valid', /[0-9]/.test(passwordValue));
-        } else if (requirement.includes('coincidir')) {
-          req.classList.toggle('valid', passwordValue === confirmPassword.value && passwordValue !== '');
-        }
-      });
-    };
-    
-    if (nextButton) {
-      nextButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-
-          progressFill.style.width = '100%';
-          alert('Formulario válido. Avanzando al siguiente paso...');
-        
-        }
-      });
-    }
-    
-    if (cancelButton) {
-      cancelButton.addEventListener('click', () => {
-        if (confirm('¿Estás seguro de que quieres cancelar el registro?')) {
-          window.location.href = '/';
-        }
-      });
-    }
-    
-    if (loginLink) {
-      loginLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        window.location.href = '/iniciar-sesion'; 
-      });
-    }
-    
-    if (password && confirmPassword) {
-      password.addEventListener('input', updatePasswordRequirements);
-      confirmPassword.addEventListener('input', updatePasswordRequirements);
-    }
-    
-   
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const formData = new FormData(form);
-      console.log("contraseña: ",formData.get('passwordEmpresa') )
-      const data = {
-        nombre: formData.get('nombreEmpresa'),
-        sectorEmpresarial: formData.get('sectorEmpresa'),
-        correo: formData.get('emailEmpresa'),
-        contrasena: formData.get('passwordEmpresa'),
-        telefono: formData.get('telefonoEmpresa'),
-        nit: formData.get('nit'),
-      };
-
-      // Peticion HTTP
-      if (validateForm()) {
-        fetch('http://localhost:8080/api/empresas/add', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.status === 201) {
-            // form.reset();
-            alert(data.mensaje);
-          }
-        })
-        .catch(error => {
-          alert('Ocurrió un error al registrar la empresa');
-          console.error(error);
-        });
-      }
-    });
-    
-  });
-</script>
+<script type="module" src="/src/javascripts/RegistroEmpresa.js"></script>
 
 <style>
   .password-requirement.valid {

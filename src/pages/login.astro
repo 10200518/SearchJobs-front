@@ -14,14 +14,16 @@ import '../styles/pages/login.css';
                 <h1 class="title">Inicio Sesión</h1>
                 <p class="subtitle">Accede a tu cuenta para continuar</p>
             </div>
-
+            <div id="ErrorElement" class="error-box hidden" >
+              <strong>¡Error!</strong> <span id="ErrorMessage"></span>
+            </div>  
             <form class="form" id="loginForm">
                 <div class="form-group">
                     <label for="identifier" id="identifierLabel">Correo electrónico</label>
                     <input 
                         type="email"
                         id="identifier"
-                        name="identifier"
+                        name="username"
                         class="form-control"
                         placeholder="ejemplo@correo.com"
                         required
@@ -48,11 +50,11 @@ import '../styles/pages/login.css';
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
                             </svg>
-                            </button>
+                            </button>                          
                         </div>
                     </div>
 
-                    <div class=""form-options>
+                    <div class="form-options">
                         <label class="remember-label">
                             <input type="checkbox" name="remember" />
                             <span>Recordarme</span>
@@ -115,12 +117,14 @@ import '../styles/pages/login.css';
     }
 
     form?.addEventListener("submit", async (e) => {
-      e.preventDefault()
-    
+      e.preventDefault();
+
       const target = e.target as HTMLFormElement; 
       const formData = new FormData(target);
       const username = formData.get("username")?.toString() || "";
       const password = formData.get("password")?.toString() || "";
+      const divError = document.getElementById("ErrorElement")!;
+      const strongError = document.getElementById("ErrorMessage")!;
 
       try {
         const response = await fetch("http://localhost:8080/api/usuarios/login", {
@@ -132,22 +136,32 @@ import '../styles/pages/login.css';
             username: username,
             password: password,
           }),
-          credentials: "include",
+          credentials: "include"
         });
 
-        
         if (response.ok) {
-          alert("todo bien");
-          window.location.href = "/"; 
+          target.reset();
+          divError.classList.add("hidden");
+          const data = await response.json();
+          const roles = data.roles as string[];
+          const rolPrincipal = data.rolPrincipal;
+          // Redirección basada en roles
+          if (rolPrincipal === "ROLE_ADMIN" || rolPrincipal === "ROLE_SUPER_ADMIN") {
+            window.location.href = "/dashboard/admin";
+          } else if (rolPrincipal === "ROLE_EMPRESA") {
+            window.location.href = "/dashboard/empresa";
+          } else {
+            window.location.href = "/dashboard/candidato";
+          }
         } else {
-          const error = await response.text();
-          alert("Error de autenticación: " + error);
+          const errorData = await response.json();  
+          divError.classList.remove("hidden");
+          strongError.textContent = errorData.mensaje;
         }
       } catch (err) {
         console.error("Error en login:", err);
         alert("Ocurrió un error al iniciar sesión.");
       }
     });
-
   });
 </script>

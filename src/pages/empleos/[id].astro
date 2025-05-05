@@ -35,6 +35,7 @@ const job = data.vacanteSeleccionada;
 ---
 
 <Layout title={`${job.titulo} en ${job.nameEmpresa} | SearchJobs`}>
+
 <Header slot="header" />
 
 <div class="container">
@@ -78,6 +79,7 @@ const job = data.vacanteSeleccionada;
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
             </svg>
             <span>{job.experiencia}</span>
+
           </div>
           <div class="job-meta-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="job-meta-icon">
@@ -113,7 +115,6 @@ const job = data.vacanteSeleccionada;
       <button id="btn-Postulacion" class="btn btn-primary apply-button" data-id={id}>
         Postularme ahora
       </button>
-      
     </div>
   </div>
 
@@ -339,7 +340,6 @@ const job = data.vacanteSeleccionada;
       }
     });
   });
-  
 </script>
 
 
