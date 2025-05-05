@@ -3,49 +3,52 @@ import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
 import AdminSidebar from "../../components/AdminSidebar.astro";
+import UsuariosActivos from "../../components/UsuariosActivos.jsx";
+import UsuariosBaneados from "../../components/UsuariosBaneados.jsx";
+import type React from "react";
 
-const usuariosActivos = [
-  {
-    id: 1,
-    nombre: "Carlos Rodríguez",
-    email: "carlos.rodriguez@ejemplo.com",
-    tipo: "Candidato",
-    fechaRegistro: "2023-03-15",
-    ultimoAcceso: "2023-04-28",
-  },
-  {
-    id: 2,
-    nombre: "Ana Martínez",
-    email: "ana.martinez@ejemplo.com",
-    tipo: "Candidato",
-    fechaRegistro: "2023-03-18",
-    ultimoAcceso: "2023-04-27",
-  },
-  {
-    id: 3,
-    nombre: "TechCorp",
-    email: "reclutamiento@techcorp.com",
-    tipo: "Empresa",
-    fechaRegistro: "2023-02-10",
-    ultimoAcceso: "2023-04-28",
-  },
-  {
-    id: 4,
-    nombre: "Juan Pérez",
-    email: "juan.perez@ejemplo.com",
-    tipo: "Candidato",
-    fechaRegistro: "2023-04-05",
-    ultimoAcceso: "2023-04-26",
-  },
-  {
-    id: 5,
-    nombre: "CreativeStudio",
-    email: "rrhh@creativestudio.com",
-    tipo: "Empresa",
-    fechaRegistro: "2023-01-20",
-    ultimoAcceso: "2023-04-25",
-  },
-];
+// const usuariosActivos = [
+//   {
+//     id: 1,
+//     nombre: "Carlos Rodríguez",
+//     email: "carlos.rodriguez@ejemplo.com",
+//     tipo: "Candidato",
+//     fechaRegistro: "2023-03-15",
+//     ultimoAcceso: "2023-04-28",
+//   },
+//   {
+//     id: 2,
+//     nombre: "Ana Martínez",
+//     email: "ana.martinez@ejemplo.com",
+//     tipo: "Candidato",
+//     fechaRegistro: "2023-03-18",
+//     ultimoAcceso: "2023-04-27",
+//   },
+//   {
+//     id: 3,
+//     nombre: "TechCorp",
+//     email: "reclutamiento@techcorp.com",
+//     tipo: "Empresa",
+//     fechaRegistro: "2023-02-10",
+//     ultimoAcceso: "2023-04-28",
+//   },
+//   {
+//     id: 4,
+//     nombre: "Juan Pérez",
+//     email: "juan.perez@ejemplo.com",
+//     tipo: "Candidato",
+//     fechaRegistro: "2023-04-05",
+//     ultimoAcceso: "2023-04-26",
+//   },
+//   {
+//     id: 5,
+//     nombre: "CreativeStudio",
+//     email: "rrhh@creativestudio.com",
+//     tipo: "Empresa",
+//     fechaRegistro: "2023-01-20",
+//     ultimoAcceso: "2023-04-25",
+//   },
+// ];
 
 const usuariosBaneados = [
   {
@@ -107,68 +110,34 @@ const usuariosBaneados = [
             </select>
           </div>
         </div>
-        
-        <div class="mb-6">
-          <div class="border-b border-gray-200">
-            <nav class="flex -mb-px">
-              <button id="tab-activos" class="px-4 py-3 font-medium text-blue-600 border-b-2 border-blue-600 tab-button active">
-                Usuarios Activos ({usuariosActivos.length})
-              </button>
-              <button id="tab-baneados" class="px-4 py-3 font-medium text-gray-500 border-b-2 border-transparent tab-button hover:text-gray-700 hover:border-gray-300">
-                Usuarios Baneados ({usuariosBaneados.length})
-              </button>
-            </nav>
-          </div>
-        </div>
-        
-        <div id="content-activos" class="tab-content">
-          <div class="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Nombre</th>
-                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
-                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Tipo</th>
-                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Fecha Registro</th>
-                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Último Acceso</th>
-                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Acciones</th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
-                {usuariosActivos.map((usuario) => (
+      
+                 <UsuariosActivos client:only />
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm font-medium text-gray-900">{usuario.nombre}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-500">{usuario.email}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <span class={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${usuario.tipo === 'Candidato' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                        {usuario.tipo}
-                      </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-500">{usuario.fechaRegistro}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-500">{usuario.ultimoAcceso}</div>
-                    </td>
-                    <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                      <button class="mr-3 text-blue-600 hover:text-blue-900">Ver</button>
-                      <button class="text-red-600 hover:text-red-900 banear-btn" data-id={usuario.id} data-nombre={usuario.nombre}>Banear</button>
-                    </td>
+                    <html lang="es">
+                        <head>
+                          <title>Usuarios activos</title> 
+
+                 <UsuariosBaneados client:only />
+                    <tr>
+                      <html lang="es">
+                          <head>
+                            <title>Usuarios Baneados</title>
+                
+                          
+                        </head>
+                        
+                      </html>
                   </tr>
-                ))}
+                
               </tbody>
             </table>
           </div>
         </div>
         
-        <div id="content-baneados" class="hidden tab-content">
+        <!-- <div id="content-baneados" class="hidden tab-content">
           <div class="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm">
             <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
+              <thead class="bg-gray-50">                
                 <tr>
                   <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Nombre</th>
                   <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
@@ -244,7 +213,7 @@ const usuariosBaneados = [
         <button id="confirmar-desbanear" class="px-4 py-2 text-white transition-colors bg-green-600 rounded-md hover:bg-green-700">Desbanear</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <Footer slot="footer" />
 </Layout>
