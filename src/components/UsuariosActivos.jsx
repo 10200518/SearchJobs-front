@@ -109,7 +109,7 @@ function UsuariosActivos() {
                     <td className="px-6 py-4 whitespace-nowrap">{/* Fecha Registro */}</td>
                     <td className="px-6 py-4 whitespace-nowrap">{/* Último Acceso */}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button className="mr-3 text-blue-600 hover:text-blue-900">Ver</button>
+                      <button className="mr-3 text-blue-600 hover:text-blue-900" href="/perfil/empresa" >Ver</button>
                       <button className="mr-3 text-red-600 hover:text-red-900" onClick={() => banearUsuario(user.idUsuario, 'Falta grave')}>
                         Banear
                       </button>

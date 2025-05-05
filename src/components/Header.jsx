@@ -21,6 +21,24 @@ const Header = () => {
     fetchUserRole();
   }, []);
 
+  function getRoleDisplayName(role){
+    switch (role) {
+      case "SUPER_ADMIN":
+        return "Super Administrador";
+      case "ADMIN":
+        return "Administrador";
+      case "EMPRESA":
+        return "Empresa";
+      case "CANDIDATO":
+        return "Candidato";
+      case "ROLE_INVITADO":
+        return "Invitado";
+      default:
+        return role ?? "";
+    }
+  }
+  
+
   useEffect(() => {
     const menuToggle = document.getElementById('menuToggle');
     const mainNav = document.getElementById('mainNav');
@@ -65,47 +83,45 @@ const Header = () => {
         </button>
 
         <nav className="nav" id="mainNav">
-          {userRole === 'ROLE_SUPER_ADMIN' && (
+          {userRole === 'SUPER_ADMIN' && (
             <>
-              <a href="/" className="nav-link">Inicio</a>
-              <a href="/empleos" className="nav-link">Empleos</a>
-              <a href="/404" className="nav-link">Crear admins</a>
-              <a href="/dashboard/admin" className="nav-link">Dashboard</a>
-              <a href="/admin/usuarios" className="nav-link">Usuarios</a>
-              <a href="/admin/postulaciones" className="nav-link">Postulaciones</a>
+              <a href="/admin" class="nav-link">Inicio</a>
+              <a href="/admin/vacantes" class="nav-link">Empleos</a>
+              <a href="/404" class="nav-link">Crear admins </a>
+              <a href="/admin/usuarios" class="nav-link">Usuarios</a>
+              <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
             </>
           )}
-          {userRole === 'ROLE_ADMIN' && (
+          {userRole === 'ADMIN' && (
             <>
-              <a href="/" className="nav-link">Inicio</a>
-              <a href="/empleos" className="nav-link">Empleos</a>
-              <a href="/dashboard/admin" className="nav-link">Dashboard</a>
-              <a href="/admin/usuarios" className="nav-link">Usuarios</a>
-              <a href="/admin/postulaciones" className="nav-link">Postulaciones</a>
+              <a href="/admin" class="nav-link">Inicio</a>
+              <a href="/admin/vacantes" class="nav-link">Empleos</a>
+              <a href="/admin/usuarios" class="nav-link">Usuarios</a>
+              <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
             </>
           )}
-          {userRole === 'ROLE_CANDIDATO' && (
+          {userRole === 'CANDIDATO' && (
             <>
-              <a href="/" className="nav-link">Inicio</a>
-              <a href="/chat" className="nav-link">Chats</a>
-              <a href="/empleos" className="nav-link">Empleos</a>
-              <a href="/perfil/candidato" className="nav-link">Perfil</a>
+              <a href="/dashboard/candidato" class="nav-link">Inicio</a>
+              <a href="/chat" class="nav-link">Chats</a>
+              <a href="/empleos" class="nav-link">Empleos</a>
+              <a href="/perfil/candidato" class="nav-link">Perfil</a>
             </>
           )}
-          {userRole === 'ROLE_EMPRESA' && (
+          {userRole === 'EMPRESA' && (
             <>
-              <a href="/" className="nav-link">Inicio</a>
-              <a href="/empleos/editarVacante" className="nav-link">Publicar Empleo</a>
-              <a href="/empleos/listadoVacantes" className="nav-link">Mis Vacantes</a>
-              <a href="/chat" className="nav-link">Chats</a>
-              <a href="/perfil/PerfilUsuario" className="nav-link">Perfil</a>
+              <a href="/dashboard/empresa" class="nav-link">Inicio</a>
+              <a href="/empleos/Vacantes" class="nav-link">Publicar Empleo</a>
+              <a href="/empleos/listadoVacantes" class="nav-link">Mis Vacantes</a>
+              <a href="/chat" class="nav-link">Chats</a>
+              <a href="/perfil/empresa" class="nav-link">Perfil</a>
             </>
           )}
 
           {userRole && userRole !== 'ROLE_INVITADO' ? (
             <>
-              <a href="/registro" className="nav-link register-btn">{userRole}</a>
-              <a href="/logout" className="nav-link">Cerrar Sesión</a>
+              <a href="http://localhost:8080/usuarios/cerrarSesion" className="nav-link register-btn">Cerrar Sesión</a>
+              <a className="nav-link register-btn">{getRoleDisplayName(userRole)}</a>
             </>
           ) : (
             <>
@@ -113,7 +129,7 @@ const Header = () => {
               <a href="/empleos" className="nav-link">Empleos</a>
               <a href="/login" className="nav-link">Iniciar Sesión</a>
               <a href="/registro" className="nav-link register-btn">Registrarse</a>
-              <a href="/registro" className="nav-link register-btn">{userRole}</a>
+              <a className="nav-link register-btn">{getRoleDisplayName(userRole)}</a>
             </>
           )}
         </nav>

@@ -7,7 +7,7 @@ import '../../styles/pages/editarVacante.css';
 ---
 
 <Layout title="Crear Nueva Vacante">
-  <Header slot="header" />
+  <Header client:load />
   
   <div class="vacante-form-container">
     <h1 class="vacante-form-title">Modificar Vacante</h1>
@@ -44,18 +44,18 @@ import '../../styles/pages/editarVacante.css';
           <label for="contrato">Tipo de Contrato</label>
           <select id="contrato" required>
             <option value="" disabled>Seleccionar</option>
-            <option value="Tiempo completo" selected>🕐Tiempo completo</option>
-            <option value="Medio tiempo">⏳Medio tiempo</option>
-            <option value="Temporal">📆Temporal</option>
+            <option value="Tiempo completo" selected>Tiempo completo</option>
+            <option value="Medio tiempo">Medio tiempo</option>
+            <option value="Temporal">Temporal</option>
           </select>
         </div>
         <div class="form-group">
           <label for="modalidad">Modalidad</label>
           <select id="modalidad" required>
             <option value="" disabled>Seleccionar</option>
-            <option value="Presencial">🏢Presencial</option>
-            <option value="Remoto" selected>🏠Remoto</option>
-            <option value="Híbrido">🔀Híbrido</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Remoto" selected>Remoto</option>
+            <option value="Híbrido">Híbrido</option>
           </select>
         </div>
         <div class="form-group">
@@ -83,7 +83,7 @@ import '../../styles/pages/editarVacante.css';
       <!-- Descripción -->
       <div class="form-row">
         <div class="form-group full-width">
-          <label for="descripcion">📄Descripción del Puesto</label>
+          <label for="descripcion">Descripción del Puesto</label>
           <textarea id="descripcion" required>Responsable del desarrollo de interfaces web, manteniendo la estética y funcionalidad de las mismas. Se requiere experiencia en HTML, CSS y JavaScript.</textarea>
         </div>
       </div>

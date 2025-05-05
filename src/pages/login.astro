@@ -6,7 +6,7 @@ import '../styles/pages/login.css';
 ---
 
 <Layout title="Iniciar Sesión | SearchJobs">
-    <Header slot="header" />
+    <Header client:load />
 
     <div class="container">
         <div class="login-container">
@@ -145,8 +145,7 @@ import '../styles/pages/login.css';
           const data = await response.json();
           const roles = data.roles as string[];
           const rolPrincipal = data.rolPrincipal;
-          // Redirección basada en roles
-          if (rolPrincipal === "ROLE_ADMIN" || rolPrincipal === "ROLE_SUPER_ADMIN") {
+          if (rolPrincipal == "ROLE_ADMIN" || rolPrincipal == "SUPER_ADMIN") {
             window.location.href = "/admin";
           } else if (rolPrincipal === "ROLE_EMPRESA") {
             window.location.href = "/dashboard/empresa";
