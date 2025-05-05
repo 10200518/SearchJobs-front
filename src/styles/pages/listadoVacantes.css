@@ -1,14 +1,17 @@
+/* Contenedor principal */
 .vacantes-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
 }
 
+/* Estilo del título */
 .vacantes-container h1 {
   text-align: center;
   margin-bottom: 20px;
 }
 
+/* Estilo del botón para crear vacantes */
 .btn-crear {
   display: inline-block;
   margin-bottom: 20px;
@@ -24,6 +27,7 @@
   background-color: #0056b3;
 }
 
+/* Estilo de la lista de vacantes */
 .vacantes-list {
   display: flex;
   flex-direction: column;
@@ -35,6 +39,7 @@
   border-radius: 8px;
 }
 
+/* Estilo de la tarjeta de vacante */
 .vacante-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -52,6 +57,7 @@
   box-shadow: 0 6px 18px rgba(0, 123, 255, 0.15);
 }
 
+/* Estilo de la información de la vacante */
 .vacante-info {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -77,7 +83,7 @@
   border-left-color: #1d4ed8;
 }
 
-/* =====================================
+/* ===================================== 
    NUEVOS ESTILOS PARA BOTONES DE ACCIÓN
    ===================================== */
 .vacante-actions {
@@ -115,7 +121,7 @@
   background-color: #a30000;
 }
 
-/* =====================================
+/* ===================================== 
    PAGINACIÓN
    ===================================== */
 .pagination {
@@ -146,7 +152,7 @@
   margin: 0 10px;
 }
 
-/* =====================================
+/* ===================================== 
    MODAL DE CONFIRMACIÓN
    ===================================== */
 .modal {
@@ -197,7 +203,8 @@
 #confirm-no {
   background-color: #ccc;
 }
-/* esto lo que hace es el style para los botones de paginacion*/
+
+/* Estilo de los botones de paginación cuando están deshabilitados */
 .btn-pagina:disabled {
   opacity: 0.5;
   cursor: not-allowed;

@@ -1,29 +1,28 @@
 ---
-// src/pages/vacantes/crearvacante.astro
+// src/pages/vacantes/editar/[id].astro
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import '../../styles/pages/editarVacante.css';
+const { id } = Astro.params;
+
+// Llamada al backend para traer datos de la vacante
+const response = await fetch(`http://localhost:8080/api//${id}`);
+const vacante = await response.json();
 ---
 
- 
-<Layout title="Crear Nueva Vacante">
+<Layout title="Editar Vacante">
   <Header slot="header" />
   
   <div class="vacante-form-container">
-    <h1 class="vacante-form-title">Modificar Vacante</h1>
-    <p class="vacante-form-subtitle">edita los campos</p>
-    
+    <h1 class="vacante-form-title">Editar Vacante</h1>
     <form class="vacante-form">
-      <!-- Primera fila -->
       <div class="form-row">
         <div class="form-group">
-          <label for="titulo">Título del Puesto</label>
-          <input type="text" id="titulo" value="Desarrollador Frontend" required>
+          <label for="titulo">Título</label>
+          <input type="text" id="titulo" value={vacante.titulo} required />
         </div>
-      </div>
-  
-      <!-- Segunda fila -->
+        <!-- Segunda fila -->
       <div class="form-row">
         <div class="form-group">
           <label for="ubicacion">Ciudad</label>
@@ -94,7 +93,14 @@ import '../../styles/pages/editarVacante.css';
       </div>
     </form>
 </div>
-
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-submit">Guardar Cambios</button>
+      </div>
+    </form>
+  </div>
   
+
   <Footer slot="footer" />
+  
 </Layout>
