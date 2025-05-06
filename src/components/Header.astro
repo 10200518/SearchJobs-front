@@ -29,10 +29,10 @@ const userRole = data.rolPrincipal;
       <nav class="nav" id="mainNav">
         { userRole === 'ROLE_SUPER_ADMIN' && (
           <>
-            <a href="/" class="nav-link">Inicio</a>
-            <a href="/empleos" class="nav-link">Empleos</a>
+            <a href="/admin" class="nav-link">Inicio</a>
+            <a href="/admin/vacantes" class="nav-link">Empleos</a>
             <a href="/404" class="nav-link">Crear admins </a>
-            <a href="/dashboard/admin" class="nav-link">Dashboard</a>
+            {/* <a href="/dashboard/admin" class="nav-link">Dashboard</a> */}
             <a href="/admin/usuarios" class="nav-link">Usuarios</a>
             <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
           </>
@@ -40,9 +40,9 @@ const userRole = data.rolPrincipal;
 
         {userRole === 'ROLE_ADMIN' && (
           <>
-            <a href="/" class="nav-link">Inicio</a>
-            <a href="/empleos" class="nav-link">Empleos</a>
-            <a href="/dashboard/admin" class="nav-link">Dashboard</a>
+            <a href="/admin" class="nav-link">Inicio</a>
+            <a href="/admin/vacantes" class="nav-link">Empleos</a>
+            {/* <a href="/dashboard/admin" class="nav-link">Dashboard</a> */}
             <a href="/admin/usuarios" class="nav-link">Usuarios</a>
             <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
           </>
@@ -50,7 +50,7 @@ const userRole = data.rolPrincipal;
 
         {userRole === 'ROLE_CANDIDATO' && (
           <>
-            <a href="/" class="nav-link">Inicio</a>
+            <a href="/dashboard/candidato" class="nav-link">Inicio</a>
             <a href="/chat" class="nav-link">Chats</a>
             <a href="/empleos" class="nav-link">Empleos</a>
             <a href="/perfil/candidato" class="nav-link">Perfil</a>
@@ -59,11 +59,11 @@ const userRole = data.rolPrincipal;
       
         {userRole === 'ROLE_EMPRESA' && (
           <>
-            <a href="/" class="nav-link">Inicio</a>
-            <a href="/empleos/editarVacante" class="nav-link">Publicar Empleo</a>
+            <a href="/dashboard/empresa" class="nav-link">Inicio</a>
+            <a href="/empleos/Vacantes" class="nav-link">Publicar Empleo</a>
             <a href="/empleos/listadoVacantes" class="nav-link">Mis Vacantes</a>
             <a href="/chat" class="nav-link">Chats</a>
-            <a href="/perfil/PerfilUsuario" class="nav-link">Perfil</a>
+            <a href="/perfil/empresa" class="nav-link">Perfil</a>
           </>
         )}
   

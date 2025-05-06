@@ -1,6 +1,6 @@
 --- 
 import Footer from "../../components/Footer.astro";
-import Header from "../../components/Header.astro";
+import Header from "../../components/Header.jsx";
 
 import JobBoard from "../../components/JobBoard.jsx";
 import Layout from "../../layouts/Layout.astro";
@@ -8,7 +8,7 @@ import "../../styles/pages/empleos.css";
 ---
 
 <Layout title="Empleos | SearchJobs">
-  <Header slot="header" />
+  <Header client:load />
 
   <div class="container">
     <div class="page-header">

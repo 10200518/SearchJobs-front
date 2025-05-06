@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
+import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
 
 interface Vacante {
@@ -36,7 +36,7 @@ const job = data.vacanteSeleccionada;
 
 <Layout title={`${job.titulo} en ${job.nameEmpresa} | SearchJobs`}>
 
-<Header slot="header" />
+<Header client:load />
 
 <div class="container">
   <div class="back-link">

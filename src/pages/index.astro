@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
+import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.astro';
 import JobCard from '../components/JobCard.astro';
 import FeatureCard from '../components/FeatureCard.astro';
@@ -44,7 +44,7 @@ const features = [
 ---
 
 <Layout title="SearchJobs | Encuentra empleo">
-  <Header slot="header" userRole={null}/>
+  <Header client:load/>
   
   <section class="hero">
     <div class="container">
