@@ -42,7 +42,7 @@ const vacantes = data.vacantes || [];  // Accede a las vacantes dentro del mapa
               <p class="requisitos">REQUERIMINETOS: {v.requerimientos}</p>
             </div>
             <div class="vacante-actions">
-              <a href={`/editar/${v.nvacantes}`} class="btn-editar">✏️ Editar</a>
+              <a href="editarVacante"class="btn-editar">✏️ Editar</a>
               <form method="post" onsubmit="return confirmarEliminacion(event)">
                 <input type="hidden" name="id" value={v.nvacantes} />
                 <button type="submit" class="btn-eliminar">Eliminar</button>
