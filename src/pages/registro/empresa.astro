@@ -1,12 +1,12 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.astro";
-import Footer from "../../components/Footer.astro";
-import "../../styles/registro/empresa.css";
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.jsx';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/empresa.css';
 ---
 
 <Layout title="Registro de Empresa | SearchJobs">
-  <Header slot="header" />
+  <Header client:load />
   
   <main class="max-w-screen-md px-4 py-8 mx-auto">
     <h1 class="mb-2 text-2xl font-bold text-center text-transparent bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text">Registro de Empresa</h1>
@@ -37,309 +37,198 @@ import "../../styles/registro/empresa.css";
             </label>
             <input 
               type="text" 
-              id="nit" 
-              name="nit" 
-              placeholder="Número de identificación tributaria"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+              id="nombreEmpresa" 
+              name="nombre" 
+              class="form-control" 
+              placeholder="Nombre legal de la empresa" 
               required
             />
+            <p class="hidden error-text" id="error-nombre"></p>
           </div>
           
-          <!-- Tipo de empresa -->
-          <div>
-            <label for="tipoEmpresa" class="block mb-1 text-sm font-medium text-gray-700">
-              Tipo de empresa <span class="text-red-500">*</span>
-            </label>
-            <select 
-              id="tipoEmpresa" 
-              name="tipoEmpresa" 
-              class="w-full px-3 py-2 border border-gray-300 rounded-md appearance-none focus:outline-none focus:ring-1 focus:ring-blue-500 bg-select-arrow" 
-              required
-            >
-              <option value="">Selecciona una opción</option>
-              <option value="startup">Startup</option>
-              <option value="pyme">Pequeña o Mediana Empresa</option>
-              <option value="grande">Empresa Grande</option>
-              <option value="multinacional">Multinacional</option>
-              <option value="ong">ONG / Sin fines de lucro</option>
-              <option value="gobierno">Entidad Gubernamental</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-        </div>
-        
-        <!-- Correo electrónico corporativo -->
-        <div class="mb-6">
-          <label for="emailCorporativo" class="block mb-1 text-sm font-medium text-gray-700">
-            Correo electrónico corporativo <span class="text-red-500">*</span>
-          </label>
-          <input 
-            type="email" 
-            id="emailCorporativo" 
-            name="emailCorporativo" 
-            placeholder="ejemplo@empresa.com"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
-            required
-          />
-          <p class="mt-1 text-xs text-gray-500">Usarás este correo para iniciar sesión</p>
-        </div>
-        
-        <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
-          <!-- Contraseña -->
-          <div>
-            <label for="password" class="block mb-1 text-sm font-medium text-gray-700">
-              Contraseña <span class="text-red-500">*</span>
-            </label>
-            <div class="relative">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nit">NIT / Identificación fiscal <span class="required">*</span></label>
               <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                placeholder="Crea una contraseña segura"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
+                type="text" 
+                id="nit" 
+                name="nit" 
+                class="form-control" 
+                placeholder="Número de identificación tributaria" 
                 required
               />
-              <button 
-                type="button" 
-                id="togglePassword" 
-                class="absolute text-gray-400 -translate-y-1/2 right-3 top-1/2 hover:text-gray-600"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
+              <p class="hidden error-text" id="error-nit"></p>
+            </div>
+            <div class="form-group">
+              <label for="sectorEmpresa">Sector Empresa <span class="required">*</span></label>
+              <select id="sectorEmpresa" name="sectorEmpresa" class="form-control" required>
+                <option value="" disabled selected>Selecciona tu sector</option>
+                <option value="tecnologia">Tecnología</option>
+                <option value="finanzas">Finanzas</option>
+                <option value="manufactura">Manufactura</option>
+                <option value="salud">Salud</option>
+              </select>
             </div>
           </div>
           
-          <!-- Confirmar contraseña -->
-          <div>
-            <label for="confirmPassword" class="block mb-1 text-sm font-medium text-gray-700">
-              Confirmar contraseña <span class="text-red-500">*</span>
-            </label>
-            <div class="relative">
-              <input 
-                type="password" 
-                id="confirmPassword" 
-                name="confirmPassword" 
-                placeholder="Repite tu contraseña"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
-                required
-              />
-              <button 
-                type="button" 
-                id="toggleConfirmPassword" 
-                class="absolute text-gray-400 -translate-y-1/2 right-3 top-1/2 hover:text-gray-600"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Requisitos de contraseña -->
-        <div class="p-4 mb-6 rounded-md bg-gray-50">
-          <p class="mb-2 text-sm font-medium text-gray-700">La contraseña debe contener:</p>
-          <ul class="space-y-1">
-            <li class="flex items-center text-xs text-gray-600" id="req-length">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-              Al menos 8 caracteres
-            </li>
-            <li class="flex items-center text-xs text-gray-600" id="req-uppercase">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-              Al menos una letra mayúscula
-            </li>
-            <li class="flex items-center text-xs text-gray-600" id="req-lowercase">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-              Al menos una letra minúscula
-            </li>
-            <li class="flex items-center text-xs text-gray-600" id="req-number">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-              Al menos un número
-            </li>
-            <li class="flex items-center text-xs text-gray-600" id="req-match">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-gray-400">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-              Las contraseñas deben coincidir
-            </li>
-          </ul>
-        </div>
-        
-        <!-- Términos y condiciones -->
-        <div class="mb-8">
-          <label class="flex items-start">
+          <div class="form-group">
+            <label for="emailEmpresa">Correo electrónico corporativo <span class="required">*</span></label>
             <input 
-              type="checkbox" 
-              name="terminos" 
-              id="terminos" 
-              class="mt-1 mr-2" 
+              type="email" 
+              id="emailEmpresa" 
+              name="correo" 
+              class="form-control" 
+              placeholder="ejemplo@empresa.com" 
               required
             />
-            <span class="text-sm text-gray-600">
-              He leído y acepto los <a href="/terminos" class="text-blue-600 hover:underline">Términos y Condiciones</a> y la <a href="/privacidad" class="text-blue-600 hover:underline">Política de Privacidad</a> de SearchJobs
-            </span>
-          </label>
+            <p class="form-hint">Usarás este correo para iniciar sesión</p>
+            <p class="hidden error-text" id="error-correo"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="telefonoEmpresa">Teléfono corporativo <span class="required">*</span></label>
+            <input 
+              type="tel" 
+              id="telefonoEmpresa" 
+              name="telefono" 
+              class="form-control" 
+              placeholder="+57 601 123 4567" 
+              required
+            />
+            <p class="hidden error-text" id="error-telefono"></p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="passwordEmpresa">Contraseña <span class="required">*</span></label>
+              <div class="password-input">
+                <input 
+                  type="password" 
+                  id="passwordEmpresa" 
+                  name="passwordEmpresa" 
+                  class="form-control" 
+                  placeholder="Crea una contraseña segura" 
+                  required
+                />
+                <button type="button" class="password-toggle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirmPasswordEmpresa">Confirmar contraseña <span class="required">*</span></label>
+              <div class="password-input">
+                <input 
+                  type="password" 
+                  id="confirmPasswordEmpresa" 
+                  name="confirmPasswordEmpresa" 
+                  class="form-control" 
+                  placeholder="Repite tu contraseña" 
+                  required
+                />
+                <button type="button" class="password-toggle">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="password-requirements">
+            <p class="requirements-title">La contraseña debe contener:</p>
+            <ul>
+              <li id="req-length">Al menos 8 caracteres</li>
+              <li id="req-uppercase">Al menos una letra mayúscula</li>
+              <li id="req-lowercase">Al menos una letra minúscula</li>
+              <li id="req-number">Al menos un número</li>
+              <li id="req-match">Las contraseñas deben coincidir</li>
+            </ul>
+          </div>
+
+          <div class="terms-container">
+            <h3>Términos y condiciones</h3>
+            <div class="terms-content">
+              <p>Al registrarte como empresa en SearchJobs, aceptas:</p>
+              <ol>
+                <li>Publicar únicamente ofertas laborales reales</li>
+                <li>Mantener información veraz y actualizada</li>
+                <li>Cumplir con las leyes laborales de tu país</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="aceptoTerminos" required />
+            <label for="aceptoTerminos">Acepto los términos y condiciones <span class="required">*</span></label>
+          </div>
+          
+          <div class="step-buttons">
+            <button type="button" class="btn btn-outline" id="btnCancelar">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Completar registro</button>
+
+            <!-- <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button> -->
+          </div>
         </div>
         
-        <!-- Botones de acción -->
-        <div class="flex justify-between">
-          <button 
-            type="button" 
-            class="px-4 py-2 text-gray-700 transition-colors border border-gray-300 rounded-md hover:bg-gray-50"
-          >
-            Cancelar
-          </button>
+        <!-- <div class="step-content" id="step2">
+          <div class="form-row">    
+            <div class="form-group">
+              <label for="paisEmpresa">País <span class="required">*</span></label>
+              <select id="paisEmpresa" name="paisEmpresa" class="form-control" required>
+                <option value="" disabled selected>Selecciona tu país</option>
+                <option value="colombia">Colombia</option>
+                <option value="mexico">México</option>
+                <option value="argentina">Argentina</option>
+                <option value="espana">España</option>
+              </select>
+            </div>
+          </div>
           
-          <button 
-            type="submit" 
-            class="px-4 py-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700"
-          >
-            Siguiente
-          </button>
-        </div>
+          <div class="form-group">
+            <label for="ciudadEmpresa">Ciudad <span class="required">*</span></label>
+            <input 
+              type="text" 
+              id="ciudadEmpresa" 
+              name="ciudadEmpresa" 
+              class="form-control" 
+              placeholder="Ciudad donde opera la empresa" 
+              required
+            />
+          </div>
+          
+          <div class="terms-container">
+            <h3>Términos y condiciones</h3>
+            <div class="terms-content">
+              <p>Al registrarte como empresa en SearchJobs, aceptas:</p>
+              <ol>
+                <li>Publicar únicamente ofertas laborales reales</li>
+                <li>Mantener información veraz y actualizada</li>
+                <li>Cumplir con las leyes laborales de tu país</li>
+              </ol>
+            </div>
+          </div>
+          
+          <div class="checkbox-group">
+            <input type="checkbox" id="aceptoTerminos" required />
+            <label for="aceptoTerminos">Acepto los términos y condiciones <span class="required">*</span></label>
+          </div>
+          
+          <div class="step-buttons">
+            <button type="button" class="btn btn-outline" id="btnAnterior">Anterior</button>
+            <button type="submit" class="btn btn-primary">Completar registro</button>
+          </div>
+        </div> -->
       </form>
     </div>
-    
-    <p class="mt-6 text-sm text-center text-gray-600">
-      ¿Ya tienes una cuenta? <a href="/login" class="font-medium text-blue-600 hover:underline">Iniciar sesión</a>
-    </p>
-  </main>
-
+  </div>
   <Footer slot="footer" />
 </Layout>
 
-<script type="text/javascript">
-  document.addEventListener('DOMContentLoaded', () => {
-    const togglePassword = document.getElementById('togglePassword');
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const password = document.getElementById('password');
-    const confirmPassword = document.getElementById('confirmPassword');
-    const form = document.getElementById('empresaForm');
-    
-    const reqLength = document.getElementById('req-length');
-    const reqUppercase = document.getElementById('req-uppercase');
-    const reqLowercase = document.getElementById('req-lowercase');
-    const reqNumber = document.getElementById('req-number');
-    const reqMatch = document.getElementById('req-match');
-    
-    const updateIcon = (element, isValid) => {
-      const icon = element.querySelector('svg');
-      if (isValid) {
-        icon.innerHTML = `
-          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-          <polyline points="22 4 12 14.01 9 11.01"></polyline>
-        `;
-        icon.classList.remove('text-gray-400');
-        icon.classList.add('text-green-500');
-      } else {
-        icon.innerHTML = `
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        `;
-        icon.classList.remove('text-green-500');
-        icon.classList.add('text-gray-400');
-      }
-    };
-    
-    const validatePassword = () => {
-      const passwordValue = password.value;
-      const confirmValue = confirmPassword.value;
-      
-      const hasLength = passwordValue.length >= 8;
-      const hasUppercase = /[A-Z]/.test(passwordValue);
-      const hasLowercase = /[a-z]/.test(passwordValue);
-      const hasNumber = /[0-9]/.test(passwordValue);
-      const doMatch = passwordValue === confirmValue && passwordValue !== '';
-      
-      updateIcon(reqLength, hasLength);
-      updateIcon(reqUppercase, hasUppercase);
-      updateIcon(reqLowercase, hasLowercase);
-      updateIcon(reqNumber, hasNumber);
-      updateIcon(reqMatch, doMatch);
-      
-      return hasLength && hasUppercase && hasLowercase && hasNumber && doMatch;
-    };
-    
-    if (togglePassword && password) {
-      togglePassword.addEventListener('click', () => {
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        
-        if (type === 'text') {
-          togglePassword.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-              <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-          `;
-        } else {
-          togglePassword.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          `;
-        }
-      });
-    }
-    
-    if (toggleConfirmPassword && confirmPassword) {
-      toggleConfirmPassword.addEventListener('click', () => {
-        const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPassword.setAttribute('type', type);
-        
-        if (type === 'text') {
-          toggleConfirmPassword.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-              <line x1="1" y1="1" x2="23" y2="23"></line>
-            </svg>
-          `;
-        } else {
-          toggleConfirmPassword.innerHTML = `
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-              <circle cx="12" cy="12" r="3"></circle>
-            </svg>
-          `;
-        }
-      });
-    }
-    
-    if (password && confirmPassword) {
-      password.addEventListener('input', validatePassword);
-      confirmPassword.addEventListener('input', validatePassword);
-    }
-    
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-       
-        if (!validatePassword()) {
-          alert('Por favor, asegúrate de cumplir con todos los requisitos de la contraseña.');
-          return;
-        }
-        
-        window.location.href = '/registro/exito?tipo=empresa';
-      });
-    }
-  });
-</script>
+<script type="module" src="/src/javascripts/RegistroEmpresa.js"></script>
 

@@ -1,15 +1,14 @@
-
-<header class="sticky top-0 z-50 border-b shadow-md bg-white/80 backdrop-blur-xl border-white/30">
-  <div class="max-w-7xl mx-auto px-5 h-[70px] flex items-center justify-between">
+<header class="header">
+  <div class="container">
     <a href="/" class="flex items-center">
       <div class="text-2xl font-extrabold">
-        <span class="text-transparent bg-gradient-primary bg-clip-text">SearchJobs</span>
+        <span class="bg-gradient-primary bg-clip-text text-transparent">SearchJobs</span>
       </div>
     </a>
-
+  
     <button 
       id="menuToggle" 
-      class="transition-transform duration-300 bg-transparent border-none cursor-pointer md:hidden text-text hover:text-primary hover:rotate-90"
+      class="md:hidden bg-transparent border-none cursor-pointer text-text hover:text-primary transition-transform duration-300 hover:rotate-90"
       aria-label="Abrir menú"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -18,166 +17,51 @@
         <line x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
-
-    <nav id="mainNav" class="items-center hidden gap-6 transition-all ease-in-out md:flex duration-400 md:opacity-100 md:pointer-events-auto">
-  <a href="/empleos" class="text-base font-medium relative hover:text-primary transition-colors duration-300 after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-width after:duration-300 hover:after:w-full">
-    Empleos y Voluntariados
-  </a>
-  <a href="/empresas" class="text-base font-medium relative hover:text-primary transition-colors duration-300 after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-width after:duration-300 hover:after:w-full">
-    Empresas
-  </a>
-  <a href="/chat" class="text-base font-medium relative hover:text-primary transition-colors duration-300 after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-width after:duration-300 hover:after:w-full">
-    Mensajes
-  </a>
   
-  <div class="relative group">
-    <button class="flex items-center gap-2 text-base font-medium transition-colors duration-300 hover:text-primary">
-      <span>Mi Cuenta</span>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="6 9 12 15 18 9"></polyline>
-      </svg>
-    </button>
-    
-    <div class="absolute right-0 z-20 invisible w-48 mt-2 overflow-hidden transition-all duration-300 origin-top-right transform scale-95 bg-white rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-hover:visible group-hover:scale-100">
-      <div class="py-2">
-        <a href="/perfil/candidato" class="flex items-center px-4 py-2 text-sm text-text-light hover:bg-primary/5 hover:text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-          </svg>
-          Mi Perfil
-        </a>
-        <a href="/perfil/empresa" class="flex items-center px-4 py-2 text-sm text-text-light hover:bg-primary/5 hover:text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-          </svg>
-          Perfil de Empresa
-        </a>
-        <a href="/admin" class="flex items-center px-4 py-2 text-sm text-text-light hover:bg-primary/5 hover:text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-            <path d="M9 14h6"></path>
-            <path d="M9 10h6"></path>
-            <path d="M12 18h.01"></path>
-          </svg>
-          Panel de Admin
-        </a>
-        <div class="my-1 border-t border-gray-100"></div>
-        <a href="/logout" class="flex items-center px-4 py-2 text-sm text-text-light hover:bg-primary/5 hover:text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          Cerrar Sesión
-        </a>
-      </div>
-    </div>
+    <nav class="nav" id="mainNav">
+      <a href="/chat" class="nav-link">Chats</a>
+      <a href="/empleos" class="nav-link">Empleos</a>
+      <a href="/empleos" class="nav-link">Voluntariados</a>
+      <a href="/login" class="nav-link">Iniciar Sesión</a>
+      <a href="/registro" class="nav-link register-btn">Registrarse</a>
+    </nav>
   </div>
+  </header>
   
-  <a href="/login" class="text-base font-medium relative hover:text-primary transition-colors duration-300 after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-gradient-primary after:transition-width after:duration-300 hover:after:w-full">
-    Iniciar Sesión
-  </a>
-  <a href="/registro" class="bg-gradient-primary text-white py-2.5 px-4.5 rounded shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
-    Registrarse
-  </a>
-</nav>
-  </div>
-</header>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const menuToggle = document.getElementById('menuToggle');
-  const mainNav = document.getElementById('mainNav');
-
-  if (menuToggle && mainNav) {
-    menuToggle.addEventListener('click', () => {
-      const isOpen = mainNav.classList.toggle('nav-open');
+  <script>
+    // Script menú móvil
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuToggle = document.getElementById('menuToggle');
+      const mainNav = document.getElementById('mainNav');
       
-      if (isOpen) {
-        mainNav.classList.add('fixed', 'top-[70px]', 'left-0', 'right-0', 'bg-white/90', 'backdrop-blur-xl', 'flex', 'flex-col', 'p-6', 'shadow-lg', 'items-start', 'gap-4', 'border-b', 'border-white/30');
-        menuToggle.setAttribute('aria-expanded', 'true');
-        menuToggle.setAttribute('aria-label', 'Cerrar menú');
-        menuToggle.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        `;
-        
-        if (!document.getElementById('mobileProfileOptions')) {
-          const profileOptions = document.createElement('div');
-          profileOptions.id = 'mobileProfileOptions';
-          profileOptions.className = 'w-full border-t border-gray-100 pt-4 mt-2';
-          profileOptions.innerHTML = `
-            <p class="mb-2 text-sm font-medium text-text-light">Mi Cuenta</p>
-            <div class="flex flex-col gap-3">
-              <a href="/perfil/candidato" class="flex items-center text-base text-text-light hover:text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                Mi Perfil
-              </a>
-              <a href="/perfil/empresa" class="flex items-center text-base text-text-light hover:text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                </svg>
-                Perfil de Empresa
-              </a>
-              <a href="/configuracion" class="flex items-center text-base text-text-light hover:text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                  <circle cx="12" cy="12" r="3"></circle>
-                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                </svg>
-                Configuración
-              </a>
-              <a href="/admin" class="flex items-center text-base text-text-light hover:text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-                  <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
-                  <path d="M9 14h6"></path>
-                  <path d="M9 10h6"></path>
-                  <path d="M12 18h.01"></path>
-                </svg>
-                Panel de Admin
-              </a>
-              <a href="/logout" class="flex items-center text-base text-text-light hover:text-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                  <polyline points="16 17 21 12 16 7"></polyline>
-                  <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-                Cerrar Sesión
-              </a>
-            </div>
-          `;
-          mainNav.appendChild(profileOptions);
-        }
-      } else {
-        mainNav.classList.remove('fixed', 'top-[70px]', 'left-0', 'right-0', 'bg-white/90', 'backdrop-blur-xl', 'flex', 'flex-col', 'p-6', 'shadow-lg', 'items-start', 'gap-4', 'border-b', 'border-white/30');
-        menuToggle.setAttribute('aria-expanded', 'false');
-        menuToggle.setAttribute('aria-label', 'Abrir menú');
-        menuToggle.innerHTML = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        `;
-        
-        const mobileProfileOptions = document.getElementById('mobileProfileOptions');
-        if (mobileProfileOptions) {
-          mobileProfileOptions.remove();
-        }
+      if (menuToggle && mainNav) {
+        menuToggle.addEventListener('click', () => {
+          mainNav.classList.toggle('nav-open');
+          
+          const isOpen = mainNav.classList.contains('nav-open');
+          menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+          
+          if (isOpen) {
+            menuToggle.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            `;
+          } else {
+            menuToggle.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            `;
+          }
+        });
       }
     });
-  }
-});
-</script>
+  </script>
   
   <style>
     .header {

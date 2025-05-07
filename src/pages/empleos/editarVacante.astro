@@ -1,0 +1,100 @@
+---
+// src/pages/vacantes/crearvacante.astro
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.jsx';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/editarVacante.css';
+---
+
+<Layout title="Crear Nueva Vacante">
+  <Header client:load />
+  
+  <div class="vacante-form-container">
+    <h1 class="vacante-form-title">Modificar Vacante</h1>
+    <p class="vacante-form-subtitle">edita los campos</p>
+    
+    <form class="vacante-form">
+      <!-- Primera fila -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="titulo">Título del Puesto</label>
+          <input type="text" id="titulo" value="Desarrollador Frontend" required>
+        </div>
+      </div>
+  
+      <!-- Segunda fila -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="ubicacion">Ciudad</label>
+          <input type="text" id="ubicacion" value="Medellín" required>
+        </div>
+        <div class="form-group">
+          <label for="departamento">Departamento</label>
+          <input type="text" id="departamento" value="Antioquia" required>
+        </div>
+        <div class="form-group">
+          <label for="fecha">Fecha de Publicación</label>
+          <input type="date" id="fecha" value="2025-04-30" required>
+        </div>
+      </div>
+  
+      <!-- Tercera fila -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="contrato">Tipo de Contrato</label>
+          <select id="contrato" required>
+            <option value="" disabled>Seleccionar</option>
+            <option value="Tiempo completo" selected>Tiempo completo</option>
+            <option value="Medio tiempo">Medio tiempo</option>
+            <option value="Temporal">Temporal</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="modalidad">Modalidad</label>
+          <select id="modalidad" required>
+            <option value="" disabled>Seleccionar</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Remoto" selected>Remoto</option>
+            <option value="Híbrido">Híbrido</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sueldo">Sueldo</label>
+          <input type="number" id="sueldo" value="3000000" step="0.01">
+        </div>
+      </div>
+  
+      <!-- Cuarta fila -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cargo">Cargo</label>
+          <input type="text" id="cargo" value="Diseñador UI/UX" required>
+        </div>
+        <div class="form-group">
+          <label for="experiencia">Experiencia</label>
+          <input type="text" id="experiencia" value="2 años en desarrollo web">
+        </div>
+        <div class="form-group">
+          <label for="tipo">Tipo</label>
+          <input type="text" id="tipo" value="Permanente" required>
+        </div>
+      </div>
+  
+      <!-- Descripción -->
+      <div class="form-row">
+        <div class="form-group full-width">
+          <label for="descripcion">Descripción del Puesto</label>
+          <textarea id="descripcion" required>Responsable del desarrollo de interfaces web, manteniendo la estética y funcionalidad de las mismas. Se requiere experiencia en HTML, CSS y JavaScript.</textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-cancel">Cancelar</button>
+        <button type="submit" class="btn btn-submit">editar</button>
+      </div>
+    </form>
+</div>
+
+  
+  
+  <Footer slot="footer" />
+</Layout>

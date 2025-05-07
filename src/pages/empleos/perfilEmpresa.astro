@@ -1,0 +1,49 @@
+---
+// PerfilEmpresa.astro
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.jsx';
+import Footer from '../../components/Footer.astro';
+import '../../styles/pages/perfilEmpresa.css';
+
+// Simulación de datos que normalmente vendrían del backend:
+const empresa = {
+  nombre: "TechNova S.A.S.",
+  email: "contacto@technova.com",
+  sectorEmpresarial: "Tecnología",
+  sitioWeb: "https://www.technova.com",
+  nit: "900123456",
+  vacantes: [
+    { titulo: "Desarrollador Backend", fecha: "2025-04-01" },
+    { titulo: "Diseñador UX", fecha: "2025-03-28" }
+  ]
+};
+---
+
+<Layout title="SearchJobs | Perfil Empresa">
+  <Header />
+
+  <section class="perfil-empresa">
+    <h1>🏬 Perfil de Empresa</h1>
+
+    <div class="info">
+      <p><strong>Nombre:</strong> {empresa.nombre}</p>
+      <p><strong>Email:</strong> {empresa.email}</p>
+      <p><strong>Sector empresarial:</strong> {empresa.sectorEmpresarial}</p>
+      <p><strong>Sitio web:</strong> <a href={empresa.sitioWeb} target="_blank">{empresa.sitioWeb}</a></p>
+      <p><strong>NIT:</strong> {empresa.nit}</p>
+    </div>
+
+    <div class="vacantes">
+      <h2>📌 Vacantes Publicadas</h2>
+      <ul>
+        {empresa.vacantes.map(vacante => (
+          <li>
+            <strong>{vacante.titulo}</strong> – Publicada el {vacante.fecha}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

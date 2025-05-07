@@ -1,11 +1,11 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
+import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.astro';
 ---
 
 <Layout title="Página no encontrada | SearchJobs">
-  <Header slot="header" />
+  <Header client:load />
   
   <div class="container">
     <div class="error-container">

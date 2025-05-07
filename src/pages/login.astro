@@ -1,12 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
+import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.astro';
 import '../styles/pages/login.css';
 ---
 
 <Layout title="Iniciar Sesión | SearchJobs">
-    <Header slot="header" />
+    <Header client:load />
 
     <div class="container">
         <div class="login-container">
@@ -14,31 +14,16 @@ import '../styles/pages/login.css';
                 <h1 class="title">Inicio Sesión</h1>
                 <p class="subtitle">Accede a tu cuenta para continuar</p>
             </div>
-
-            <div class="user-type-selector">
-                <button
-                    type="button"
-                    class="user-type-button active"
-                    id="candidatoBtn"
-                >
-                    Candidato
-                </button>
-                <button
-                    type="button"
-                    class="user-type-button"
-                    id="empresaBtn"
-                >
-                    Empresa
-                </button>
-            </div>
-
+            <div id="ErrorElement" class="error-box hidden" >
+              <strong>¡Error!</strong> <span id="ErrorMessage"></span>
+            </div>  
             <form class="form" id="loginForm">
                 <div class="form-group">
                     <label for="identifier" id="identifierLabel">Correo electrónico</label>
                     <input 
                         type="email"
                         id="identifier"
-                        name="identifier"
+                        name="username"
                         class="form-control"
                         placeholder="ejemplo@correo.com"
                         required
@@ -47,7 +32,7 @@ import '../styles/pages/login.css';
                     <div class="form-group">
                         <label for="password">Contraseña</label>
                         <div class="password-input">
-                            <input type="text"
+                            <input 
                                 type="password"
                                 id="password"
                                 name="password"
@@ -65,11 +50,11 @@ import '../styles/pages/login.css';
                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                 <circle cx="12" cy="12" r="3"></circle>
                             </svg>
-                            </button>
+                            </button>                          
                         </div>
                     </div>
 
-                    <div class=""form-options>
+                    <div class="form-options">
                         <label class="remember-label">
                             <input type="checkbox" name="remember" />
                             <span>Recordarme</span>
@@ -101,55 +86,81 @@ import '../styles/pages/login.css';
 </Layout>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const candidatoBtn = document.getElementById('candidatoBtn');
-      const empresaBtn = document.getElementById('empresaBtn');
-      const identifierLabel = document.getElementById('identifierLabel');
-      const identifier = document.getElementById('identifier');
-      const passwordToggle = document.getElementById('passwordToggle');
-      const password = document.getElementById('password');
-      
-      if (candidatoBtn && empresaBtn && identifierLabel && identifier) {
-        candidatoBtn.addEventListener('click', () => {
-          candidatoBtn.classList.add('active');
-          empresaBtn.classList.remove('active');
-          identifierLabel.textContent = 'Correo electrónico';
-          (identifier as HTMLInputElement).type = 'email';
-          (identifier as HTMLInputElement).placeholder = 'ejemplo@correo.com';
-        });
+  document.addEventListener('DOMContentLoaded', () => {
+    const passwordToggle = document.getElementById('passwordToggle');
+    const password = document.getElementById('password');
+    const form = document.getElementById("loginForm");
+    
+    if (passwordToggle && password) {
+      passwordToggle.addEventListener('click', () => {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
         
-        empresaBtn.addEventListener('click', () => {
-          empresaBtn.classList.add('active');
-          candidatoBtn.classList.remove('active');
-          identifierLabel.textContent = 'NIT / Identificación fiscal';
-          (identifier as HTMLInputElement).type = 'text';
-          (identifier as HTMLInputElement).placeholder = 'NIT de tu empresa';
+        if (type === 'text') {
+          passwordToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          `;
+          passwordToggle.setAttribute('aria-label', 'Ocultar contraseña');
+        } else {
+          passwordToggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+          `;
+          passwordToggle.setAttribute('aria-label', 'Mostrar contraseña');
+        }
+      });
+    }
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const target = e.target as HTMLFormElement; 
+      const formData = new FormData(target);
+      const username = formData.get("username")?.toString() || "";
+      const password = formData.get("password")?.toString() || "";
+      const divError = document.getElementById("ErrorElement")!;
+      const strongError = document.getElementById("ErrorMessage")!;
+
+      try {
+        const response = await fetch("http://localhost:8080/api/usuarios/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({
+            username: username,
+            password: password,
+          }),
+          credentials: "include"
         });
-      }
-      
-      if (passwordToggle && password) {
-        passwordToggle.addEventListener('click', () => {
-          const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-          password.setAttribute('type', type);
-          
-          if (type === 'text') {
-            passwordToggle.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                <line x1="1" y1="1" x2="23" y2="23"></line>
-              </svg>
-            `;
-            passwordToggle.setAttribute('aria-label', 'Ocultar contraseña');
+
+        if (response.ok) {
+          target.reset();
+          divError.classList.add("hidden");
+          const data = await response.json();
+          const roles = data.roles as string[];
+          const rolPrincipal = data.rolPrincipal;
+          if (rolPrincipal == "ROLE_ADMIN" || rolPrincipal == "SUPER_ADMIN") {
+            window.location.href = "/admin";
+          } else if (rolPrincipal === "ROLE_EMPRESA") {
+            window.location.href = "/dashboard/empresa";
           } else {
-            passwordToggle.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            `;
-            passwordToggle.setAttribute('aria-label', 'Mostrar contraseña');
+            window.location.href = "/dashboard/candidato";
           }
-        });
+        } else {
+          const errorData = await response.json();  
+          divError.classList.remove("hidden");
+          strongError.textContent = errorData.mensaje;
+        }
+      } catch (err) {
+        console.error("Error en login:", err);
+        alert("Ocurrió un error al iniciar sesión.");
       }
     });
-  </script>
+  });
+</script>
