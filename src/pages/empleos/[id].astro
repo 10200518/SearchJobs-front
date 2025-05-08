@@ -13,20 +13,6 @@ interface Vacante {
   imagenEmpresa: string;
 }
 
-export async function getStaticPaths() {
-  const res = await fetch('http://localhost:8080/api/vacantes/listar');
-  const data = await res.json();
-  const vacantes = Array.isArray(data.vacantes) ? data.vacantes : [];
-
-  return vacantes.map((vacante: Vacante) => ({
-    params: { id: vacante.nvacantes.toString() }, // ← Aquí asegúrate que nvacantes existe
-    props: {
-      job: vacante, 
-    },
-  }));
-}
-
-
 const { id } = Astro.params;
 
 const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`);
@@ -115,6 +101,7 @@ const job = data.vacanteSeleccionada;
       <button id="btn-Postulacion" class="btn btn-primary apply-button" data-id={id}>
         Postularme ahora
       </button>
+      <a href={`/postulados/${id}`}>Ver Postulados</a>
     </div>
   </div>
 
@@ -157,10 +144,6 @@ const job = data.vacanteSeleccionada;
             <span class="sidebar-item-value">{job.fechaPublicacion}</span>
           </div>
         </div>
-
-        <a href="#apply-form" class="btn btn-primary sidebar-button">
-          Postularme
-        </a>
       </div>
 
       <div class="sidebar-card">

@@ -85,36 +85,37 @@ const Header = () => {
         <nav className="nav" id="mainNav">
           {userRole === 'SUPER_ADMIN' && (
             <>
-              <a href="/admin" class="nav-link">Inicio</a>
-              <a href="/admin/vacantes" class="nav-link">Empleos</a>
-              <a href="/404" class="nav-link">Crear admins </a>
-              <a href="/admin/usuarios" class="nav-link">Usuarios</a>
-              <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
+              <a href="/admin" className="nav-link">Inicio</a>
+              <a href="/admin/vacantes" className="nav-link">Empleos</a>
+              <a href="/404" className="nav-link">Crear admins </a>
+              <a href="/admin/usuarios" className="nav-link">Usuarios</a>
+              <a href="/admin/postulaciones" className="nav-link">Postulaciones</a>
             </>
           )}
           {userRole === 'ADMIN' && (
             <>
-              <a href="/admin" class="nav-link">Inicio</a>
-              <a href="/admin/vacantes" class="nav-link">Empleos</a>
-              <a href="/admin/usuarios" class="nav-link">Usuarios</a>
-              <a href="/admin/postulaciones" class="nav-link">Postulaciones</a>
+              <a href="/admin" className="nav-link">Inicio</a>
+              <a href="/admin/vacantes" className="nav-link">Empleos</a>
+              <a href="/admin/usuarios" className="nav-link">Usuarios</a>
+              <a href="/admin/Postulados" className="nav-link">Postulaciones</a>
             </>
           )}
           {userRole === 'CANDIDATO' && (
             <>
-              <a href="/dashboard/candidato" class="nav-link">Inicio</a>
-              <a href="/chat" class="nav-link">Chats</a>
-              <a href="/empleos" class="nav-link">Empleos</a>
-              <a href="/perfil/candidato" class="nav-link">Perfil</a>
+              <a href="/dashboard/candidato" className="nav-link">Inicio</a>
+              <a href="/chat" className="nav-link">Chats</a>
+              <a href="/empleos" className="nav-link">Empleos</a>
+              <a href="/admin/postulaciones" className="nav-link">Postulaciones</a>
+              <a href="/perfil/candidato" className="nav-link">Perfil</a>
             </>
           )}
           {userRole === 'EMPRESA' && (
             <>
-              <a href="/dashboard/empresa" class="nav-link">Inicio</a>
-              <a href="/empleos/Vacantes" class="nav-link">Publicar Empleo</a>
-              <a href="/empleos/listadoVacantes" class="nav-link">Mis Vacantes</a>
-              <a href="/chat" class="nav-link">Chats</a>
-              <a href="/perfil/empresa" class="nav-link">Perfil</a>
+              <a href="/dashboard/empresa" className="nav-link">Inicio</a>
+              <a href="/empleos/listadoVacantes" className="nav-link">Mis Vacantes</a>
+              <a href="/chat" className="nav-link">Chats</a>
+              <a href="/empleos" className="nav-link">Postulaciones</a>
+              <a href="/perfil/empresa" className="nav-link">Perfil</a>
             </>
           )}
 

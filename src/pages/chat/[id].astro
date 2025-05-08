@@ -1,7 +1,11 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.jsx';
-import Footer from '../components/Footer.astro';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.jsx';
+import Footer from '../../components/Footer.astro';
+import ChatBox from '../../components/ChatBox';
+
+const { params } = Astro;
+const chatId = params.id;
 ---
 
 <Layout title="Chat | SearchJobs">
@@ -48,7 +52,10 @@ import Footer from '../components/Footer.astro';
       </div>
     </div>
 
-    <div class="chat-main">
+    <ChatBox client:only="react" chatId={chatId} />
+
+
+    <!-- <div class="chat-main">
       <div id="emptyChatState" class="empty-chat-state">
         <div class="empty-chat-content">
           <div class="empty-chat-icon">
@@ -58,23 +65,16 @@ import Footer from '../components/Footer.astro';
           </div>
           <h3>Tus mensajes</h3>
           <p>Selecciona una conversación para ver tus mensajes o inicia una nueva</p>
-          <button class="new-chat-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-            </svg>
-            Nuevo mensaje
-          </button>
+          
         </div>
       </div>
 
       <div id="chatInterface" class="hidden chat-interface">
         <div class="chat-header" id="chatHeader">
-          <!-- El encabezado del chat se cargará dinámicamente -->
+          El encabezado del chat se cargará dinámicamente
         </div>
 
         <div class="messages-container" id="messagesContainer">
-          <!-- Los mensajes se cargarán dinámicamente -->
         </div>
 
         <div class="message-input-container">
@@ -105,12 +105,12 @@ import Footer from '../components/Footer.astro';
           <button id="sendButton" class="send-button" disabled>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon> 
             </svg>
           </button>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
 </div>
 

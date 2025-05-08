@@ -13,12 +13,12 @@ const JobBoard = () => {
     });
     const [filteredJobs, setFilteredJobs] = useState([]);
     const [allJobs, setAllJobs] = useState([]);
-    const itemsPerPage = 6;
+    const itemsPerPage = 20;
 
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
-                const res = await fetch('http://localhost:8080/api/vacantes/listar?page=0&size=1000');
+                const res = await fetch('http://localhost:8080/api/vacantes/listar?page=0&size=500');
                 const data = await res.json();
                 setAllJobs(data.vacantes || []);
                 setFilteredJobs(data.vacantes || []);
