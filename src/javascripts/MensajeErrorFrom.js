@@ -16,10 +16,6 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
         });
   
         const responseData = await response.json();
-        console.log(response.status)
-        console.log(responseData.status)
-        debugger;///
-
         if (responseData.status === 201) {
           form.reset();
           alert(responseData.mensaje || "Formulario enviado correctamente");
