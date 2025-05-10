@@ -146,11 +146,17 @@ const ChatBox = ({ chatId }) => {
       {/* Input de mensaje */}
       <div className="p-4 border-t bg-white">
         <div className="flex items-center gap-2">
-          <textarea
+          <input
             rows={1}
             className="flex-1 resize-none border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+                if (e.key === 'Tab') {
+                  e.preventDefault(); // evita cambiar el foco
+                  setInput(e.target.value);    // llama tu función para enviar mensaje
+                }
+            }}
             placeholder="Escribe tu mensaje..."
           />
           <button

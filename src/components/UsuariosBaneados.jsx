@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../styles/pages/empleos.css';
+import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 
 function UsuariosBaneados() {
