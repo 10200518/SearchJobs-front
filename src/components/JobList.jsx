@@ -4,6 +4,30 @@ import Paginacion from './Paginacion';
 
 const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
 
+  async function eliminarVacante(id) {
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta vacante?");
+    if (!confirmacion) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/vacantes/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        alert("Vacante eliminada exitosamente.");
+        location.reload();
+      } else {
+        alert("Error al eliminar la vacante.");
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error);
+      alert("Hubo un problema al intentar eliminar la vacante.");
+    }
+  }
+  
   if (jobs.length === 0) {
     return (
         <div className="flex flex-col items-center justify-center h-96 text-center p-4">
@@ -70,7 +94,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
             {rol === 'empresa' && (
               <div className="apply">
                 <a href={`/empleos/editar/${job.nvacantes}`} className="btn btn-edit">Editar</a>
-                <button href={`/empleos/eliminbuttonr/${job.nvacantes}`} className="btn btn-delete">Eliminar</button>
+                <button onClick={() => eliminarVacante(job.nvacantes)} className="btn btn-delete">Eliminar</button>
               </div>
             )}
             

@@ -27,7 +27,6 @@ const Header = () => {
   useEffect(() => {
     const fetchChats = async () => {
       if (userRole) {
-        setLoading(true);
         try {
           let url;
           // Determina el URL según el rol del usuario
@@ -35,6 +34,8 @@ const Header = () => {
             url = `http://localhost:8080/api/chats/empresa/${id}`;
           } else if (userRole === 'CANDIDATO') {
             url = `http://localhost:8080/api/chats/candidato/${id}`;
+          }else{
+            return;
           }
 
           const res = await fetch(url, {
@@ -44,9 +45,7 @@ const Header = () => {
           setChats(data.chats);  // Guarda los chats en el estado
         } catch (error) {
           console.error('Error fetching chats:', error);
-        } finally {
-          setLoading(false);
-        }
+        } 
       }
     };
 
@@ -145,8 +144,8 @@ const Header = () => {
             <>
               <a href="/dashboard/empresa" className="nav-link">Inicio</a>
               <a href="/empleos/listadoVacantes" className="nav-link">Mis Vacantes</a>
+              <a href="/empleos/Vacantes" className="nav-link">Publicar oferta</a>
               <a href={`/chat/${chats.id}`} className="nav-link">Chats</a>
-              <a href="/empleos" className="nav-link">Postulaciones</a>
               <a href="/perfil/empresa" className="nav-link">Perfil</a>
             </>
           )}

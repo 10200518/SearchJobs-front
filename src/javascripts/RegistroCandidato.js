@@ -121,7 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
             identificacion: formData.get('identificacion'),
         }),
         endpointUrl: 'http://localhost:8080/api/candidatos/add',
-        redirectUrl: '/login'
+        redirectUrl: '/login',
+        metodo:"POST"
       });
     });
 });

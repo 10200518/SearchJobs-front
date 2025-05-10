@@ -23,39 +23,3 @@ import "../../styles/pages/empleos.css";
   </div>
   <Footer slot="footer" />
 </Layout>
-
-
-
-<!--  
-<script is:inline>
-  document.addEventListener("DOMContentLoaded", () => {
-    const vacantesList = document.getElementById("vacantes-list");
-    const prevBtn = document.getElementById("prev-btn");
-    const nextBtn = document.getElementById("next-btn");
-    const pageInfo = document.getElementById("page-info");
-
-
-    async function eliminarVacante(id) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta vacante?");
-    if (!confirmacion) return;
-
-    try {
-      const response = await fetch(`http://localhost:8080/api/vacantes/delete/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        alert("Vacante eliminada exitosamente.");
-        location.reload();
-      } else {
-        alert("Error al eliminar la vacante.");
-      }
-    } catch (error) {
-      console.error("Error en la solicitud:", error);
-      alert("Hubo un problema al intentar eliminar la vacante.");
-    }
-  }
-</script> -->

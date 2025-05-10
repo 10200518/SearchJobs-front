@@ -1,8 +1,8 @@
 
-export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFilters}) {
-    
+export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFilters }) {
+
     return (
-        <div className = "search-container" >
+        <div className="search-container" >
             <div className="search-form">
                 <div className="search-input-group">
                     <svg
@@ -12,9 +12,9 @@ export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFi
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         className="search-icon"
                     >
                         <circle cx="11" cy="11" r="8"></circle>
@@ -24,12 +24,13 @@ export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFi
                     <input
                         type="text"
                         placeholder="Titulo de la vacante"
-                        name='titulo'
+                        name="titulo"
                         onChange={handleFilterChange}
                         value={filtersLocal.titulo || ""}
                         className="search-input"
                     />
                 </div>
+
                 <div className="search-input-group">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -38,14 +39,15 @@ export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFi
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         className="search-icon"
                     >
                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                         <circle cx="12" cy="10" r="3"></circle>
                     </svg>
+
                     <input
                         type="text"
                         placeholder="Ciudad"
@@ -55,12 +57,15 @@ export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFi
                         className="search-input"
                     />
                 </div>
-                <button className="btn btn-primary search-button"
-                     onClick={() => setFilters(filtersLocal)}
+
+                <button
+                    className="btn btn-primary search-button"
+                    onClick={() => setFilters(filtersLocal)}
                 >
                     Buscar
                 </button>
             </div>
+
         </div >
     );
 }

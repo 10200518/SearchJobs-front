@@ -1,5 +1,5 @@
 
-export async function manejarFormulario({ form, validateForm, buildData, endpointUrl, redirectUrl }) {
+export async function manejarFormulario({ form, validateForm, buildData, endpointUrl, redirectUrl, metodo }) {
     limpiarErrores();
   
     const formData = new FormData(form);
@@ -8,11 +8,12 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
     if (validateForm()) {
       try {
         const response = await fetch(endpointUrl, {
-          method: "POST",
+          method: metodo,
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
+          credentials: 'include' 
         });
   
         const responseData = await response.json();

@@ -111,7 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
         nit: formData.get('nit'),
       }),
       endpointUrl: 'http://localhost:8080/api/empresas/add',
-      redirectUrl: '/login'
+      redirectUrl: '/login',
+      metodo:"POST"
     });
   });
 });

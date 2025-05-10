@@ -37,7 +37,7 @@ const job = data.vacanteSeleccionada;
   <div class="job-header">
     <div class="job-header-content">
       <div class="company-logo">
-        <img src={job.imagenEmpresa || "/placeholder.svg"} alt={`${job.nameEmpresa} logo`} width="100" height="100" />
+        <img src={"http://localhost:8080"+job.imagenEmpresa || "/placeholder.svg"} alt={`${job.nameEmpresa} logo`} width="100" height="100" />
       </div>
 
       <div class="job-info">
@@ -305,23 +305,31 @@ const job = data.vacanteSeleccionada;
       const jobId = btnPostulacion.getAttribute("data-id");
 
       try {
-        const response = await fetch('http://localhost:8080/api/postulados/add', {
+        const response = await fetch(`http://localhost:8080/api/postulados/add/${jobId}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          credentials: 'include',
-          body: JSON.stringify({ nvacantes: jobId })  
+          credentials: 'include', // incluye cookies si usas JWT en cookies
         });
 
         const data = await response.json();
-        alert(data.message || "Postulación exitosa.");
-        
+
+        if (data.status === 'success') {
+          alert(data.message || "Postulación exitosa.");
+        } else if (data.status === 'info') {
+          alert(data.message || "Completa tu perfil para postularte.");
+          window.location.href = "/perfil/candidato"; // ajusta esta ruta a la real
+        } else if (data.status === 'error') {
+          alert(data.message || "No se pudo realizar la postulación.");
+        }
+
       } catch (error) {
         console.error('Error al postularse:', error);
         alert("Hubo un error al postularse.");
       }
     });
+
   });
 </script>
 
