@@ -95,14 +95,27 @@ const ChatBox = ({ chatId }) => {
     }
   };
 
-  if (!chatInfo) return <p className="text-center py-4">Cargando chat...</p>;
+  if (!chatInfo) return (
+      <div id="emptyChatState" className="empty-chat-state">
+        <div className="empty-chat-content">
+          <div className="empty-chat-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <h3>Tus mensajes</h3>
+          <p>Selecciona una conversación para ver tus mensajes o inicia una nueva</p>
+          
+        </div>
+      </div>
+    );
 
   return (
     <div className="flex flex-col w-full h-full border-l border-gray-200">
       {/* Header del chat */}
       <div className="p-4 border-b bg-white shadow-sm">
         <h2 className="text-lg font-semibold">
-          Conversación con {chatInfo.chatInfo.nombreReceptor || "Usuario"}
+          Conversación con {chatInfo.chatInfo.nombreCandidato || "Usuario"}
         </h2>
       </div>
 

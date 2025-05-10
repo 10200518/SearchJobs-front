@@ -1,5 +1,4 @@
-const Pagination = ({ totalItems, itemsPerPage, currentPage, setCurrentPage }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+const Pagination = ({ currentPage, setCurrentPage, totalPages }) => {
   const pageWindow = 5; // Máximo de botones visibles
 
   const getPageNumbers = () => {

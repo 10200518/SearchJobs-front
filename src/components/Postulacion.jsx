@@ -7,10 +7,10 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
 
-  const fetchPostulados = async (page) => {
+  const fetchPostulados = async (currentPage) => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:8080/api/postulados/lista/${vacanteId}?page=${page - 1}&size=${itemsPerPage}`, {
+      const res = await fetch(`http://localhost:8080/api/postulados/lista/${vacanteId}?page=${currentPage - 1}&size=${itemsPerPage}`, {
         credentials: 'include',
       });
 
@@ -95,29 +95,10 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
           </table>
 
             <Paginacion 
-              totalItems={totalPages}
-              itemsPerPage={itemsPerPage}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
             />
-
-          {/* <div className="pagination">
-            <button
-              className="btn-pagina"
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              Anterior
-            </button>
-            <span>Página {currentPage}</span>
-            <button
-              className="btn-pagina"
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-            >
-              Siguiente
-            </button>
-          </div> */}
         </>
       )}
     </div>
