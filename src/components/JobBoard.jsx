@@ -1,73 +1,107 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState} from 'react';
 import FilterComponent from './FilterComponent';
 import JobList from './JobList';
+import FiltroSuperior from './FiltroSuperior';
 
-const JobBoard = () => {
+const JobBoard = ({ fetchUrl, rol }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalElement, setTotalElement] = useState(0) 
+    const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({
-        tipo: '',
-        experiencia: '',
-        modalidad: '',
-        cargo: '',
-        ciudad: '',
-        sueldo: ''
+        titulo:null,
+        tipo: null,
+        experiencia: null,
+        modalidad: null,
+        cargo: null,
+        ciudad: null,
+        sueldo: null
+    });
+    const [filtersLocal, setFiltersLocal] = useState({
+        titulo:null,
+        tipo: null,
+        experiencia: null,
+        modalidad: null,
+        cargo: null,
+        ciudad: null,
+        sueldo: null
     });
     const [filteredJobs, setFilteredJobs] = useState([]);
-    const [allJobs, setAllJobs] = useState([]);
-    const itemsPerPage = 6;
+    const itemsPerPage = 20;
 
     useEffect(() => {
         const fetchAllJobs = async () => {
             try {
-                const res = await fetch('http://localhost:8080/api/vacantes/listar?page=0&size=1000');
+                const res = await fetch(`${fetchUrl}?page=${currentPage - 1}&size=${itemsPerPage}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify(filters), 
+                });
+
                 const data = await res.json();
-                setAllJobs(data.vacantes || []);
                 setFilteredJobs(data.vacantes || []);
+                setTotalElement(data.totalElements)
+                setTotalPages(data.totalPage)
+                
             } catch (error) {
                 console.error('Error cargando vacantes:', error);
             }
         };
 
         fetchAllJobs();
-    }, []);
+    }, [filters,currentPage]); 
 
-    const applyFilters = (activeFilters) => {
-        setFilters(activeFilters);
+    const handleFilterChange = (event) => {
+        const { name, value } = event.target;
+        setFiltersLocal(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
 
-        const matchesFilters = (job) => {
-            const tipoMatch =
-                !activeFilters.tipo || job.tipo?.toLowerCase() === activeFilters.tipo.toLowerCase();
-            const experienciaMatch =
-                !activeFilters.experiencia || job.experiencia?.toLowerCase() === activeFilters.experiencia.toLowerCase();
-            const modalidadMatch =
-                !activeFilters.modalidad || job.modalidad?.toLowerCase() === activeFilters.modalidad.toLowerCase();
-            const cargoMatch =
-                !activeFilters.cargo || job.cargo?.toLowerCase().includes(activeFilters.cargo.toLowerCase());
-            const ciudadMatch =
-                !activeFilters.ciudad || job.ciudad?.toLowerCase().includes(activeFilters.ciudad.toLowerCase());
-            const sueldoMatch =
-                !activeFilters.sueldo || job.sueldo >= parseFloat(activeFilters.sueldo);
-            
-            return tipoMatch && experienciaMatch && modalidadMatch && cargoMatch && ciudadMatch && sueldoMatch;
-
-        };
-
-        const result = allJobs.filter(matchesFilters);
-        setFilteredJobs(result);
+    const clearAllFilters = () => {
+        setFiltersLocal({
+            titulo:null,
+            tipo: null,
+            experiencia: null,
+            modalidad: null,
+            cargo: null,
+            ciudad: null,
+            sueldo: null
+        });
     };
 
     return (
-        <>
-            <FilterComponent onFilter={applyFilters} />
-            <div className="jobs-container">
-                <div className="jobs-header">
-                    <h2 className="jobs-title">Empleos disponibles</h2>
-                    <div className="jobs-count">{filteredJobs.length} empleos encontrados</div>
-                </div>
-                <JobList
-                    totalItems={filteredJobs.length}
-                    itemsPerPage={itemsPerPage}
-                    jobs={filteredJobs}
+        <>  
+            <div className="page-header">
+                <FiltroSuperior 
+                    filtersLocal={filtersLocal} 
+                    handleFilterChange={handleFilterChange}
+                    setFilters={setFilters}
                 />
+            </div>
+            <div className="content-container">
+                <FilterComponent  
+                    filtersLocal={filtersLocal} 
+                    clearAllFilters={clearAllFilters}
+                    handleFilterChange={handleFilterChange}
+                    setFilters={setFilters} 
+                />    
+                <div className="jobs-container">
+                    <div className="jobs-header">
+                        <h2 className="jobs-title">Empleos disponibles</h2>
+                        <div className="jobs-count">{totalElement} empleos encontrados</div>
+                    </div>
+                    <JobList
+                        jobs={filteredJobs}
+                        rol={rol}
+                        currentPage={currentPage}
+                        setCurrentPage={setCurrentPage}
+                        totalPages={totalPages}
+                    />
+                </div>
             </div>
         </>
     );

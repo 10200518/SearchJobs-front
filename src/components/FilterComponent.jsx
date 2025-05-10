@@ -1,23 +1,5 @@
-import { useState } from 'react';
-
-export default function FilterComponent({ onFilter}) {
-  const [filters, setFilters] = useState({
-    tipo: '',
-    experiencia: '',
-    modalidad: '',
-    cargo: '',
-    ciudad: '',
-    sueldo: ''
-  });
-
-  const handleFilterChange = (event) => {
-    const { name, value } = event.target;
-    setFilters(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
+export default function FilterComponent({ filtersLocal, clearAllFilters, handleFilterChange, setFilters }) {
+  
   return (
     <div className="filters-container">
       <div className="filter-group">
@@ -29,6 +11,7 @@ export default function FilterComponent({ onFilter}) {
               name="tipo"
               value="Vacante"
               onChange={handleFilterChange}
+              checked={filtersLocal.tipo === "Vacante"}
             />
             <span>Vacantes</span>
           </label>
@@ -38,6 +21,7 @@ export default function FilterComponent({ onFilter}) {
               name="tipo"
               value="Practica"
               onChange={handleFilterChange}
+              checked={filtersLocal.tipo === "Practica"}
             />
             <span>Practicas</span>
           </label>
@@ -45,23 +29,25 @@ export default function FilterComponent({ onFilter}) {
       </div>
 
       <div className="filter-group">
-        <h4 className="filter-group-title">Experiencia</h4>
-          <input
-            type="number"
-            name="experiencia"
-            onChange={handleFilterChange}
-            className="search-input"
-          />
+        <h4 className="filter-group-title">Experiencia Minima</h4>
+        <input
+          type="number"
+          name="experiencia"
+          onChange={handleFilterChange}
+          value={filtersLocal.experiencia || ""}
+          className="search-input"
+        />
       </div>
 
       <div className="filter-group">
-        <h4 className="filter-group-title">Sueldo</h4>
-          <input
-            type="number"
-            name="sueldo"
-            onChange={handleFilterChange}
-            className="search-input"
-          />
+        <h4 className="filter-group-title">Sueldo Minimo</h4>
+        <input
+          type="number"
+          name="sueldo"
+          onChange={handleFilterChange}
+          value={filtersLocal.sueldo || ""}
+          className="search-input"
+        />
       </div>
 
       <div className="filter-group">
@@ -71,8 +57,9 @@ export default function FilterComponent({ onFilter}) {
             <input
               type="radio"
               name="modalidad"
-              value="Remota"
+              value="Remoto"
               onChange={handleFilterChange}
+              checked={filtersLocal.modalidad === "Remoto"}
             />
             <span>Remoto</span>
           </label>
@@ -82,6 +69,7 @@ export default function FilterComponent({ onFilter}) {
               name="modalidad"
               value="Presencial"
               onChange={handleFilterChange}
+              checked={filtersLocal.modalidad === "Presencial"}
             />
             <span>Presencial</span>
           </label>
@@ -89,8 +77,9 @@ export default function FilterComponent({ onFilter}) {
             <input
               type="radio"
               name="modalidad"
-              value="Hibrida"
+              value="Hibrido"
               onChange={handleFilterChange}
+              checked={filtersLocal.modalidad === "Hibrido"}
             />
             <span>Híbrido</span>
           </label>
@@ -99,31 +88,35 @@ export default function FilterComponent({ onFilter}) {
       
       <div className="filter-group">
         <h4 className="filter-group-title">Cargo</h4>
-          <input
-            type="text"
-            name="cargo"
-            onChange={handleFilterChange}
-            className="search-input"
-          />
+        <input
+          type="text"
+          name="cargo"
+          onChange={handleFilterChange}
+          value={filtersLocal.cargo || ""}
+          className="search-input"
+        />
       </div>
 
-      <div className="filter-group">
-        <h4 className="filter-group-title">Cargo</h4>
-          <input
-            type="text"
-            name="ciudad"
-            onChange={handleFilterChange}
-            className="search-input"
-          />
-      </div>
-
-      <button 
-        className="btn btn-primary filter-search-button"
-        onClick={() => onFilter(filters)}
-      >
-        Buscar por filtros
-      </button>
+      {/* Botón para eliminar todos los filtros */}
+        <button
+          className="btn btn-primary filter-search-button"
+          onClick={() => {
+            clearAllFilters(); // resetea filtros locales
+            setFilters({
+              titulo: null,
+              tipo: null,
+              experiencia: null,
+              modalidad: null,
+              cargo: null,
+              ciudad: null,
+              sueldo: null
+            }); // fuerza los filtros globales a reiniciarse
+          }}
+        >
+          Eliminar filtros
+        </button>
     </div>
+    
   );
-};
+}
 

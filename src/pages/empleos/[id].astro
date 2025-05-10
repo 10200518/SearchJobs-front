@@ -13,20 +13,6 @@ interface Vacante {
   imagenEmpresa: string;
 }
 
-export async function getStaticPaths() {
-  const res = await fetch('http://localhost:8080/api/vacantes/listar');
-  const data = await res.json();
-  const vacantes = Array.isArray(data.vacantes) ? data.vacantes : [];
-
-  return vacantes.map((vacante: Vacante) => ({
-    params: { id: vacante.nvacantes.toString() }, // ← Aquí asegúrate que nvacantes existe
-    props: {
-      job: vacante, 
-    },
-  }));
-}
-
-
 const { id } = Astro.params;
 
 const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`);
@@ -55,7 +41,7 @@ const job = data.vacanteSeleccionada;
       <div class="p-8 mb-8 border rounded-lg shadow-lg bg-white/80 backdrop-blur-xl border-white/20">
         <div class="flex flex-col gap-6 pb-8 mb-8 border-b border-gray-100 md:flex-row md:items-center">
           <div class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
-            <img src={job.logo || "/placeholder.svg"} alt={`${job.empresa} logo`} class="object-cover w-full h-full" />
+            <img src={"http://localhost:8080"+job.imagenEmpresa  || "/placeholder.svg"} alt={`${job.nameEmpresa} logo`} class="object-cover w-full h-full" />
           </div>
           <div class="flex-grow">
             <h1 class="mb-2 text-2xl font-bold">{job.titulo}</h1>
@@ -79,7 +65,7 @@ const job = data.vacanteSeleccionada;
                   <circle cx="12" cy="12" r="10"></circle>
                   <polyline points="12 6 12 12 16 14"></polyline>
                 </svg>
-                Publicado: {formatDate(job.fechaPublicacion)}
+                Publicado: {(job.fechaPublicacion)}
               </span>
             </div>
             <div class="flex flex-wrap gap-2">
@@ -258,14 +244,15 @@ const job = data.vacanteSeleccionada;
             </svg>
             <div>
               <p class="text-sm text-text-light">Fecha de publicación</p>
-              <p class="font-medium">{formatDate(job.fechaPublicacion)}</p>
+              <p class="font-medium">{job.fechaPublicacion}</p>
             </div>
           </div>
         </div>
         
-        <button id="applyButton" class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
+        <button id="applyButton"  data-id={id} class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5">
           Postularme ahora
         </button>
+        <a href={`/postulados/${id}`}>Ver Postulados</a>
       </div>
     </div>
   </div>
@@ -278,12 +265,34 @@ const job = data.vacanteSeleccionada;
   document.addEventListener('DOMContentLoaded', () => {
     const applyButton = document.getElementById('applyButton');
     
-    if (applyButton) {
-      applyButton.addEventListener('click', () => {
-        // En un caso real, esto enviaría los datos del perfil a la empresa
-        alert('¡Tu postulación ha sido enviada con éxito! La empresa revisará tu perfil y se pondrá en contacto contigo.');
-      });
-    }
+    applyButton?.addEventListener("click", async () => {
+      const jobId = applyButton.getAttribute("data-id");
+
+      try {
+        const response = await fetch(`http://localhost:8080/api/postulados/add/${jobId}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include', // incluye cookies si usas JWT en cookies
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+          alert(data.message || "Postulación exitosa.");
+        } else if (data.status === 'info') {
+          alert(data.message || "Completa tu perfil para postularte.");
+          window.location.href = "/perfil/candidato"; // ajusta esta ruta a la real
+        } else if (data.status === 'error') {
+          alert(data.message || "No se pudo realizar la postulación.");
+        }
+
+      } catch (error) {
+        console.error('Error al postularse:', error);
+        alert("Hubo un error al postularse.");
+      }
+    });
   });
 </script>
 
