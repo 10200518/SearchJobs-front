@@ -1,11 +1,14 @@
+import node from '@astrojs/node';
+import react from '@astrojs/react';
 import { defineConfig } from 'astro/config';
 
-import react from '@astrojs/react';
-
 export default defineConfig({
-  site: 'https://searchjobs.com',
+  output: 'server',
+  site: 'https://searchjobs.com/',
   integrations: [react()],
+  adapter: node({ mode: 'standalone' }),
+  experimental: {
+    session: true, 
+  },
 });
-
-
 

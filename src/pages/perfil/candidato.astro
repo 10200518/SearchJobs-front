@@ -1,7 +1,9 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.jsx";
+import PerfilCliente from "../../components/PerfilCliente.jsx";
+import SobreMi from "../../components/SobreMi.jsx";
+import Layout from "../../layouts/Layout.astro";
 import "../../styles/pages/candidato.css";
 
 const candidato = {
@@ -51,91 +53,55 @@ const candidato = {
     github: "github.com/carlosrodriguez",
     portfolio: "carlosrodriguez.dev",
   },
-}
+};
 ---
 
-<Layout title={`${candidato.nombre} | SearchJobs`}>
+<Layout>
   <Header client:load />
-  
-  <div class="container px-4 py-8 mx-auto">
-    <div class="flex flex-col gap-8 md:flex-row">
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Columna izquierda -->
       <div class="w-full md:w-1/3 lg:w-1/4">
-        <div class="p-6 mb-6 text-center bg-white border border-gray-100 rounded-lg shadow-sm">
-          <div class="relative w-32 h-32 mx-auto mb-4">
-            <img 
-              src={candidato.foto || "/placeholder.svg"} 
-              alt={candidato.nombre} 
-              class="object-cover w-full h-full border-4 border-white rounded-full shadow-sm"
-            />
-            <div class="absolute w-4 h-4 bg-green-500 border-2 border-white rounded-full bottom-1 right-1"></div>
-          </div>
-          
-          <h1 class="mb-1 text-xl font-bold">{candidato.nombre}</h1>
-          <p class="mb-2 font-medium text-blue-600">{candidato.titulo}</p>
-          
-          <!-- Ubicación -->
-          <div class="flex items-center justify-center mb-3 text-sm text-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            {candidato.ubicacion}
-          </div>
-          
-          <!-- Disponibilidad -->
-          <div class="inline-block px-3 py-1 mb-4 text-xs font-medium text-green-800 bg-green-100 rounded-full">
-            {candidato.disponibilidad}
-          </div>
-          
-          <!-- Botones de contacto -->
-          <div class="flex justify-center gap-4 mb-4">
-            <a href={`mailto:${candidato.contacto.email}`} class="text-gray-600 hover:text-blue-600" aria-label="Email">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-            </a>
-            <a href={`https://${candidato.contacto.linkedin}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="LinkedIn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect x="2" y="9" width="4" height="12"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-              </svg>
-            </a>
-            <a href={`https://${candidato.contacto.github}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="GitHub">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-              </svg>
-            </a>
-            <a href={`https://${candidato.contacto.portfolio}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="Portfolio">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-              </svg>
-            </a>
-          </div>
-          
-          <!-- Botones de acción -->
-          <div class="flex flex-col gap-2">
-            <a href="#" class="w-full px-4 py-2 font-medium text-center text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700">
-              Contactar
-            </a>
-            <button class="w-full px-4 py-2 font-medium text-blue-600 transition-colors border border-blue-600 rounded-md hover:bg-blue-50">
-              Descargar CV
-            </button>
-          </div>
+        <PerfilCliente client:load />
+
+        <!-- Disponibilidad
+        <div class="inline-block px-3 py-1 mb-4 text-xs font-medium text-green-800 bg-green-100 rounded-full">
+          {candidato.disponibilidad}
+        </div> -->
+
+        <!-- Botones de contacto -->
+        <div class="flex justify-center gap-4 mb-4">
+          <a href={`mailto:${candidato.contacto.email}`} class="text-gray-600 hover:text-blue-600" aria-label="Email">
+            <!-- SVG Email -->
+          </a>
+          <a href={`https://${candidato.contacto.linkedin}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="LinkedIn">
+            <!-- SVG LinkedIn -->
+          </a>
+          <a href={`https://${candidato.contacto.github}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="GitHub">
+            <!-- SVG GitHub -->
+          </a>
+          <a href={`https://${candidato.contacto.portfolio}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="Portfolio">
+            <!-- SVG Portfolio -->
+          </a>
         </div>
-        
+
+        <!-- Botones de acción -->
+        <div class="flex flex-col gap-2">
+          <a href="#" class="w-full px-4 py-2 font-medium text-center text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700">
+            Contactar
+          </a>
+          <button class="w-full px-4 py-2 font-medium text-blue-600 transition-colors border border-blue-600 rounded-md hover:bg-blue-50">
+            Descargar CV
+          </button>
+        </div>
+
         <!-- Habilidades -->
         <div class="p-6 mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
           <h2 class="flex items-center mb-4 text-lg font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-600">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-            </svg>
+            <!-- SVG Habilidades -->
             Habilidades
           </h2>
-          
           <div class="flex flex-wrap gap-2">
             {candidato.habilidades.map((habilidad) => (
               <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-md">
@@ -144,18 +110,13 @@ const candidato = {
             ))}
           </div>
         </div>
-        
+
         <!-- Idiomas -->
         <div class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
           <h2 class="flex items-center mb-4 text-lg font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-600">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="2" y1="12" x2="22" y2="12"></line>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-            </svg>
+            <!-- SVG Idiomas -->
             Idiomas
           </h2>
-          
           <div class="space-y-3">
             {candidato.idiomas.map((idioma) => (
               <div>
@@ -168,46 +129,42 @@ const candidato = {
           </div>
         </div>
       </div>
-      
-      <!-- Columna derecha - Contenido principal -->
       <div class="w-full md:w-2/3 lg:w-3/4">
-        <!-- Sobre mí -->
+        Sobre mí 
+       <div class="relative p-6 mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
+         <button 
+           id="editProfileBtn"
+           class="absolute p-2 text-white transition-all duration-300 bg-blue-600 rounded-full shadow-sm top-4 right-4 hover:bg-blue-700 hover:scale-110"
+           aria-label="Editar perfil"
+         >
+         <SobreMi client:load />
+
+       Columna derecha
+      <div class="w-full md:w-2/3 lg:w-3/4">
+         Sobre mí 
         <div class="relative p-6 mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-          <!-- Botón de editar perfil -->
           <button 
             id="editProfileBtn"
             class="absolute p-2 text-white transition-all duration-300 bg-blue-600 rounded-full shadow-sm top-4 right-4 hover:bg-blue-700 hover:scale-110"
             aria-label="Editar perfil"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-            </svg>
+             SVG Editar 
           </button>
-          
           <h2 class="flex items-center mb-4 text-xl font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-600">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-              <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+            SVG Perfil 
             Sobre mí
           </h2>
-          
           <p class="text-gray-600">
             {candidato.resumen}
           </p>
-        </div>
-        
-        <!-- Educación -->
+        </div> -->
+
+       
         <div class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
           <h2 class="flex items-center mb-6 text-xl font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2 text-blue-600">
-              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-            </svg>
+             SVG Educación 
             Educación
           </h2>
-          
           <div class="space-y-8">
             {candidato.educacion.map((edu) => (
               <div class="flex">
@@ -229,23 +186,10 @@ const candidato = {
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <Footer slot="footer" />
 </Layout>
-
-<script>
-  // Script para el botón de editar perfil
-  document.addEventListener('DOMContentLoaded', () => {
-    const editBtn = document.getElementById('editProfileBtn');
-    if (editBtn) {
-      editBtn.addEventListener('click', () => {
-        alert('Aquí se abriría el formulario para editar el perfil');
-        // En una implementación real, aquí se abriría un modal o se redireccionaría a una página de edición
-      });
-    }
-  });
-</script>
 
 
   
