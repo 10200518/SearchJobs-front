@@ -136,7 +136,7 @@ const Header = () => {
               <a href="/dashboard/candidato" className="nav-link">Inicio</a>
               <a href={`/chat/${chats.id}`} className="nav-link">Chats</a>
               <a href="/empleos" className="nav-link">Empleos</a>
-              <a href="/admin/postulaciones" className="nav-link">Postulaciones</a>
+              <a href="/postulados" className="nav-link">Postulaciones</a>
               <a href="/perfil/candidato" className="nav-link">Perfil</a>
             </>
           )}

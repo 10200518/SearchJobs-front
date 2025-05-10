@@ -64,6 +64,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                 <th>Currículum Vitae</th>
                 <th>Perfil</th>
                 <th>Chat</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -79,14 +80,26 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                     </a>
                   </td>
                   <td>
-                    <a href={`/perfil/${postulado.candidato.id}`}>Ver perfil {postulado.candidato.id}</a>
+                    <a href={`/perfil/${postulado.candidato.id}`}>Ver perfil</a>
                   </td>
                   <td>
                     <button
                       className="abrir-chat-btn"
                       onClick={() => abrirChat(postulado.candidato.id, postulado.vacante.id)}
                     >
-                      Abrir chat {postulado.vacante.id}
+                      Abrir chat
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="abrir-chat-btn"
+                    >
+                      Rechazar
+                    </button>
+                    <button
+                      className="abrir-chat-btn"
+                    >
+                      Aceptar
                     </button>
                   </td>
                 </tr>

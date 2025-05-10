@@ -32,10 +32,12 @@ const ChatList = () => {
           // Determina el URL según el rol del usuario
           if (userRole === 'EMPRESA') {
             url = `http://localhost:8080/api/chats/empresa/${id}`;
-          } else if (userRole === 'candidato') {
+          } else if (userRole === 'CANDIDATO') {
             url = `http://localhost:8080/api/chats/candidato/${id}`;
+          }else{
+            console.log(userRole)
+            return;
           }
-
           const res = await fetch(url, {
             credentials: 'include',
           });
@@ -55,7 +57,10 @@ const ChatList = () => {
   if (loading) {
     return <div>Cargando...</div>;
   }
-  console.log(chats)
+
+  if (chats.length === 0) {
+    return <div className="sin-chats">Aún no tienes conversaciones.</div>;
+  }
   return (
     <ul className="contacts-list">
       {chats.map(chat => (
