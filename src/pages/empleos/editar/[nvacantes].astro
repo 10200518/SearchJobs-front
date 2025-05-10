@@ -5,15 +5,13 @@ import Footer from '../../../components/Footer.astro';
 import '../../../styles/pages/editarVacante.css';
 
 const { nvacantes } = Astro.params;
-
 const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${nvacantes}`);
 const data = await res.json();
 const vacante = data.vacanteSeleccionada;
-console.log(vacante)
 ---
 
 <Layout title="Editar Vacante">
-  <Header slot="header" />
+  <Header client:load />
   
   <div class="vacante-form-container">
     <h1 class="vacante-form-title">Modificar Vacante</h1>

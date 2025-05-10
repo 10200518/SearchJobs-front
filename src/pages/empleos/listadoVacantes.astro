@@ -5,10 +5,11 @@ import JobBoard from "../../components/JobBoard";
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/pages/empleos.css";
 ---
+
 <Layout title="Empleos | SearchJobs">
   <Header client:load />
 
-    <div class="container">
+  <div class="container">
     <div class="page-header">
       <h1 class="page-title">Encuentra tu próximo empleo</h1>
       <p class="page-description">
@@ -16,132 +17,16 @@ import "../../styles/pages/empleos.css";
       </p>
     </div>
 
-    <div class="search-container">
-      <form class="search-form">
-        <div class="search-input-group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="search-icon"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          
-          <input
-            type="text"
-            placeholder="Cargo, habilidad o palabra clave"
-            class="search-input"  
-          />
-        </div>
-        <div class="search-input-group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="search-icon"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <input
-            type="text"
-            placeholder="Ciudad o 'Remoto'"
-            class="search-input"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary search-button">
-          Buscar
-        </button>
-      </form>
-    </div>
-
-    <div class="content-container">
-      <JobBoard client:load fetchUrl="http://localhost:8080/api/vacantes/listar" rol="empresa"/>
-    </div>
+   
+    <JobBoard client:load fetchUrl="http://localhost:8080/api/vacantes/listar" rol="empresa"/>
+    
   </div>
   <Footer slot="footer" />
 </Layout>
 
 
 
-
-<!-- ---
-// Importar componentes y estilos
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.jsx';
-import Footer from '../../components/Footer.astro';
-import '../../styles/pages/listadoVacantes.css';
-// Obtener vacantes del backend
-const response = await fetch("http://localhost:8080/api/vacantes/listar", {
-  method: "GET",
-  credentials: "include",
-  headers: {
-    "Content-Type": "application/json",
-  },
-});
-
-const data = await response.json();
-const vacantes = data.vacantes || [];
----
-<Layout title="Listado de Vacantes">
-  <Header slot="header" />
-
-  <main class="vacantes-container">
-    <h1>Vacantes Disponibles</h1>
-    <a href="/Vacantes" class="btn-crear">Crear Nueva Vacante</a>
-
-    <div id="vacantes-list" class="vacantes-list">
-      {vacantes.length > 0 ? (
-        vacantes.map((v, i) => (
-          <article class="vacante-card" data-index={i}>
-            <div class="vacante-info">
-              <p class="titulo">TÍTULO: {v.titulo}</p>
-              <p class="cargo">CARGO: {v.cargo}</p>
-              <p class="ubicacion">Ciudad: {v.ciudad}</p>
-              <p class="fecha">Fecha de Publicación: {v.fechaPublicacion}</p>
-              <p class="departamento">Departamento: {v.departamento}</p>
-              <p class="modalidad">Modalidad: {v.modalidad}</p>
-              <p class="sueldo">Sueldo: ${v.sueldo}</p>
-              <p class="experiencia">Experiencia: {v.experiencia}</p>
-              <p class="tipo">Tipo: {v.tipo}</p>
-              <p class="descripcion">Descripción: {v.descripcion}</p>
-              <p class="requisitos">Requerimientos: {v.requerimientos}</p>
-            </div>
-            <div class="vacante-actions">
-              <a href={`/empleos/editar/${v.nvacantes}`} class="btn-editar">✎ Editar</a>
-              <button class="btn-eliminar" type="button" onclick={`eliminarVacante(${v.nvacantes})`}>Eliminar</button>
-            </div>
-          </article>
-        ))
-      ) : (
-        <p>No hay vacantes disponibles</p>
-      )}
-    </div>
-
-    <div id="pagination-controls" class="pagination">
-      <button id="prev-btn" class="btn-pagina" disabled>Anterior</button>
-      <span id="page-info">Página 1</span>
-      <button id="next-btn" class="btn-pagina">Siguiente</button>
-    </div>
-  </main>
-
-  <Footer slot="footer" />
-</Layout>
-
+<!--  
 <script is:inline>
   document.addEventListener("DOMContentLoaded", () => {
     const vacantesList = document.getElementById("vacantes-list");
@@ -149,82 +34,8 @@ const vacantes = data.vacantes || [];
     const nextBtn = document.getElementById("next-btn");
     const pageInfo = document.getElementById("page-info");
 
-    // let currentPage = 0;
-    // const size = 10;
 
-    // async function cargarVacantes(page) {
-    //   try {
-    //     const response = await fetch(`http://localhost:8080/api/vacantes/listar/filtradas?page=${page}&size=${size}`, {
-    //       method: "POST",
-    //       credentials: "include",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({}),
-    //     });
-
-    //     const data = await response.json();
-    //     const vacantes = data.vacantes || [];
-    //     const totalPages = data.totalPages || 1;
-
-    //     // Limpiar contenido anterior
-    //     vacantesList.innerHTML = "";
-
-    //     if (vacantes.length === 0) {
-    //       vacantesList.innerHTML = "<p>No hay vacantes disponibles</p>";
-    //     } else {
-    //       vacantes.forEach((v, i) => {
-    //         const vacanteHTML = `
-    //           <article class="vacante-card" data-index="${i}">
-    //             <div class="vacante-info">
-    //               <p class="titulo">TÍTULO: ${v.titulo}</p>
-    //               <p class="cargo">CARGO: ${v.cargo}</p>
-    //               <p class="ubicacion">Ciudad: ${v.ciudad}</p>
-    //               <p class="fecha">Fecha de Publicación: ${v.fechaPublicacion}</p>
-    //               <p class="departamento">Departamento: ${v.departamento}</p>
-    //               <p class="modalidad">Modalidad: ${v.modalidad}</p>
-    //               <p class="sueldo">Sueldo: $${v.sueldo}</p>
-    //               <p class="experiencia">Experiencia: ${v.experiencia}</p>
-    //               <p class="tipo">Tipo: ${v.tipo}</p>
-    //               <p class="descripcion">Descripción: ${v.descripcion}</p>
-    //               <p class="requisitos">Requerimientos: ${v.requerimientos}</p>
-    //             </div>
-    //             <div class="vacante-actions">
-    //               <a href="/editar/${v.nvacantes}" class="btn-editar">✎ Editar</a>
-    //               <button class="btn-eliminar" type="button" onclick="eliminarVacante(${v.nvacantes})">Eliminar</button>
-    //             </div>
-    //           </article>
-    //         `;
-    //         vacantesList.insertAdjacentHTML("beforeend", vacanteHTML);
-    //       });
-    //     }
-
-    //     // Actualizar paginación
-    //     currentPage = page;
-    //     pageInfo.textContent = `Página ${currentPage + 1} de ${totalPages}`;
-    //     prevBtn.disabled = currentPage === 0;
-    //     nextBtn.disabled = currentPage + 1 >= totalPages;
-    //   } catch (error) {
-    //     console.error("Error al cargar vacantes:", error);
-    //     vacantesList.innerHTML = "<p>Error al cargar vacantes</p>";
-    //   }
-    // }
-
-    prevBtn.addEventListener("click", () => {
-      if (currentPage > 0) {
-        cargarVacantes(currentPage - 1);
-      }
-    });
-
-    nextBtn.addEventListener("click", () => {
-      cargarVacantes(currentPage + 1);
-    });
-
-    // Cargar la primera página al inicio
-    cargarVacantes(currentPage);
-  });
-
-  async function eliminarVacante(id) {
+    async function eliminarVacante(id) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta vacante?");
     if (!confirmacion) return;
 

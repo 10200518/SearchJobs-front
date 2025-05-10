@@ -21,8 +21,8 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
     <div>
       <div className="jobs-grid">
         {jobs.map((job) => (
-          <div className="card">
-            <a href={`/empleos/${job.nvacantes}`}  key={job.nvacantes}>
+          <div className="card" key={job.nvacantes}>
+            <a href={`/empleos/${job.nvacantes}`} >
               <div className="header">
                 <div className="logo">
                   <img

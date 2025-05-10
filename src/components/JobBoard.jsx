@@ -1,11 +1,22 @@
 import { useEffect, useState} from 'react';
 import FilterComponent from './FilterComponent';
 import JobList from './JobList';
+import FiltroSuperior from './FiltroSuperior';
 
 const JobBoard = ({ fetchUrl, rol }) => {
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalElement, setTotalElement] = useState(0) 
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({
+        titulo:null,
+        tipo: null,
+        experiencia: null,
+        modalidad: null,
+        cargo: null,
+        ciudad: null,
+        sueldo: null
+    });
+    const [filtersLocal, setFiltersLocal] = useState({
         titulo:null,
         tipo: null,
         experiencia: null,
@@ -31,24 +42,57 @@ const JobBoard = ({ fetchUrl, rol }) => {
 
                 const data = await res.json();
                 setFilteredJobs(data.vacantes || []);
+                setTotalElement(data.totalElements)
                 setTotalPages(data.totalPage)
                 
             } catch (error) {
                 console.error('Error cargando vacantes:', error);
             }
         };
-        fetchAllJobs();
-    }, [filters,currentPage]); // vuelve a llamar si los filtros cambian
 
+        fetchAllJobs();
+    }, [filters,currentPage]); 
+
+    const handleFilterChange = (event) => {
+        const { name, value } = event.target;
+        setFiltersLocal(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const clearAllFilters = () => {
+        setFiltersLocal({
+            titulo:null,
+            tipo: null,
+            experiencia: null,
+            modalidad: null,
+            cargo: null,
+            ciudad: null,
+            sueldo: null
+        });
+    };
 
     return (
         <>  
-            <FilterComponent  setFilters={setFilters}/>    
-            <div class="content-container">
+            <div className="page-header">
+                <FiltroSuperior 
+                    filtersLocal={filtersLocal} 
+                    handleFilterChange={handleFilterChange}
+                    setFilters={setFilters}
+                />
+            </div>
+            <div className="content-container">
+                <FilterComponent  
+                    filtersLocal={filtersLocal} 
+                    clearAllFilters={clearAllFilters}
+                    handleFilterChange={handleFilterChange}
+                    setFilters={setFilters} 
+                />    
                 <div className="jobs-container">
                     <div className="jobs-header">
                         <h2 className="jobs-title">Empleos disponibles</h2>
-                        <div className="jobs-count">{filteredJobs.length} empleos encontrados</div>
+                        <div className="jobs-count">{totalElement} empleos encontrados</div>
                     </div>
                     <JobList
                         jobs={filteredJobs}
