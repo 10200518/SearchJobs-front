@@ -11,11 +11,13 @@
   "dependencies": {
     "@astrojs/node": "^9.2.1",
     "@astrojs/react": "^4.2.7",
+    "@stomp/stompjs": "^7.1.1",
     "astro": "^5.5.6",
     "micromark-util-resolve-all": "^2.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "searchjobs": "file:",
+    "sockjs-client": "^1.6.1",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {

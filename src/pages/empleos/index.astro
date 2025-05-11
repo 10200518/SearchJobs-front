@@ -1,10 +1,9 @@
 --- 
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.jsx";
-
 import JobBoard from "../../components/JobBoard.jsx";
 import Layout from "../../layouts/Layout.astro";
-import "../../styles/pages/empleos.css";
+import "../../styles/empleos/empleos.css";
 ---
 
 <Layout title="Empleos | SearchJobs">
@@ -18,62 +17,13 @@ import "../../styles/pages/empleos.css";
       </p>
     </div>
 
-    <div class="search-container">
-      <form class="search-form">
-        <div class="search-input-group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="search-icon"
-          >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          
-          <input
-            type="text"
-            placeholder="Cargo, habilidad o palabra clave"
-            class="search-input"  
-          />
-        </div>
-        <div class="search-input-group">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="search-icon"
-          >
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <input
-            type="text"
-            placeholder="Ciudad o 'Remoto'"
-            class="search-input"
-          />
-        </div>
-        <button type="submit" class="btn btn-primary search-button">
-          Buscar
-        </button>
-      </form>
-    </div>
-
-    <div class="content-container">
-      <JobBoard client:load />
-    </div>
+   
+    <JobBoard  
+      client:load
+      fetchUrl="http://localhost:8080/api/vacantes/listar/filtradas"
+      rol="candidato"
+    />
+    
   </div>
   <Footer slot="footer" />
 </Layout>

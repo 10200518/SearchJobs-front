@@ -4,182 +4,171 @@ import Header from "../../components/Header.jsx";
 import PerfilCliente from "../../components/PerfilCliente.jsx";
 import SobreMi from "../../components/SobreMi.jsx";
 import Layout from "../../layouts/Layout.astro";
-import "../../styles/pages/candidato.css";
+import "../../styles/perfiles/candidato.css";
 
 const candidato = {
-  nombre: "Carlos Rodríguez",
-  titulo: "Desarrollador Frontend Senior",
-  ubicacion: "Bogotá, Colombia",
-  disponibilidad: "Disponible inmediatamente",
-  foto: "/placeholder.svg?height=150&width=150&text=CR",
-  resumen:
-    "Desarrollador Frontend con más de 5 años de experiencia creando interfaces de usuario atractivas y funcionales. Especializado en React, TypeScript y arquitecturas modernas de frontend. Apasionado por la accesibilidad web y la experiencia de usuario.",
-  educacion: [
+  nombre: "Carlos",
+  apellido: "Rodríguez",
+  identificacion: "1.234.567.890",
+  cargo: "Desarrollador Frontend Senior",
+  correo: "carlos.rodriguez@ejemplo.com",
+  telefono: "+57 300 123 4567",
+  imagen: "/placeholder.svg?height=150&width=150&text=CR",
+  descripcion: "Desarrollador Frontend con más de 5 años de experiencia creando interfaces de usuario atractivas y funcionales. Especializado en React, TypeScript y arquitecturas modernas de frontend. Apasionado por la accesibilidad web y la experiencia de usuario.",
+  estudios: [
     {
       titulo: "Ingeniería de Sistemas",
       institucion: "Universidad Nacional de Colombia",
       periodo: "2012 - 2016",
+      descripcion: "Especialización en desarrollo de software"
     },
     {
       titulo: "Bootcamp de Desarrollo Web",
       institucion: "Coding Academy",
       periodo: "2016",
+      descripcion: "Formación intensiva en tecnologías web modernas"
+    }
+  ],
+  experiencia: [
+    {
+      cargo: "Desarrollador Frontend Senior",
+      empresa: "TechCorp",
+      periodo: "2020 - Presente",
+      descripcion: "Desarrollo de aplicaciones web con React y TypeScript. Implementación de arquitecturas modernas y optimización de rendimiento."
     },
-  ],
-  habilidades: [
-    "JavaScript",
-    "TypeScript",
-    "React",
-    "Vue.js",
-    "HTML5",
-    "CSS3",
-    "SASS",
-    "Git",
-    "Jest",
-    "Webpack",
-    "Responsive Design",
-    "UI/UX",
-    "Accesibilidad Web",
-  ],
-  idiomas: [
-    { idioma: "Español", nivel: "Nativo" },
-    { idioma: "Inglés", nivel: "Avanzado (C1)" },
-    { idioma: "Portugués", nivel: "Intermedio (B1)" },
-  ],
-  contacto: {
-    email: "carlos.rodriguez@ejemplo.com",
-    telefono: "+57 300 123 4567",
-    linkedin: "linkedin.com/in/carlosrodriguez",
-    github: "github.com/carlosrodriguez",
-    portfolio: "carlosrodriguez.dev",
-  },
-};
+    {
+      cargo: "Desarrollador Frontend",
+      empresa: "WebSolutions",
+      periodo: "2017 - 2020",
+      descripcion: "Desarrollo de interfaces de usuario con Vue.js y JavaScript. Colaboración en proyectos de e-commerce y aplicaciones SaaS."
+    },
+    {
+      cargo: "Desarrollador Web Junior",
+      empresa: "StartupDigital",
+      periodo: "2016 - 2017",
+      descripcion: "Desarrollo de sitios web responsivos con HTML, CSS y JavaScript."
+    }
+  ]
+}
 ---
-
+<!-- <PerfilCliente client:load /> -->
 <Layout>
   <Header client:load />
-
-  <div class="container mx-auto px-4 py-8">
-    <div class="flex flex-col md:flex-row gap-6">
-      <!-- Columna izquierda -->
-      <div class="w-full md:w-1/3 lg:w-1/4">
-        <PerfilCliente client:load />
-
-        <!-- Disponibilidad
-        <div class="inline-block px-3 py-1 mb-4 text-xs font-medium text-green-800 bg-green-100 rounded-full">
-          {candidato.disponibilidad}
-        </div> -->
-
-        <!-- Botones de contacto -->
-        <div class="flex justify-center gap-4 mb-4">
-          <a href={`mailto:${candidato.contacto.email}`} class="text-gray-600 hover:text-blue-600" aria-label="Email">
-            <!-- SVG Email -->
-          </a>
-          <a href={`https://${candidato.contacto.linkedin}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="LinkedIn">
-            <!-- SVG LinkedIn -->
-          </a>
-          <a href={`https://${candidato.contacto.github}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="GitHub">
-            <!-- SVG GitHub -->
-          </a>
-          <a href={`https://${candidato.contacto.portfolio}`} target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-600" aria-label="Portfolio">
-            <!-- SVG Portfolio -->
-          </a>
+  
+  <div class="candidato-perfil-container">
+    <div class="candidato-perfil">
+      <!-- Cabecera del perfil -->
+      <div class="candidato-perfil-header">
+        <!-- Imagen de perfil -->
+        <div class="candidato-imagen-container">
+          <img 
+            src={candidato.imagen || "/placeholder.svg"} 
+            alt={`${candidato.nombre} ${candidato.apellido}`} 
+            class="candidato-imagen"
+          />
         </div>
-
+        
+        <!-- Información del encabezado -->
+        <div class="candidato-header-info">
+          <h1 class="candidato-nombre">{candidato.nombre} {candidato.apellido}</h1>
+          <p class="candidato-cargo">{candidato.cargo}</p>
+        </div>
+        
         <!-- Botones de acción -->
-        <div class="flex flex-col gap-2">
-          <a href="#" class="w-full px-4 py-2 font-medium text-center text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700">
-            Contactar
-          </a>
-          <button class="w-full px-4 py-2 font-medium text-blue-600 transition-colors border border-blue-600 rounded-md hover:bg-blue-50">
-            Descargar CV
+        <div class="candidato-header-actions">
+          <button id="editProfileBtn" class="candidato-edit-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Editar perfil
           </button>
+          
+          <a href="#" class="candidato-cv-button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Descargar CV
+          </a>
         </div>
-
-        <!-- Habilidades -->
-        <div class="p-6 mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-          <h2 class="flex items-center mb-4 text-lg font-semibold">
-            <!-- SVG Habilidades -->
-            Habilidades
-          </h2>
-          <div class="flex flex-wrap gap-2">
-            {candidato.habilidades.map((habilidad) => (
-              <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-1 rounded-md">
-                {habilidad}
-              </span>
-            ))}
+      </div>
+      
+      <!-- Contenido del perfil -->
+      <div class="candidato-perfil-content">
+        <!-- Información de contacto -->
+        <div class="candidato-info-grid">
+          <div class="candidato-info-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <div class="candidato-info-content">
+              <span class="candidato-info-label">Identificación</span>
+              <span class="candidato-info-value">{candidato.identificacion}</span>
+            </div>
+          </div>
+          
+          <div class="candidato-info-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <div class="candidato-info-content">
+              <span class="candidato-info-label">Correo</span>
+              <span class="candidato-info-value">{candidato.correo}</span>
+            </div>
+          </div>
+          
+          <div class="candidato-info-item">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <div class="candidato-info-content">
+              <span class="candidato-info-label">Teléfono</span>
+              <span class="candidato-info-value">{candidato.telefono}</span>
+            </div>
           </div>
         </div>
-
-        <!-- Idiomas -->
-        <div class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-          <h2 class="flex items-center mb-4 text-lg font-semibold">
-            <!-- SVG Idiomas -->
-            Idiomas
-          </h2>
-          <div class="space-y-3">
-            {candidato.idiomas.map((idioma) => (
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="text-sm font-medium">{idioma.idioma}</span>
-                  <span class="text-xs text-gray-500">{idioma.nivel}</span>
-                </div>
+        
+        <!-- Sección de descripción -->
+        <div class="candidato-section">
+          <h2 class="candidato-section-title">Descripción</h2>
+          <p class="candidato-descripcion">
+            {candidato.descripcion}
+          </p>
+        </div>
+        
+        <!-- Sección de estudios -->
+        <div class="candidato-section">
+          <h2 class="candidato-section-title">Estudios</h2>
+          <div class="candidato-timeline">
+            {candidato.estudios.map((estudio) => (
+              <div class="candidato-timeline-item">
+                <div class="candidato-timeline-dot"></div>
+                <h3 class="candidato-timeline-title">{estudio.titulo}</h3>
+                <p class="candidato-timeline-subtitle">{estudio.institucion}</p>
+                <p class="candidato-timeline-period">{estudio.periodo}</p>
+                <p class="candidato-timeline-description">{estudio.descripcion}</p>
               </div>
             ))}
           </div>
         </div>
-      </div>
-      <div class="w-full md:w-2/3 lg:w-3/4">
-        Sobre mí 
-       <div class="relative p-6 mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-         <button 
-           id="editProfileBtn"
-           class="absolute p-2 text-white transition-all duration-300 bg-blue-600 rounded-full shadow-sm top-4 right-4 hover:bg-blue-700 hover:scale-110"
-           aria-label="Editar perfil"
-         >
-         <SobreMi client:load />
-
-       Columna derecha
-      <div class="w-full md:w-2/3 lg:w-3/4">
-         Sobre mí 
-        <div class="relative p-6 mb-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-          <button 
-            id="editProfileBtn"
-            class="absolute p-2 text-white transition-all duration-300 bg-blue-600 rounded-full shadow-sm top-4 right-4 hover:bg-blue-700 hover:scale-110"
-            aria-label="Editar perfil"
-          >
-             SVG Editar 
-          </button>
-          <h2 class="flex items-center mb-4 text-xl font-semibold">
-            SVG Perfil 
-            Sobre mí
-          </h2>
-          <p class="text-gray-600">
-            {candidato.resumen}
-          </p>
-        </div> -->
-
-       
-        <div class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-          <h2 class="flex items-center mb-6 text-xl font-semibold">
-             SVG Educación 
-            Educación
-          </h2>
-          <div class="space-y-8">
-            {candidato.educacion.map((edu) => (
-              <div class="flex">
-                <div class="mt-1 mr-4">
-                  <div class="w-1 h-full bg-gray-200"></div>
-                  <div class="w-3 h-3 bg-blue-600 rounded-full"></div>
-                </div>
-                <div>
-                  <h3 class="text-lg font-medium">{edu.titulo}</h3>
-                  <div class="flex items-center text-sm text-gray-500">
-                    <span>{edu.institucion}</span>
-                    <span class="mx-2">•</span>
-                    <span>{edu.periodo}</span>
-                  </div>
-                </div>
+        
+        <!-- Sección de historial laboral -->
+        <div class="candidato-section">
+          <h2 class="candidato-section-title">Historial Laboral</h2>
+          <div class="candidato-timeline">
+            {candidato.experiencia.map((exp) => (
+              <div class="candidato-timeline-item">
+                <div class="candidato-timeline-dot"></div>
+                <h3 class="candidato-timeline-title">{exp.cargo}</h3>
+                <p class="candidato-timeline-subtitle">{exp.empresa}</p>
+                <p class="candidato-timeline-period">{exp.periodo}</p>
+                <p class="candidato-timeline-description">{exp.descripcion}</p>
               </div>
             ))}
           </div>
@@ -190,6 +179,17 @@ const candidato = {
 
   <Footer slot="footer" />
 </Layout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const editBtn = document.getElementById('editProfileBtn');
+    if (editBtn) {
+      editBtn.addEventListener('click', () => {
+        alert('Aquí se abriría el formulario para editar el perfil');
+      });
+    }
+  });
+  </script>
 
 
   

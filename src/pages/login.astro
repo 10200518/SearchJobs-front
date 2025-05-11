@@ -54,17 +54,6 @@ import '../styles/pages/login.css';
                         </div>
                     </div>
 
-                    <div class="form-options">
-                        <label class="remember-label">
-                            <input type="checkbox" name="remember" />
-                            <span>Recordarme</span>
-                        </label>
-
-                        <a href="/recuperar-passaword" class="forgot-password">
-                            ¿Olvidaste tu contraseña?
-                        </a>
-                    </div>
-
                     <button type="submit" class="btn btn-primary submit-button">
                         Iniciar Sesión
                     </button>
@@ -145,9 +134,10 @@ import '../styles/pages/login.css';
           const data = await response.json();
           const roles = data.roles as string[];
           const rolPrincipal = data.rolPrincipal;
-          if (rolPrincipal == "ROLE_ADMIN" || rolPrincipal == "SUPER_ADMIN") {
+          console.log(rolPrincipal)
+          if (rolPrincipal == "ADMIN" || rolPrincipal == "SUPER_ADMIN") {
             window.location.href = "/admin";
-          } else if (rolPrincipal === "ROLE_EMPRESA") {
+          } else if (rolPrincipal === "EMPRESA") {
             window.location.href = "/dashboard/empresa";
           } else {
             window.location.href = "/dashboard/candidato";

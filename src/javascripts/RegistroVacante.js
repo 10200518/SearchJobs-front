@@ -2,6 +2,8 @@ import { manejarFormulario } from './MensajeErrorFrom.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('vacanteForm');
+    const endpointUrl = form.dataset.endpointUrl;
+    const metodo = form.dataset.metodo;
 
     const validateForm = () => {
         const requiredFields = [
@@ -29,9 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(form);
-        console.log(formData.get("tipo")); // ← Esto debería mostrar "Practica" o "Vacante"
-
-
         manejarFormulario({
             form,
             validateForm,
@@ -47,8 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 descripcion: formData.get('descripcion'),
                 requerimientos: formData.get('requerimientos'),
             }),
-            endpointUrl: 'http://localhost:8080/api/vacantes/add',
-            redirectUrl: '/empleos/listadoVacantes'
+            endpointUrl: endpointUrl,
+            redirectUrl: '/empleos/listadoVacantes',
+            metodo:metodo
         });
     });
 });

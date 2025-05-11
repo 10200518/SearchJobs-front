@@ -1,0 +1,282 @@
+/* Estilos específicos para el perfil de candidato */
+
+.candidato-perfil-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+/* Contenedor principal del perfil */
+.candidato-perfil {
+  background-color: white;
+  border-radius: var(--radius, 12px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Cabecera del perfil con fondo */
+.candidato-perfil-header {
+  background: #f8fafc;
+  padding: 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Contenedor de la imagen de perfil */
+.candidato-imagen-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.25rem;
+  flex-shrink: 0;
+}
+
+.candidato-imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Información del encabezado */
+.candidato-header-info {
+  flex-grow: 1;
+}
+
+.candidato-nombre {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e40af;
+  margin-bottom: 0.25rem;
+}
+
+.candidato-cargo {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Botones de acción */
+.candidato-header-actions {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.candidato-edit-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: white;
+  color: #2563eb;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.candidato-edit-button:hover {
+  background-color: #eff6ff;
+}
+
+.candidato-edit-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.candidato-cv-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.candidato-cv-button:hover {
+  background-color: #1d4ed8;
+}
+
+.candidato-cv-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Contenido del perfil */
+.candidato-perfil-content {
+  padding: 1.5rem;
+}
+
+/* Grid de información de contacto */
+.candidato-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 1.5rem;
+}
+
+.candidato-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.candidato-info-item svg {
+  color: #2563eb;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+  width: 16px;
+  height: 16px;
+}
+
+.candidato-info-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.candidato-info-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.candidato-info-value {
+  font-weight: 500;
+  color: #0f172a;
+  font-size: 0.9rem;
+}
+
+/* Sección de descripción */
+.candidato-section {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.candidato-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.candidato-section-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 0.75rem;
+  border-left: 3px solid #2563eb;
+}
+
+.candidato-descripcion {
+  color: #334155;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* Estilos para estudios e historial laboral */
+.candidato-timeline {
+  margin-top: 1rem;
+}
+
+.candidato-timeline-item {
+  position: relative;
+  padding-left: 1.5rem;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1rem;
+  border-left: 2px solid #e2e8f0;
+}
+
+.candidato-timeline-item:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.candidato-timeline-dot {
+  position: absolute;
+  left: -0.4rem;
+  top: 0;
+  width: 0.8rem;
+  height: 0.8rem;
+  background-color: #2563eb;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.candidato-timeline-title {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.candidato-timeline-subtitle {
+  color: #2563eb;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.candidato-timeline-period {
+  color: #64748b;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.candidato-timeline-description {
+  color: #334155;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Estilos responsivos */
+@media (max-width: 640px) {
+  .candidato-perfil-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .candidato-imagen-container {
+    margin-right: 0;
+    margin-bottom: 1rem;
+  }
+
+  .candidato-header-info {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .candidato-header-actions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .candidato-info-grid {
+    grid-template-columns: 1fr;
+  }
+}

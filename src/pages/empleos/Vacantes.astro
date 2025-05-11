@@ -6,14 +6,14 @@ import Footer from '../../components/Footer.astro';
 import '../../styles/pages/vacantes.css';
 ---
 
-<Layout title="Crear Nueva Vacante">
+<Layout title="Crear Nueva Oferta">
   <Header client:load />
   
   <div class="vacante-form-container">
-    <h1 class="vacante-form-title">Crear Nueva Vacante</h1>
+    <h1 class="vacante-form-title">Crear Nueva Oferta</h1>
     <p class="vacante-form-subtitle">Complete todos los campos requeridos</p>
     
-    <form id="vacanteForm" class="vacante-form">
+    <form id="vacanteForm" class="vacante-form" data-metodo="POST" data-endpoint-url="http://localhost:8080/api/vacantes/add">
       <!-- Primera fila -->
       <div class="form-row">
         <div class="form-group">
@@ -95,7 +95,7 @@ import '../../styles/pages/vacantes.css';
   
       <!-- Botones -->
       <div class="form-actions">
-        <button type="button" class="btn btn-cancel">Cancelar</button>
+        <a href='/empleos/listadoVacantes' class="btn btn-cancel" >Cancelar</a>
         <button type="submit" class="btn btn-submit">Guardar Vacante</button>
       </div>
     </form>
