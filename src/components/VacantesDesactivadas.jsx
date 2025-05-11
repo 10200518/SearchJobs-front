@@ -1,19 +1,19 @@
 import { useEffect, useState } from 'react';
-import '../styles/pages/empleos.css';
+import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 
 const VacantesDesactivadas = () => {
   const [vacantes, setVacantes] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [fade, setFade] = useState(true);
   const [totalElements, setTotalElements] = useState(0);
 
     useEffect(() => {
     const fetchVacantes = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/admin/listVacantes/desactivadas?page=${currentPage}&size=${pageSize}`,{
+        const res = await fetch(`http://localhost:8080/api/admin/listVacantes/desactivadas?page=${currentPage-1}&size=${pageSize}`,{
           credentials: 'include' 
         })
           
@@ -59,7 +59,7 @@ const VacantesDesactivadas = () => {
       })
       .then(() => {
         // Recargar lista después de banear
-        return fetch(`http://localhost:8080/api/admin/listVacantes/desactivadas?page=${currentPage}&size=${pageSize}`,{
+        return fetch(`http://localhost:8080/api/admin/listVacantes/desactivadas?page=${currentPage-1}&size=${pageSize}`,{
           credentials: 'include' 
         });
       })
@@ -93,9 +93,7 @@ const VacantesDesactivadas = () => {
                 </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {vacantes.filter(vacantes => vacantes.active === false)
-    
-                .map((vacantes) => (
+              {vacantes.map((vacantes) => (
                   <tr key={vacantes.nvacantes}>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">{vacantes.titulo}</div>
@@ -144,9 +142,9 @@ const VacantesDesactivadas = () => {
 
           <div className="p-4">
             <Paginacion
-              totalPages={totalPages}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
             />
           </div>
         </div>

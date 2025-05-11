@@ -1,9 +1,9 @@
 ---
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.jsx";
-import SobreMi from "../../components/SobreMi.jsx";
+
 import Layout from "../../layouts/Layout.astro";
-import "../../styles/pages/candidato.css";
+import "../../styles/perfiles/candidato.css";
 
 
 const { id } = Astro.params;
@@ -120,7 +120,7 @@ const candidato = {
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
                                         class="mr-1"
-                                    >
+                                    > 
                                         <path
                                             d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
                                         ></path>
@@ -248,7 +248,7 @@ const candidato = {
                         class="absolute p-2 text-white transition-all duration-300 bg-blue-600 rounded-full shadow-sm top-4 right-4 hover:bg-blue-700 hover:scale-110"
                         aria-label="Editar perfil"
                     >
-                        <SobreMi client:load />
+                        
 
                         Columna derecha
                         <div class="w-full md:w-2/3 lg:w-3/4">

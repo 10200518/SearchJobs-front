@@ -1,20 +1,21 @@
 import { useEffect, useState } from 'react';
-import '../styles/pages/empleos.css';
+import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 
 const VacantesActivas = () => {
   const [vacantes, setVacantes] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [npostulaciones, setnPostulaciones] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [fade, setFade] = useState(true);
   const [totalElements, setTotalElements] = useState(0);
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchVacantes = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/admin/listVacantes/activas?page=${currentPage}&size=${pageSize}`,{
-          credentials: 'include' 
+        const res = await fetch(`http://localhost:8080/api/admin/listVacantes/activas?page=${currentPage - 1}&size=${pageSize}`, {
+          credentials: 'include'
         });
         const data = await res.json();
         setTotalElements(data.totalElements || 0);
@@ -25,33 +26,33 @@ const VacantesActivas = () => {
       }
     };
 
-     fetchVacantes();
+    fetchVacantes();
   }, [currentPage, pageSize]);
 
-//     const verVacante = (idUsuario) => {
-//     fetch(`http://localhost:8080/api/candidatos/perfil?idUsuario=${idUsuario}`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     })
-//       .then((res) => {
-//         if (!res.ok) throw new Error('Error al obtener el perfil');
-//         return res.json();
-//       })
-//       .then(() => {
-//         window.location.href = `/perfil/candidato?idUsuario=${idUsuario}`;
-//       })
-//       .catch((err) => console.error('Error al obtener el perfil:', err));
-//   };
+  //     const verVacante = (idUsuario) => {
+  //     fetch(`http://localhost:8080/api/candidatos/perfil?idUsuario=${idUsuario}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     })
+  //       .then((res) => {
+  //         if (!res.ok) throw new Error('Error al obtener el perfil');
+  //         return res.json();
+  //       })
+  //       .then(() => {
+  //         window.location.href = `/perfil/candidato?idUsuario=${idUsuario}`;
+  //       })
+  //       .catch((err) => console.error('Error al obtener el perfil:', err));
+  //   };
 
   const DesactivarVacante = (nvacante, motivo = 'Falta grave') => {
     fetch(`http://localhost:8080/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=false&comentario=${motivo}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
-       
-      },credentials: 'include' 
+
+      }, credentials: 'include'
     })
       .then((res) => {
         if (!res.ok) throw new Error('Error al banear vacante');
@@ -59,8 +60,8 @@ const VacantesActivas = () => {
       })
       .then(() => {
         // Recargar lista después de banear
-        return fetch(`http://localhost:8080/api/admin/listVacantes/activas?page=${currentPage}&size=${pageSize}`,{
-          credentials: 'include' 
+        return fetch(`http://localhost:8080/api/admin/listVacantes/activas?page=${currentPage - 1}&size=${pageSize}`, {
+          credentials: 'include'
         });
       })
       .then((res) => res.json())
@@ -83,69 +84,66 @@ const VacantesActivas = () => {
         <div className="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
-                <tr>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Título</th>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Empresa</th>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Ubicación</th>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Tipo</th>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Postulaciones</th>
-                  <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Acciones</th>
-                </tr>
+              <tr>
+                <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Título</th>
+                <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Empresa</th>
+                <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Ubicación</th>
+                <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Tipo</th>
+                <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Postulaciones</th>
+                <th scope="col" className="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Acciones</th>
+              </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {vacantes
-                .filter(vacantes => vacantes.active === true)
-                .map((vacantes) => (
-                  <tr key={vacantes.nvacantes}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{vacantes.titulo}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{vacantes.nameEmpresa}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{vacantes.ciudad}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          vacantes.tipo === 'Vacante'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-blue-100 text-blue-800'
+              {vacantes.map((vacantes) => (
+                <tr key={vacantes.nvacantes}>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-900">{vacantes.titulo}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-500">{vacantes.nameEmpresa}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-500">{vacantes.ciudad}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${vacantes.tipo === 'Vacante'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-blue-100 text-blue-800'
                         }`}
-                      >
-                        {vacantes.tipo}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{/* Fecha Registro */}</td>
-                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <a
-                        className="mr-3 text-blue-600 hover:text-blue-900"
-                        href={`/empleos/${vacantes.nvacantes}`}
-                        key={vacantes.nvacantes}
-                      >
-                        Ver
-                      </a>
+                    >
+                      {vacantes.tipo}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{vacantes.nPostulados}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    
+                    <a
+                      className="mr-3 text-blue-600 hover:text-blue-900"
+                      href={`/empleos/${vacantes.nvacantes}`}
+                      key={vacantes.nvacantes} >
+                      Ver
+                    </a>
+                    <button
+                      className="mr-3 text-black-600 hover:text-black-900"
+                      onClick={() => DesactivarVacante(vacantes.nvacantes, 'Falta grave')}>
+                      Desactivar
+                    </button>
+                     <a className="mr-3 text-blue-600 hover:text-blue-900"
+                     href={`/postulados/${vacantes.nvacantes}`}>Ver Postulados</a>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{/* Último Acceso */}</td>
 
-                      <button
-                        className="mr-3 text-black-600 hover:text-black-900"
-                        onClick={() => DesactivarVacante(vacantes.nvacantes, 'Falta grave')}
-                      >
-                        Desactivar
-                      </button>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{/* Último Acceso */}</td>
-                   
-                  </tr>
-                ))}
+                </tr>
+              ))}
             </tbody>
           </table>
 
           <div className="p-4">
             <Paginacion
-              totalPages={totalPages}
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
             />
           </div>
         </div>

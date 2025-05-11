@@ -4,15 +4,15 @@ import Paginacion from './Paginacion';
 
 const UsuariosBaneados = () => {
   const [usuarios, setUsuarios] = useState([]);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
-  const [totalPages, setTotalPages] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [fade, setFade] = useState(true);
   const [totalElements, setTotalElements] = useState(0);
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage}&size=${pageSize}%&estado=false`,{
+        const res = await fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage-1}&size=${pageSize}%&estado=false`,{
           credentials: 'include' 
         });
         const data = await res.json();
@@ -57,7 +57,7 @@ const UsuariosBaneados = () => {
       })
       .then(() => {
         // Recargar lista después de banear
-        return fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage}&size=${pageSize}`,{
+        return fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage-1}&size=${pageSize}`,{
           credentials: 'include' 
         });
       })
@@ -93,9 +93,7 @@ const UsuariosBaneados = () => {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {usuarios
-              .filter(user => user.isActive === false)
-              .map((user) => (
+            {usuarios.map((user) => (
                 <tr key={user.idUsuario}>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">{user.nombre}</div>
@@ -137,9 +135,9 @@ const UsuariosBaneados = () => {
 
         <div className="p-4">
           <Paginacion
-            totalPages={totalPages}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
+            totalPages={totalPages}
           />
         </div>
       </div>
