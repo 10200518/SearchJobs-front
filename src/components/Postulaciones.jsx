@@ -34,10 +34,32 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
     window.location.href = `/empleos/${id}`;
   };
 
+  const eliminarPostulacion = async (nPostulacion) => {
+    const confirmar = window.confirm("¿Estás seguro de que deseas cancelar esta postulación?");
+    if (!confirmar) return;
+
+    try {
+      const res = await fetch(`http://localhost:8080/api/postulados/delete/${nPostulacion}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (res.status === 204) {
+        alert("✅ Postulación cancelada exitosamente.");
+        fetchPostulaciones(currentPage); // recargar la lista
+      } else {
+        throw new Error("No se pudo cancelar la postulación.");
+      }
+    } catch (error) {
+      console.error("❌ Error al cancelar postulación:", error);
+      alert("❌ Ocurrió un error al cancelar la postulación.");
+    }
+  };
+
+
   if(loading){
     return <p>Cargando postulaciones...</p>
   }
-
   if(!loading && postulaciones.length === 0 ){
     return(
       <div>
@@ -81,14 +103,26 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
             </thead>
             <tbody>
               {postulaciones.map((p) => (
-                <tr key={p.id}>
+                <tr key={p.nPostulacion}> 
                   <td>{p.vacante.titulo}</td>
                   <td>{p.fechaPostulacion || '-'}</td>
                   <td>{p.estado || 'Pendiente'}</td>
-                  <td>
-                    <button onClick={() => irADetalleVacante(p.vacante.id)}>Ver Vacante</button>
-                    <button onClick={() => alert('Función de cancelar aún no implementada')}>Cancelar</button>
+                  
+                  <td className="space-x-2">
+                    <button
+                      onClick={() => irADetalleVacante(p.vacante.id)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                    >
+                      Ver Vacante
+                    </button>
+                    <button
+                      onClick={() => eliminarPostulacion(p.nPostulacion)}
+                      className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+                    >
+                      Cancelar
+                    </button>
                   </td>
+                  
                 </tr>
               ))}
             </tbody>

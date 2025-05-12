@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
 import '../../styles/pages/postulados.css';
+import "../../styles/empleos/empleos.css";
 import Postulaciones from '../../components/Postulaciones.jsx';
 ---
 
@@ -13,7 +14,7 @@ import Postulaciones from '../../components/Postulaciones.jsx';
     <h1>Postulaciones</h1>
     <p>Lista de Vacantes a las que aplicaste</p>
  
-    <Postulaciones/>
+    <Postulaciones client:load/>
   </section>
   <Footer />
 </Layout>

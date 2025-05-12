@@ -48,6 +48,31 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
     }
   };
 
+  const actualizarEstadoPostulacion = async (nPostulacion, nuevoEstado) => {
+    const confirmar = confirm(`¿Seguro que deseas marcar esta postulación como "${nuevoEstado}"?`);
+    if (!confirmar) return;
+
+    try {
+      const res = await fetch(`http://localhost:8080/api/postulados/edit/${nPostulacion}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ estado: nuevoEstado }),
+      });
+
+      if (!res.ok) throw new Error('Error al actualizar estado');
+
+      alert(`Postulación ${nuevoEstado.toLowerCase()} correctamente`);
+      fetchPostulados(currentPage); 
+    } catch (error) {
+      console.error('Error al actualizar:', error);
+      alert('Ocurrió un error al actualizar la postulación');
+    }
+  };
+
+
   return (
     <div>
       {loading && <p>Cargando postulados...</p>}
@@ -75,29 +100,40 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                   <td>{postulado.fechaPostulacion || '-'}</td>
                   <td>{postulado.estado || 'Pendiente'}</td>
                   <td>
-                    <a href={postulado.candidato.curriculo} target="_blank" className="cv-link">
+                    <a
+                      href={postulado.candidato.curriculo}
+                      target="_blank"
+                      className="text-blue-500 hover:text-blue-600 underline font-medium"
+                    >
                       Ver CV
                     </a>
                   </td>
                   <td>
-                    <a href={`/perfil/${postulado.candidato.id}`}>Ver perfil</a>
+                    <a
+                      href={`/perfil/candidato/${postulado.candidato.id}?nPostulacion=${postulado.nPostulacion}`}
+                      className="text-blue-500 hover:text-blue-600 underline font-medium"
+                    >
+                      Ver perfil
+                    </a>
                   </td>
                   <td>
                     <button
-                      className="abrir-chat-btn"
                       onClick={() => abrirChat(postulado.candidato.id, postulado.vacante.id)}
+                      className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-3 rounded-lg transition duration-200"
                     >
                       Abrir chat
                     </button>
                   </td>
-                  <td>
+                  <td className="flex flex-col gap-2">
                     <button
-                      className="abrir-chat-btn"
+                      className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-3 rounded-lg transition duration-200"
+                      onClick={() => actualizarEstadoPostulacion(postulado.nPostulacion, "Rechazada")}
                     >
                       Rechazar
                     </button>
                     <button
-                      className="abrir-chat-btn"
+                      className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-3 rounded-lg transition duration-200"
+                      onClick={() => actualizarEstadoPostulacion(postulado.nPostulacion, "Aceptada")}
                     >
                       Aceptar
                     </button>

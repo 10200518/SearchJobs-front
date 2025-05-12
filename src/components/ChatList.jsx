@@ -58,35 +58,34 @@ const ChatList = () => {
     return <div>Cargando...</div>;
   }
 
-  if (chats.length === 0) {
-    return <div className="sin-chats">Aún no tienes conversaciones.</div>;
-  }
   return (
-    <ul className="contacts-list">
-      {chats.map(chat => (
-          <a href={`/chat/${chat.id}`} className="contact-info">
-            <div className="contact-header">
-              <h4 className="contact-name">
-                {userRole === 'EMPRESA'
-                  ? `Candidato: ${chat.nombreCandidato}`
-                  : `Empresa: ${chat.nombreEmpresa}`}
-              </h4>
-              <span className="contact-time">
-                {new Date(chat.horaUltimoMensaje).toLocaleTimeString()}
-              </span>
-            </div>
-
-            {userRole !== 'empresa' && (
-              <p className="contact-role">Vacante: {chat.tituloVacante}</p>
-            )}
-            <p className="contact-last-message">
-              {chat.contentUltimoMensaje || 'Sin mensajes'}
-            </p>
-
-          </a>
-      ))}
-    </ul>
-
+    <div className="h-full overflow-y-auto custom-scroll bg-white border border-blue-200 rounded-md">
+      <ul className="divide-y divide-blue-100">
+        {chats.map(chat => (
+          <li key={chat.id}>
+            <a
+              href={`/chat/${chat.id}`}
+              className="block w-full px-4 py-3 hover:bg-blue-50 transition duration-150"
+            >
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-blue-900">
+                  {userRole === 'EMPRESA'
+                    ? `Candidato: ${chat.nombreCandidato}`
+                    : `Empresa: ${chat.nombreEmpresa}`}
+                </span>
+                <span className="text-xs text-blue-500">
+                  {new Date(chat.horaUltimoMensaje).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+              </div>
+              <p className="text-sm text-blue-700">Vacante: {chat.tituloVacante}</p>
+              <p className="text-sm text-blue-800 truncate">
+                {chat.contentUltimoMensaje || 'Sin mensajes'}
+              </p>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

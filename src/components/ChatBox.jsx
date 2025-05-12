@@ -12,6 +12,8 @@ const ChatBox = ({ chatId }) => {
 
   useEffect(() => {
     const fetchChatInfo = async () => {
+      if(chatId === "candidato" || chatId === "empresa"){return}
+
       try {
         const res = await fetch(`http://localhost:8080/api/chats/${chatId}/info`, {
           credentials: "include",
@@ -19,6 +21,7 @@ const ChatBox = ({ chatId }) => {
         if (!res.ok) throw new Error("Error al obtener la información del chat");
         const data = await res.json();
         setChatInfo(data);
+        console.log(data)
       } catch (err) {
         console.error("Error:", err);
       }
@@ -95,6 +98,29 @@ const ChatBox = ({ chatId }) => {
     }
   };
 
+  const cambiarEstadoChat = async (chatId, estado) => {
+    let mensaje = estado? "Abrir":"Cerrar";
+    try {
+      const response = await fetch(`http://localhost:8080/api/chats/${chatId}/estado?isActive=${estado}`, {
+        method: 'PATCH',
+        credentials: 'include', 
+      });
+
+      if (response.ok) {
+        alert(`Chat ${estado? "Abierto":"Cerrardo"} correctamente`);
+        
+      } else if (response.status === 403) {
+        alert(`No tienes permisos para ${mensaje} este chat`);
+      } else {
+        alert(`Ocurrió un error al ${mensaje} el chat`);
+      }
+    } catch (error) {
+      console.error(`Error al ${mensaje} el chat:`, error);
+      alert(`Error de red o servidor al ${mensaje} el chat`);
+    }
+  };
+
+
   if (!chatInfo) return (
       <div id="emptyChatState" className="empty-chat-state">
         <div className="empty-chat-content">
@@ -113,10 +139,22 @@ const ChatBox = ({ chatId }) => {
   return (
     <div className="flex flex-col w-full h-full border-l border-gray-200">
       {/* Header del chat */}
-      <div className="p-4 border-b bg-white shadow-sm">
-        <h2 className="text-lg font-semibold">
+      <div className="p-4 border-b bg-white shadow-sm flex justify-between items-center">
+        <h2 className="text-lg font-semibold text-blue-900">
           Conversación con {chatInfo.chatInfo.nombreCandidato || "Usuario"}
         </h2>
+        {chatInfo.rolPrincipal === 'EMPRESA' && (
+          <button
+            onClick={() => cambiarEstadoChat(chatInfo.chatInfo.id, !chatInfo.chatInfo.isActive)} 
+            className={`${
+              chatInfo.chatInfo.isActive 
+                ? "bg-red-100 text-red-600 hover:bg-red-200" 
+                : "bg-green-100 text-green-600 hover:bg-green-200"
+            } font-medium px-4 py-2 rounded-lg transition duration-200 text-sm`}
+          >
+            {chatInfo.chatInfo.isActive ? "Cerrar Chat" : "Reabrir Chat"}
+          </button>
+        )}
       </div>
 
       {/* Área de mensajes */}
@@ -144,34 +182,37 @@ const ChatBox = ({ chatId }) => {
       </div>
 
       {/* Input de mensaje */}
-      <div className="p-4 border-t bg-white">
-        <div className="flex items-center gap-2">
-          <input
-            rows={1}
-            className="flex-1 resize-none border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
+      {chatInfo.chatInfo.isActive && (
+        <div className="p-4 border-t bg-white">
+          <div className="flex items-center gap-2">
+            <input
+              rows={1}
+              className="flex-1 resize-none border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
                 if (e.key === 'Tab') {
-                  e.preventDefault(); // evita cambiar el foco
-                  setInput(e.target.value);    // llama tu función para enviar mensaje
+                  e.preventDefault();
+                  setInput(e.target.value);
                 }
-            }}
-            placeholder="Escribe tu mensaje..."
-          />
-          <button
-            onClick={sendMessage}
-            disabled={!input.trim()}
-            className={`px-4 py-2 rounded-lg font-semibold ${
-              input.trim()
-                ? "bg-blue-500 text-white hover:bg-blue-600"
-                : "bg-gray-300 text-gray-600 cursor-not-allowed"
-            }`}
-          >
-            Enviar
-          </button>
+              }}
+              placeholder="Escribe tu mensaje..."
+            />
+            <button
+              onClick={sendMessage}
+              disabled={!input.trim()}
+              className={`px-4 py-2 rounded-lg font-semibold ${
+                input.trim()
+                  ? "bg-blue-500 text-white hover:bg-blue-600"
+                  : "bg-gray-300 text-gray-600 cursor-not-allowed"
+              }`}
+            >
+              Enviar
+            </button>
+          </div>
         </div>
-      </div>
+      )}
+
     </div>
   );
 };

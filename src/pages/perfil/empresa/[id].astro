@@ -1,22 +1,24 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.jsx";
-import Footer from "../../components/Footer.astro";
-import "../../styles/perfiles/empresa.css"
+import Footer from "../../../components/Footer.astro";
+import Header from "../../../components/Header.jsx";
+import Layout from "../../../layouts/Layout.astro";
+import "../../../styles/perfiles/empresa.css";
 
-const empresa = {
-  nombre: "TechCorp",
-  nit: "901.234.567-8",
-  sectorEmpresarial: "Tecnología",
-  correo: "info@techcorp.com",
-  telefono: "+57 601 123 4567",
-  sitioWeb: "techcorp.com",
-  logo: "/placeholder.svg?height=150&width=150&text=TC",
-  descripcion:
-    "TechCorp es una empresa líder en desarrollo de software y soluciones tecnológicas innovadoras. Nos especializamos en crear productos que transforman la manera en que las empresas operan y se conectan con sus clientes. Nuestro enfoque se centra en la calidad, la innovación y la satisfacción del cliente."
+const { id } = Astro.params;
+
+const apiUrl = `http://localhost:8080/api/empresas/perfil?idUsuario=${id}`;
+
+const res = await fetch(apiUrl, {
+  headers: Astro.request.headers,
+});
+
+if (!res.ok) {
+  throw new Error(`Error al obtener el perfil de la empresa: ${res.statusText}`);
 }
----
 
+const data = await res.json();
+const empresa = data.empresa || {};
+---
 <Layout title={`${empresa.nombre} | SearchJobs`}>
   <Header client:load />
   
@@ -27,7 +29,7 @@ const empresa = {
         <!-- Logo de la empresa -->
         <div class="empresa-logo-container">
           <img 
-            src={empresa.logo || "/placeholder.svg"} 
+            src={empresa.imagen ? "http://localhost:8080" + empresa.imagen : "http://localhost:8080/images/imgEmpresa.png"}
             alt={empresa.nombre} 
             class="empresa-logo"
           />
@@ -83,7 +85,7 @@ const empresa = {
             </svg>
             <div class="empresa-info-content">
               <span class="empresa-info-label">Teléfono</span>
-              <span class="empresa-info-value">{empresa.telefono}</span>
+              <span class="empresa-info-value">{empresa.telefono || "No registrado"}</span>
             </div>
           </div>
           
@@ -104,7 +106,7 @@ const empresa = {
         <div class="empresa-descripcion-section">
           <h2 class="empresa-section-title">Descripción</h2>
           <p class="empresa-descripcion">
-            {empresa.descripcion}
+            {empresa.descripcion || "No registrada"}
           </p>
         </div>
       </div>

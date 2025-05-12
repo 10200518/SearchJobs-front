@@ -2,39 +2,21 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
-import '../../styles/pages/empresa.css';
+import '../../styles/registro/empresa.css';
 ---
-
 <Layout title="Registro de Empresa | SearchJobs">
   <Header client:load />
   
-  <main class="max-w-screen-md px-4 py-8 mx-auto">
-    <h1 class="mb-2 text-2xl font-bold text-center text-transparent bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text">Registro de Empresa</h1>
-    <p class="mb-8 text-center text-gray-600">Completa el formulario para comenzar a publicar vacantes y encontrar talento</p>
-    
-    <div class="bg-white border border-gray-100 rounded-lg shadow-sm">
-      <form id="empresaForm" class="p-6">
-        <!-- Nombre de la empresa -->
-        <div class="mb-6">
-          <label for="nombreEmpresa" class="block mb-1 text-sm font-medium text-gray-700">
-            Nombre de la empresa <span class="text-red-500">*</span>
-          </label>
-          <input 
-            type="text" 
-            id="nombreEmpresa" 
-            name="nombreEmpresa" 
-            placeholder="Nombre legal de la empresa"
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500" 
-            required
-          />
-        </div>
-        
-        <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
-          <!-- NIT / Identificación fiscal -->
-          <div>
-            <label for="nit" class="block mb-1 text-sm font-medium text-gray-700">
-              NIT / Identificación fiscal <span class="text-red-500">*</span>
-            </label>
+  <div class="container">
+    <div class="registro-container">
+      <h1 class="title">Crea tu cuenta de empresa</h1>
+      <p class="subtitle">Completa el formulario para comenzar a publicar vacantes y encontrar talento</p>
+      
+      <form id="registroEmpresaForm" class="form">
+        <!-- Paso 1: Información básica -->
+        <div class="step-content active" id="step1">
+          <div class="form-group">
+            <label for="nombreEmpresa">Nombre de la empresa <span class="required">*</span></label>
             <input 
               type="text" 
               id="nombreEmpresa" 
@@ -43,7 +25,7 @@ import '../../styles/pages/empresa.css';
               placeholder="Nombre legal de la empresa" 
               required
             />
-            <p class="hidden error-text" id="error-nombre"></p>
+            <p class="error-text hidden" id="error-nombre"></p>
           </div>
           
           <div class="form-row">
@@ -57,7 +39,7 @@ import '../../styles/pages/empresa.css';
                 placeholder="Número de identificación tributaria" 
                 required
               />
-              <p class="hidden error-text" id="error-nit"></p>
+              <p class="error-text hidden" id="error-nit"></p>
             </div>
             <div class="form-group">
               <label for="sectorEmpresa">Sector Empresa <span class="required">*</span></label>
@@ -82,7 +64,7 @@ import '../../styles/pages/empresa.css';
               required
             />
             <p class="form-hint">Usarás este correo para iniciar sesión</p>
-            <p class="hidden error-text" id="error-correo"></p>
+            <p class="error-text hidden" id="error-correo"></p>
           </div>
 
           <div class="form-group">
@@ -95,7 +77,7 @@ import '../../styles/pages/empresa.css';
               placeholder="+57 601 123 4567" 
               required
             />
-            <p class="hidden error-text" id="error-telefono"></p>
+            <p class="error-text hidden" id="error-telefono"></p>
           </div>
 
           <div class="form-row">
@@ -225,6 +207,10 @@ import '../../styles/pages/empresa.css';
           </div>
         </div> -->
       </form>
+      
+      <div class="login-container">
+        <p>¿Ya tienes una cuenta? <a href="/login" class="login-link">Iniciar sesión</a></p>
+      </div>
     </div>
   </div>
   <Footer slot="footer" />
@@ -232,3 +218,15 @@ import '../../styles/pages/empresa.css';
 
 <script type="module" src="/src/javascripts/RegistroEmpresa.js"></script>
 
+<style>
+  .password-requirement.valid {
+    color: green;
+    text-decoration: line-through;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+  }
+</style>

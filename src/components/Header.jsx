@@ -134,7 +134,7 @@ const Header = () => {
           {userRole === 'CANDIDATO' && (
             <>
               <a href="/dashboard/candidato" className="nav-link">Inicio</a>
-              <a href={`/chat/${chats.id}`} className="nav-link">Chats</a>
+              <a href={`/chat/candidato`} className="nav-link">Chats</a>
               <a href="/empleos" className="nav-link">Empleos</a>
               <a href="/postulados" className="nav-link">Postulaciones</a>
               <a href="/perfil/candidato" className="nav-link">Perfil</a>
@@ -145,7 +145,7 @@ const Header = () => {
               <a href="/dashboard/empresa" className="nav-link">Inicio</a>
               <a href="/empleos/listadoVacantes" className="nav-link">Mis Vacantes</a>
               <a href="/empleos/Vacantes" className="nav-link">Publicar oferta</a>
-              <a href={`/chat/${chats.id}`} className="nav-link">Chats</a>
+              <a href={`/chat/empresa`} className="nav-link">Chats</a>
               <a href="/perfil/empresa" className="nav-link">Perfil</a>
             </>
           )}

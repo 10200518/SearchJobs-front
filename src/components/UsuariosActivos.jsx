@@ -119,12 +119,17 @@ const UsuariosActivos = () => {
                       <button
                         className="mr-3 text-blue-600 hover:text-blue-900"
                         onClick={() => verPerfil(user.idUsuario)}>  Ver  </button>
-                      <a
-                        className="mr-3 text-blue-600 hover:text-blue-900"
-                        href ={`/perfil/${user.idUsuario}` } >
-                        Ver Perfil ahora si
+                    <a
+                      className="mr-3 text-blue-600 hover:text-blue-900"
+                      href={
+                        user.rolPrinciapl === "EMPRESA"
+                          ? `/perfil/empresa/${user.idUsuario}`
+                          : `/perfil/candidato/${user.idUsuario}`
+                      }
+                    >
+                      Ver Perfil ahora sí
+                    </a>
 
-                        </a>
                         
                       <button
                         className="mr-3 text-red-600 hover:text-red-900"
