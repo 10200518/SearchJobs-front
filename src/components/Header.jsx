@@ -3,8 +3,6 @@ import '../styles/pages/header.css'
 
 const Header = () => {
   const [userRole, setUserRole] = useState(null);
-  const [id, setId] = useState(null);
-  const [chats, setChats] = useState([]);
   
   useEffect(() => {
     const fetchUserRole = async () => {
@@ -14,7 +12,6 @@ const Header = () => {
         });
         const data = await res.json();
         setUserRole(data.rolPrincipal);
-        setId(data.id)
       } catch (error) {
         console.error('Error fetching user role:', error);
       }
@@ -22,35 +19,6 @@ const Header = () => {
 
     fetchUserRole();
   }, []);
-
-
-  useEffect(() => {
-    const fetchChats = async () => {
-      if (userRole) {
-        try {
-          let url;
-          // Determina el URL según el rol del usuario
-          if (userRole === 'EMPRESA') {
-            url = `http://localhost:8080/api/chats/empresa/${id}`;
-          } else if (userRole === 'CANDIDATO') {
-            url = `http://localhost:8080/api/chats/candidato/${id}`;
-          }else{
-            return;
-          }
-
-          const res = await fetch(url, {
-            credentials: 'include',
-          });
-          const data = await res.json();
-          setChats(data.chats);  // Guarda los chats en el estado
-        } catch (error) {
-          console.error('Error fetching chats:', error);
-        } 
-      }
-    };
-
-    fetchChats();
-  }, [userRole]);
 
   function getRoleDisplayName(role){
     switch (role) {
@@ -120,7 +88,6 @@ const Header = () => {
               <a href="/admin/vacantes" className="nav-link">Empleos</a>
               <a href="/404" className="nav-link">Crear admins </a>
               <a href="/admin/usuarios" className="nav-link">Usuarios</a>
-              <a href="/admin/postulaciones" className="nav-link">Postulaciones</a>
             </>
           )}
           {userRole === 'ADMIN' && (
@@ -128,7 +95,6 @@ const Header = () => {
               <a href="/admin" className="nav-link">Inicio</a>
               <a href="/admin/vacantes" className="nav-link">Empleos</a>
               <a href="/admin/usuarios" className="nav-link">Usuarios</a>
-              <a href="/admin/Postulados" className="nav-link">Postulaciones</a>
             </>
           )}
           {userRole === 'CANDIDATO' && (

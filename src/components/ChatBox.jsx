@@ -21,7 +21,6 @@ const ChatBox = ({ chatId }) => {
         if (!res.ok) throw new Error("Error al obtener la información del chat");
         const data = await res.json();
         setChatInfo(data);
-        console.log(data)
       } catch (err) {
         console.error("Error:", err);
       }
@@ -41,7 +40,7 @@ const ChatBox = ({ chatId }) => {
       onConnect: () => {
         console.log("✅ Conectado a WebSocket");
 
-        client.subscribe(`/user/${userId}/queue/messages`, (msg) => {
+        client.subscribe(`/user/queue/messages`, (msg) => {
           const message = JSON.parse(msg.body);
           setMessages((prev) => [...prev, message]);
         });
@@ -93,7 +92,6 @@ const ChatBox = ({ chatId }) => {
         destination: "/app/chats.sendMessage",
         body: JSON.stringify(msg),
       });
-      setMessages((prev) => [...prev, msg]);
       setInput("");
     }
   };
