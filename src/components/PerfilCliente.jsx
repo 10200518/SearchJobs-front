@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../styles/pages/candidato.css';
+import '../styles/perfiles/candidato.css';
 
 function PerfilCliente() {
   const [perfil, setPerfil] = useState(null);
