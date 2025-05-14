@@ -85,6 +85,32 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
           </label>
         </div>
       </div>
+
+      <div className="filter-group">
+        <h4 className="filter-group-title">Estado</h4>
+        <div className="filter-options">
+          <label className="filter-option">
+            <input
+              type="radio"
+              name="isActive"
+              value="true"
+              onChange={handleFilterChange}
+              checked={filtersLocal.isActive=== true}
+            />
+            <span>Activas</span>
+          </label>
+          <label className="filter-option">
+            <input
+              type="radio"
+              name="isActive"
+              value="false"
+              onChange={handleFilterChange}
+              checked={filtersLocal.isActive=== false}
+            />
+            <span>Desactivadas</span>
+          </label>
+        </div>
+      </div>
       
       <div className="filter-group">
         <h4 className="filter-group-title">Cargo</h4>
@@ -104,10 +130,11 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
             clearAllFilters(); // resetea filtros locales
             setFilters({
               titulo: null,
-              tipo: null,
+              tipo: "todos",
               experiencia: null,
               modalidad: null,
               cargo: null,
+              isActive: true,
               ciudad: null,
               sueldo: null
             }); // fuerza los filtros globales a reiniciarse

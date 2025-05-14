@@ -138,11 +138,11 @@ const UsuariosActivos = () => {
                     ):(
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.fechaRegistro || '-'}</td>
                 )}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.ultimoAcceso || '-'}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.fechaInicioSesion || '-'}</td>
                   
               
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/${user.idUsuario}`}> Ver Perfil 
+                  <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/candidato/${user.idUsuario}`}> Ver Perfil 
                       </a>
                   {verBaneados ? (
                     <button onClick={() => cambiarEstado(user.idUsuario, 'Desbaneado', true)} className="text-green-600 hover:text-green-800">Reactivar</button>

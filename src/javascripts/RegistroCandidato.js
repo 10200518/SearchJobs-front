@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const passwordValue = password.value;
       const confirmPasswordValue = confirmPassword.value;
       const terminos = document.getElementById('terminos').checked;
-      const privacidad = document.getElementById('privacidad').checked;
 
       if (!nombre || !email || !passwordValue || !confirmPasswordValue || !apellido || !identificacion) {
         alert('Completa todos los campos requeridos');
@@ -71,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
       }
 
-      if (!terminos || !privacidad) {
+      if (!terminos) {
         alert('Debes aceptar los términos y condiciones');
         return false;
       }

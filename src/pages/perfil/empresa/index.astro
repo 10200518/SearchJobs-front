@@ -9,7 +9,6 @@ const res = await fetch("http://localhost:8080/api/empresas/perfil", {
 });
 const data = await res.json();
 const empresa = data.empresa;
-console.log(empresa)
 ---
 
 <Layout title={`${empresa.nombre} | SearchJobs`}>

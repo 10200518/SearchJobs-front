@@ -9,18 +9,20 @@ const JobBoard = ({ fetchUrl, rol }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [filters, setFilters] = useState({
         titulo:null,
-        tipo: null,
+        tipo: "todos",
         experiencia: null,
         modalidad: null,
+        isActive: true,
         cargo: null,
         ciudad: null,
         sueldo: null
     });
     const [filtersLocal, setFiltersLocal] = useState({
         titulo:null,
-        tipo: null,
+        tipo: "todos",
         experiencia: null,
         modalidad: null,
+        isActive: true,
         cargo: null,
         ciudad: null,
         sueldo: null
@@ -66,6 +68,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
             titulo:null,
             tipo: null,
             experiencia: null,
+            isActive: true,
             modalidad: null,
             cargo: null,
             ciudad: null,
