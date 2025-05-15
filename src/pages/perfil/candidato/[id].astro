@@ -29,15 +29,10 @@ const res = await fetch(apiUrl, {
   headers: Astro.request.headers,
 });
 
-if (!res.ok) {
-  throw new Error(`Error al obtener el perfil: ${res.statusText}`);
-}
-
 const data = await res.json();
 const candidato = data.candidato || {};
 const estudios = data.estudios || [];
 const historrialLaboral = data.historialLaboral || [];
-
 ---
 
 <Layout>
@@ -59,15 +54,15 @@ const historrialLaboral = data.historialLaboral || [];
         <!-- Información del encabezado -->
         <div class="candidato-header-info">
           <h1 class="candidato-nombre">
-            {candidato.nombre}
-            {candidato.apellido}
+            {candidato.nombre} {candidato.apellido}
           </h1>
           <p class="candidato-cargo">Falta un cargo</p>
         </div>
 
         <!-- Botones de acción -->
         <div class="candidato-header-actions">
-          <a href={"http://localhost:8080"+candidato.curriculo || "#"} class="candidato-cv-button">
+          <!-- Botón para descargar CV -->
+          <a href={candidato.curriculo ? `http://localhost:8080${candidato.curriculo}` : "#"} class="candidato-cv-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -82,6 +77,25 @@ const historrialLaboral = data.historialLaboral || [];
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
             Descargar CV
+          </a>
+
+          <!-- Botón para editar perfil -->
+          <a href={`/pages/candidato/editar.astro`} class="candidato-edit-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              width="16"
+              height="16"
+            >
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Editar perfil
           </a>
         </div>
       </div>
@@ -198,19 +212,17 @@ const historrialLaboral = data.historialLaboral || [];
 
 <script type="text/javascript">
   document.addEventListener("DOMContentLoaded", function () {
-
     const cvButton = document.querySelector(".candidato-cv-button");
-    
-    const candidato = {
-      curriculo: null, 
-    };
-    
-    if (candidato.curriculo) {
-      cvButton.classList.remove("disabled"); 
+
+    // Pasar el valor de candidato.curriculo desde Astro al script
+    const curriculo = "{candidato.curriculo}";
+
+    if (curriculo && curriculo !== "null") {
+      cvButton.classList.remove("disabled");
     } else {
       cvButton.classList.add("disabled");
       cvButton.addEventListener("click", function (e) {
-        e.preventDefault();  
+        e.preventDefault(); // Evitar que el enlace funcione si no hay currículum
       });
     }
   });

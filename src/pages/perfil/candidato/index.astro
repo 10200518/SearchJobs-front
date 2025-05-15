@@ -37,7 +37,7 @@ const historrialLaboral = data.historialLaboral;
         <!-- Imagen de perfil -->
         <div class="candidato-imagen-container">
           <img
-            src={candidato.imagen ? "http://localhost:8080" + candidato.imagen : "http://localhost:8080/images/imgCandidato.png"}
+            src={candidato.imagen ? `http://localhost:8080${candidato.imagen}` : "http://localhost:8080/images/imgCandidato.png"}
             alt={`${candidato.nombre} ${candidato.apellido}`}
             class="candidato-imagen"
           />
@@ -46,10 +46,9 @@ const historrialLaboral = data.historialLaboral;
         <!-- Información del encabezado -->
         <div class="candidato-header-info">
           <h1 class="candidato-nombre">
-            {candidato.nombre}
-            {candidato.apellido}
+            {candidato.nombre} {candidato.apellido}
           </h1>
-          <p class="candidato-cargo">Falta un cargo</p>
+          <p class="candidato-cargo">{candidato.cargo}</p>
         </div>
 
         <!-- Botones de acción -->
@@ -73,7 +72,10 @@ const historrialLaboral = data.historialLaboral;
             Editar perfil
           </button>
 
-          <a href={"http://localhost:8080"+candidato.curriculo || "#"} class="candidato-cv-button">
+          <a
+            href={candidato.curriculo ? `http://localhost:8080${candidato.curriculo}` : "#"}
+            class="candidato-cv-button"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -133,7 +135,7 @@ const historrialLaboral = data.historialLaboral;
             </svg>
             <div class="candidato-info-content">
               <span class="candidato-info-label">Teléfono</span>
-              <span class="candidato-info-value">{candidato.telefono || "No registrado"}</span>
+              <span class="candidato-info-value">{candidato.telefono}</span>
             </div>
           </div>
         </div>
@@ -142,7 +144,7 @@ const historrialLaboral = data.historialLaboral;
         <div class="candidato-section">
           <h2 class="candidato-section-title">Descripción</h2>
           <p class="candidato-descripcion">
-            {candidato.descripcion || "No se ha registrado una descripcion"}
+            {candidato.descripcion}
           </p>
         </div>
 
@@ -151,23 +153,19 @@ const historrialLaboral = data.historialLaboral;
           <h2 class="candidato-section-title">Estudios</h2>
           <div class="candidato-timeline">
             {
-              estudios.length === 0 ? (
-                <p>No hay estudios disponibles</p>
-              ) : (
-                estudios.map((estudio:Estudio) => (
-                  <div class="candidato-timeline-item">
-                    <div class="candidato-timeline-dot" />
-                    <h3 class="candidato-timeline-title">{estudio.titulo}</h3>
-                    <p class="candidato-timeline-subtitle">
-                      {estudio.institucion}
-                    </p>
-                    <p class="candidato-timeline-period">{estudio.periodo}</p>
-                    <p class="candidato-timeline-description">
-                      {estudio.descripcion}
-                    </p>
-                  </div>
-                ))
-              )
+              estudios.map((estudio:Estudio) => (
+                <div class="candidato-timeline-item">
+                  <div class="candidato-timeline-dot" />
+                  <h3 class="candidato-timeline-title">{estudio.titulo}</h3>
+                  <p class="candidato-timeline-subtitle">
+                    {estudio.institucion}
+                  </p>
+                  <p class="candidato-timeline-period">{estudio.periodo}</p>
+                  <p class="candidato-timeline-description">
+                    {estudio.descripcion}
+                  </p>
+                </div>
+              ))
             }
           </div>
         </div>
@@ -177,21 +175,17 @@ const historrialLaboral = data.historialLaboral;
           <h2 class="candidato-section-title">Historial Laboral</h2>
           <div class="candidato-timeline">
             {
-              historrialLaboral.length === 0 ? (
-                <p>No hay historial laboral disponible</p>
-              ) : (
-                historrialLaboral.map((exp:Experiencia) => (
-                  <div class="candidato-timeline-item">
-                    <div class="candidato-timeline-dot" />
-                    <h3 class="candidato-timeline-title">{exp.cargo}</h3>
-                    <p class="candidato-timeline-subtitle">{exp.empresa}</p>
-                    <p class="candidato-timeline-period">{exp.periodo}</p>
-                    <p class="candidato-timeline-description">
-                      {exp.descripcion}
-                    </p>
-                  </div>
-                ))
-              )
+              historrialLaboral.map((exp:Experiencia) => (
+                <div class="candidato-timeline-item">
+                  <div class="candidato-timeline-dot" />
+                  <h3 class="candidato-timeline-title">{exp.cargo}</h3>
+                  <p class="candidato-timeline-subtitle">{exp.empresa}</p>
+                  <p class="candidato-timeline-period">{exp.periodo}</p>
+                  <p class="candidato-timeline-description">
+                    {exp.descripcion}
+                  </p>
+                </div>
+              ))
             }
           </div>
         </div>
@@ -207,12 +201,6 @@ const historrialLaboral = data.historialLaboral;
 
     const editBtn = document.getElementById("editProfileBtn");
     const cvButton = document.querySelector(".candidato-cv-button");
-
-    if (editBtn) {
-      editBtn.addEventListener("click", () => {
-        alert("Aquí se abriría el formulario para editar el perfil");
-      });
-    }
     
     const candidato = {
       curriculo: null, 
