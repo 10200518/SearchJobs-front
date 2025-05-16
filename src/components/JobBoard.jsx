@@ -2,6 +2,8 @@ import { useEffect, useState} from 'react';
 import FilterComponent from './FilterComponent';
 import JobList from './JobList';
 import FiltroSuperior from './FiltroSuperior';
+import { manejarRespuesta } from "../javascripts/ManejarRespuesta";
+
 
 const JobBoard = ({ fetchUrl, rol }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +14,8 @@ const JobBoard = ({ fetchUrl, rol }) => {
         tipo: "todos",
         experiencia: null,
         modalidad: null,
-        isActive: true,
+        isActive: null,
+        activaPorEmpresa: null,
         cargo: null,
         ciudad: null,
         sueldo: null
@@ -22,7 +25,8 @@ const JobBoard = ({ fetchUrl, rol }) => {
         tipo: "todos",
         experiencia: null,
         modalidad: null,
-        isActive: "true",
+        isActive: null,
+        activaPorEmpresa: null,
         cargo: null,
         ciudad: null,
         sueldo: null
@@ -42,7 +46,8 @@ const JobBoard = ({ fetchUrl, rol }) => {
                     body: JSON.stringify(filters), 
                 });
 
-                const data = await res.json();
+                const data = await manejarRespuesta(res);
+                if(!data){return;}
                 setFilteredJobs(data.vacantes || []);
                 setTotalElement(data.totalElements)
                 setTotalPages(data.totalPage)
@@ -64,12 +69,47 @@ const JobBoard = ({ fetchUrl, rol }) => {
         }));
     };
 
+    const handleEstadoChange = (event) => {
+        const estadoSeleccionado = event.target.value;
+        setFiltersLocal(prev => ({
+            ...prev,
+            estado: estadoSeleccionado
+        }));
+
+        const nuevoFiltro = {
+            ...filtersLocal,
+            estado: estadoSeleccionado, 
+            isActive: undefined,
+            activaPorEmpresa: undefined
+        };
+
+        switch (estadoSeleccionado) {
+            case "activas":
+            nuevoFiltro.isActive = true;
+            nuevoFiltro.activaPorEmpresa = true;
+            break;
+            case "desactivadasAdmin":
+            nuevoFiltro.isActive = false;
+            break;
+            case "pausadasEmpresa":
+            nuevoFiltro.activaPorEmpresa = false;
+            break;
+            case "todas":
+            break;
+        }
+
+        setFiltersLocal(nuevoFiltro);
+        setCurrentPage(1);
+    };
+
+
     const clearAllFilters = () => {
         setFiltersLocal({
             titulo:null,
             tipo: null,
             experiencia: null,
-            isActive: true,
+            isActive: null,
+            activaPorEmpresa: null,
             modalidad: null,
             cargo: null,
             ciudad: null,
@@ -93,6 +133,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
                     handleFilterChange={handleFilterChange}
                     setFilters={setFilters} 
                     rol={rol}
+                    handleEstadoChange={handleEstadoChange}
                 />    
                 <div className="jobs-container">
                     <div className="jobs-header">

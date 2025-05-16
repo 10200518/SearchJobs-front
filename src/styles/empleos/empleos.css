@@ -49,6 +49,16 @@
 
   .search-input {
     width: 100%;
+    padding: 10px 10px 10px 10px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .search-input-sup {
+    width: 100%;
     padding: 14px 14px 14px 44px;
     border-radius: var(--radius);
     border: 1px solid var(--border);

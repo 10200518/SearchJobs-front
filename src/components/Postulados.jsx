@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { manejarRespuesta } from "../javascripts/ManejarRespuesta";
 import Paginacion from './Paginacion';
 
 const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
@@ -31,9 +32,9 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
         credentials: 'include',
       });
 
-      if (!res.ok) throw new Error('Error al obtener postulados');
-
-      const data = await res.json();
+      const data = await manejarRespuesta(res);
+      if(!data){return;}
+      
       setPostulados(data.postulados);
       setTotalPages(data.totalPage);
     } catch (error) {

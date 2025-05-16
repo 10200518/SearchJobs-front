@@ -60,19 +60,19 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
                 </div>
                 <div className="info">
                   {!job.active && (
-                    <span class=" top-4 left-4 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+                    <span className=" top-4 left-4 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
                       {rol === "empresa"? "Desactivada por Admin": "Desactivada"}
                     </span>
                   )}
 
                   {!job.activaPorEmpresa && job.active && (
-                    <span class=" top-4 left-4 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+                    <span className=" top-4 left-4 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
                       {rol === "empresa"? "Desactivada por ti": "Desactivada"}
                     </span>
                   )}
 
                   {job.candidatoPostulado && (
-                    <span class=" top-4 right-4 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+                    <span className=" top-4 right-4 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
                       Postulado
                     </span>
                   )}

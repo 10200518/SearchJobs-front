@@ -1,4 +1,4 @@
-export default function FilterComponent({ filtersLocal, clearAllFilters, handleFilterChange, setFilters, rol }) {
+export default function FilterComponent({ filtersLocal, clearAllFilters, handleFilterChange, setFilters, rol,handleEstadoChange }) {
   
   return (
     <div className="filters-container">
@@ -89,38 +89,12 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
       {rol === "empresa" && (
         <div className="filter-group">
           <h4 className="filter-group-title">Estado</h4>
-          <div className="filter-options">
-            <label className="filter-option">
-              <input
-                type="radio"
-                name="isActive"
-                value="true"
-                onChange={handleFilterChange}
-                checked={filtersLocal.isActive == "true"}
-              />
-              <span>Activas</span>
-            </label>
-            <label className="filter-option">
-              <input
-                type="radio"
-                name="isActive"
-                value="false"
-                onChange={handleFilterChange}
-                checked={filtersLocal.isActive == "false"}
-              />
-              <span>Desactivadas por Admin</span>
-            </label>
-            <label className="filter-option">
-              <input
-                type="radio"
-                name="activaPorEmpresa"
-                value="false"
-                onChange={handleFilterChange}
-                checked={filtersLocal.isActive == "false"}
-              />
-              <span>Desactivadas por Empresa</span>
-            </label>
-          </div>
+          <select name="estado" value={filtersLocal.estado} onChange={handleEstadoChange} className="search-input">
+            <option value="todas">Todas</option>
+            <option value="activas">Activas</option>
+            <option value="desactivadasAdmin">Desactivadas por Admin</option>
+            <option value="pausadasEmpresa">Pausadas por Empresa</option>
+          </select>
         </div>
       )}
 
@@ -147,7 +121,8 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
               experiencia: null,
               modalidad: null,
               cargo: null,
-              isActive: true,
+              isActive: null,
+              activaPorEmpresa: null,
               ciudad: null,
               sueldo: null
             }); // fuerza los filtros globales a reiniciarse
