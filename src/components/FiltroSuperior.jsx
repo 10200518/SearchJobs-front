@@ -27,7 +27,7 @@ export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFi
                         name="titulo"
                         onChange={handleFilterChange}
                         value={filtersLocal.titulo || ""}
-                        className="search-input"
+                        className="search-input-sup"
                     />
                 </div>
 
@@ -54,7 +54,7 @@ export default function FiltroSuperior({ filtersLocal, handleFilterChange, setFi
                         name="ciudad"
                         onChange={handleFilterChange}
                         value={filtersLocal.ciudad || ""}
-                        className="search-input"
+                        className="search-input-sup"
                     />
                 </div>
 

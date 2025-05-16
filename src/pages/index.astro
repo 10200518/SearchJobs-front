@@ -1,10 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.jsx';
-import Footer from '../components/Footer.astro';
-import JobCard from '../components/JobCard.astro';
 import FeatureCard from '../components/FeatureCard.astro';
-import'../styles/pages/index.css'
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.jsx';
+import JobCard from '../components/JobCard.astro';
+import Layout from '../layouts/Layout.astro';
+import '../styles/pages/index.css';
 
 interface Job {
   nvacantes: String;
@@ -14,11 +14,21 @@ interface Job {
   tipo: string;
   experiencia: string;
   imagenEmpresa: string;
+  totalpostulaciones:Number;
 }
 
-const res = await fetch('http://localhost:8080/api/vacantes/Top/listar');
-const data = await res.json();
-const featuredJobs: Job[] = data.vacantes; 
+const response = await fetch('http://localhost:8080/api/vacantes/Top/listar',{
+  headers: Astro.request.headers
+});
+const data = await response.json();
+
+const res = await fetch('http://localhost:8080/api/usuarios/rol', {
+  headers: Astro.request.headers
+});
+const dataUser = await res.json();
+let rol = dataUser.rolPrincipal;
+
+const featuredJobs: Job[] = data.vacantes || []; 
 const features = [
   {
     icon: "search",
@@ -72,7 +82,7 @@ const features = [
       
       <div class="jobs-grid">
         {featuredJobs.map(job => (
-          <JobCard job={job} />
+          <JobCard job={job} rol={rol} />
         ))}
       </div>
       

@@ -15,21 +15,30 @@ const stats = {
 ---
 
 <Layout title="Panel de Administrador | SearchJobs">
-  <Header client:load/>
-  
-  <div class="container px-4 py-6 mx-auto">
+  <Header client:load /><br>
+
+  <div class="container px-4 py-6 mx-auto mt-12">
     <div class="flex flex-col gap-6 md:flex-row">
-     
       <AdminSidebar activeItem="dashboard" />
-      
+
       <div class="flex-1">
         <h1 class="mb-6 text-2xl font-bold">Panel de Administrador</h1>
-        
+
         <div class="grid grid-cols-1 gap-4 mb-8 sm:grid-cols-2 lg:grid-cols-3">
           <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
             <div class="flex items-center">
               <div class="p-3 mr-4 text-blue-600 bg-blue-100 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                   <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                 </svg>
@@ -40,26 +49,48 @@ const stats = {
               </div>
             </div>
           </div>
-          
+
           <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
             <div class="flex items-center">
               <div class="p-3 mr-4 text-red-600 bg-red-100 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                   <line x1="2" y1="11" x2="22" y2="11"></line>
                 </svg>
               </div>
               <div>
                 <p class="text-sm text-gray-500">Vacantes Desactivadas</p>
-                <p class="text-xl font-semibold">{stats.vacantesDesactivadas}</p>
+                <p class="text-xl font-semibold">
+                  {stats.vacantesDesactivadas}
+                </p>
               </div>
             </div>
           </div>
-          
+
           <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
             <div class="flex items-center">
               <div class="p-3 mr-4 text-green-600 bg-green-100 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
@@ -70,11 +101,21 @@ const stats = {
               </div>
             </div>
           </div>
-          
+
           <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
             <div class="flex items-center">
               <div class="p-3 mr-4 text-orange-600 bg-orange-100 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d="M17 14l-5 5-5-5"></path>
                   <path d="M12 9V3"></path>
                   <path d="M12 19v2"></path>
@@ -86,11 +127,21 @@ const stats = {
               </div>
             </div>
           </div>
-          
+
           <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
             <div class="flex items-center">
               <div class="p-3 mr-4 text-purple-600 bg-purple-100 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
                   <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
                 </svg>
@@ -101,11 +152,21 @@ const stats = {
               </div>
             </div>
           </div>
-          
+
           <div class="p-4 bg-white border border-gray-100 rounded-lg shadow-sm">
             <div class="flex items-center">
               <div class="p-3 mr-4 text-teal-600 bg-teal-100 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
                 </svg>
               </div>
@@ -116,110 +177,20 @@ const stats = {
             </div>
           </div>
         </div>
-        
-        <div class="p-6 mb-8 bg-white border border-gray-100 rounded-lg shadow-sm">
-          <h2 class="mb-4 text-xl font-semibold">Análisis de Datos</h2>
-          <div class="flex items-center justify-center bg-gray-100 rounded-lg aspect-video">
-            <div class="p-6 text-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-4 text-gray-400">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
-              </svg>
-              <h3 class="mb-2 text-lg font-medium">Dashboard de Power BI</h3>
-              <p class="mb-4 text-gray-500">El dashboard de Power BI se cargará aquí cuando se configure la integración.</p>
-              <button id="configurePowerBI" class="px-4 py-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700">
-                Configurar Integración
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        <div class="grid grid-cols-1 gap-6 mb-8 md:grid-cols-2">
-          <div class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold">Acciones Rápidas</h2>
-            <div class="space-y-3">
-              <a href="/admin/vacantes" class="flex items-center p-3 transition-colors rounded-md bg-gray-50 hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-blue-600">
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                </svg>
-                Gestionar Vacantes
-              </a>
-              <a href="/admin/usuarios" class="flex items-center p-3 transition-colors rounded-md bg-gray-50 hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-blue-600">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                  <circle cx="12" cy="7" r="4"></circle>
-                </svg>
-                Gestionar Usuarios
-              </a>
-              <a href="/admin/empresas" class="flex items-center p-3 transition-colors rounded-md bg-gray-50 hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-blue-600">
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                </svg>
-                Gestionar Empresas
-              </a>
-              <a href="/admin/reportes" class="flex items-center p-3 transition-colors rounded-md bg-gray-50 hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-3 text-blue-600">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="16" y1="13" x2="8" y2="13"></line>
-                  <line x1="16" y1="17" x2="8" y2="17"></line>
-                  <polyline points="10 9 9 9 8 9"></polyline>
-                </svg>
-                Generar Reportes
-              </a>
-            </div>
-          </div>
+
+        <div class="p-6 mb-8 bg-white border border-gray-200 rounded-2xl shadow-md">
+          <h2 class="mb-6 text-2xl font-bold text-gray-800">📊 Análisis de Datos</h2>
           
-          <div class="p-6 bg-white border border-gray-100 rounded-lg shadow-sm">
-            <h2 class="mb-4 text-xl font-semibold">Actividad Reciente</h2>
-            <div class="space-y-4">
-              <div class="flex items-start">
-                <div class="p-2 mr-3 bg-blue-100 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-sm font-medium">Usuario baneado</p>
-                  <p class="text-xs text-gray-500">Se ha baneado al usuario "usuario123" por comportamiento inapropiado.</p>
-                  <p class="mt-1 text-xs text-gray-400">Hace 2 horas</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start">
-                <div class="p-2 mr-3 bg-green-100 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-600">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-sm font-medium">Vacante activada</p>
-                  <p class="text-xs text-gray-500">Se ha activado la vacante "Desarrollador Frontend" de TechCorp.</p>
-                  <p class="mt-1 text-xs text-gray-400">Hace 3 horas</p>
-                </div>
-              </div>
-              
-              <div class="flex items-start">
-                <div class="p-2 mr-3 bg-red-100 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-red-600">
-                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                    <line x1="2" y1="11" x2="22" y2="11"></line>
-                  </svg>
-                </div>
-                <div>
-                  <p class="text-sm font-medium">Vacante desactivada</p>
-                  <p class="text-xs text-gray-500">Se ha desactivado la vacante "Diseñador UX/UI" por contenido inapropiado.</p>
-                  <p class="mt-1 text-xs text-gray-400">Hace 5 horas</p>
-                </div>
-              </div>
-            </div>
+          <div class="relative w-full overflow-hidden rounded-xl shadow-inner aspect-video bg-gray-200 hover:shadow-lg transition-shadow">
+            <iframe
+              title="Dashboard Power BI"
+              class="w-full h-full border-0 rounded-xl"
+              src="https://app.powerbi.com/view?r=eyJrIjoiNzdhMWQzZmItOWNlZC00ZTY4LWE3YzItMWNiNDI4Y2IyOGM5IiwidCI6IjlkMTJiZjNmLWU0ZjYtNDdhYi05MTJmLTFhMmYwZmM0OGFhNCIsImMiOjR9"
+              allowfullscreen
+            ></iframe>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -228,12 +199,14 @@ const stats = {
 </Layout>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const configurePowerBIBtn = document.getElementById('configurePowerBI');
-    
+  document.addEventListener("DOMContentLoaded", () => {
+    const configurePowerBIBtn = document.getElementById("configurePowerBI");
+
     if (configurePowerBIBtn) {
-      configurePowerBIBtn.addEventListener('click', () => {
-        alert('Aquí se abriría un formulario para configurar la integración con Power BI.');
+      configurePowerBIBtn.addEventListener("click", () => {
+        alert(
+          "Aquí se abriría un formulario para configurar la integración con Power BI.",
+        );
       });
     }
   });

@@ -3,6 +3,28 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
 import '../../styles/registro/empresa.css';
+
+const sectores = [
+  "Tecnologia de la Informacion (TI) / Software",
+  "Salud y Medicina",
+  "Educacion y Formacion",
+  "Construccion e Infraestructura",
+  "Manufactura e Industria",
+  "Comercio y Ventas",
+  "Logistica y Transporte",
+  "Banca, Finanzas y Seguros",
+  "Agroindustria y Agricultura",
+  "Legal y Juridico",
+  "Turismo, Hoteleria y Gastronomia",
+  "Medios, Comunicacion y Publicidad",
+  "Energia y Mineria",
+  "Servicios Profesionales y Consultoria",
+  "Arte, Cultura y Entretenimiento",
+  "Bienes Raices e Inmobiliaria",
+  "Ciencia e Investigacion",
+  "Organizaciones sin Fines de Lucro y ONG",
+  "Otros"
+];
 ---
 <Layout title="Registro de Empresa | SearchJobs">
   <Header client:load />
@@ -13,7 +35,7 @@ import '../../styles/registro/empresa.css';
       <p class="subtitle">Completa el formulario para comenzar a publicar vacantes y encontrar talento</p>
       
       <form id="registroEmpresaForm" class="form">
-        <!-- Paso 1: Información básica -->
+        <!-- Paso 1: Informacion básica -->
         <div class="step-content active" id="step1">
           <div class="form-group">
             <label for="nombreEmpresa">Nombre de la empresa <span class="required">*</span></label>
@@ -45,10 +67,9 @@ import '../../styles/registro/empresa.css';
               <label for="sectorEmpresa">Sector Empresa <span class="required">*</span></label>
               <select id="sectorEmpresa" name="sectorEmpresa" class="form-control" required>
                 <option value="" disabled selected>Selecciona tu sector</option>
-                <option value="tecnologia">Tecnología</option>
-                <option value="finanzas">Finanzas</option>
-                <option value="manufactura">Manufactura</option>
-                <option value="salud">Salud</option>
+                {sectores.map((sector) => (
+                  <option value={sector}>{sector}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -138,9 +159,13 @@ import '../../styles/registro/empresa.css';
             <div class="terms-content">
               <p>Al registrarte como empresa en SearchJobs, aceptas:</p>
               <ol>
-                <li>Publicar únicamente ofertas laborales reales</li>
-                <li>Mantener información veraz y actualizada</li>
-                <li>Cumplir con las leyes laborales de tu país</li>
+                <li>1. Publicar exclusivamente ofertas laborales verificables, vigentes y auténticas.</li>
+                <li>2. Mantener información precisa, completa y actualizada en tu perfil empresarial y publicaciones.</li>
+                <li>3. Cumplir con las leyes laborales, de privacidad y contratación de tu país o región.</li>
+                <li>4. Evitar cualquier contenido ofensivo, fraudulento o discriminatorio.</li>
+                <li>5. Usar los datos personales de los candidatos únicamente con fines legítimos de selección.</li>
+                <li>6. Abstenerse de realizar actividades fraudulentas como suplantación o phishing.</li>
+                <li>7. Aceptar que SearchJobs puede revisar, suspender o eliminar publicaciones que incumplan estas
               </ol>
             </div>
           </div>
@@ -153,59 +178,8 @@ import '../../styles/registro/empresa.css';
           <div class="step-buttons">
             <button type="button" class="btn btn-outline" id="btnCancelar">Cancelar</button>
             <button type="submit" class="btn btn-primary">Completar registro</button>
-
-            <!-- <button type="button" class="btn btn-primary" id="btnSiguiente">Siguiente</button> -->
           </div>
         </div>
-        
-        <!-- <div class="step-content" id="step2">
-          <div class="form-row">    
-            <div class="form-group">
-              <label for="paisEmpresa">País <span class="required">*</span></label>
-              <select id="paisEmpresa" name="paisEmpresa" class="form-control" required>
-                <option value="" disabled selected>Selecciona tu país</option>
-                <option value="colombia">Colombia</option>
-                <option value="mexico">México</option>
-                <option value="argentina">Argentina</option>
-                <option value="espana">España</option>
-              </select>
-            </div>
-          </div>
-          
-          <div class="form-group">
-            <label for="ciudadEmpresa">Ciudad <span class="required">*</span></label>
-            <input 
-              type="text" 
-              id="ciudadEmpresa" 
-              name="ciudadEmpresa" 
-              class="form-control" 
-              placeholder="Ciudad donde opera la empresa" 
-              required
-            />
-          </div>
-          
-          <div class="terms-container">
-            <h3>Términos y condiciones</h3>
-            <div class="terms-content">
-              <p>Al registrarte como empresa en SearchJobs, aceptas:</p>
-              <ol>
-                <li>Publicar únicamente ofertas laborales reales</li>
-                <li>Mantener información veraz y actualizada</li>
-                <li>Cumplir con las leyes laborales de tu país</li>
-              </ol>
-            </div>
-          </div>
-          
-          <div class="checkbox-group">
-            <input type="checkbox" id="aceptoTerminos" required />
-            <label for="aceptoTerminos">Acepto los términos y condiciones <span class="required">*</span></label>
-          </div>
-          
-          <div class="step-buttons">
-            <button type="button" class="btn btn-outline" id="btnAnterior">Anterior</button>
-            <button type="submit" class="btn btn-primary">Completar registro</button>
-          </div>
-        </div> -->
       </form>
       
       <div class="login-container">

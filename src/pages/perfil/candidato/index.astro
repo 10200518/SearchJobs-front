@@ -3,6 +3,8 @@ import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.jsx";
 import Layout from "../../../layouts/Layout.astro";
 import "../../../styles/perfiles/candidato.css";
+import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
+
 
 const res = await fetch("http://localhost:8080/api/candidatos/perfil", {
   headers: Astro.request.headers,
@@ -22,7 +24,7 @@ interface Estudio {
   descripcion: string;
 }
 
-const data = await res.json();
+const data = await manejarRespuesta(res); 
 const candidato = data.candidato;
 const estudios = data.estudios;
 const historrialLaboral = data.historialLaboral;

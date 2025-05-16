@@ -2,6 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.astro";
+import { manejarRespuesta } from '../../javascripts/ManejarRespuesta';
 
 interface Vacante {
   nvacantes: string;
@@ -11,26 +12,42 @@ interface Vacante {
   tipo: string;
   experiencia: string;
   imagenEmpresa: string;
+  idUsuario: Number
+  totalpostulaciones: Number,
+  comentarioAdmin: string;
 }
 
 const { id } = Astro.params;
 
-const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`);
-const data = await res.json();
-console.log(data.vacanteSeleccionada);
+const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`, {
+  headers: Astro.request.headers
+});
+const data = await manejarRespuesta(res); 
 const job = data.vacanteSeleccionada;
 let rol = "ROLE_INVITADO";
+let curriculo = null;
+let idUsuarioLogueado = null;
 
 try {
   const res = await fetch("http://localhost:8080/api/usuarios/rol", {
     headers: Astro.request.headers,
   });
-  const data = await res.json();
+  const data = await manejarRespuesta(res); 
   rol = data.rolPrincipal;
+  idUsuarioLogueado = data.id;
 } catch (error) {
   console.error("Error fetching user role:", error);
 }
-console.log(rol);
+
+if(rol=== "CANDIDATO"){
+  const res = await fetch("http://localhost:8080/api/candidatos/perfil", {
+    headers: Astro.request.headers,
+  });
+  const data = await manejarRespuesta(res); 
+  curriculo = data.candidato.curriculo;
+}
+
+
 ---
 
 <Layout title={`${job.titulo} en ${job.nameEmpresa} | SearchJobs`}>
@@ -306,6 +323,28 @@ console.log(rol);
                 stroke-linejoin="round"
                 class="mt-1 mr-3 text-primary"
               >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <div>
+                <p class="text-sm text-text-light">Postulados</p>
+                <p class="font-medium">{job.totalpostulaciones}</p>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="mt-1 mr-3 text-primary"
+              >
                 <circle cx="12" cy="12" r="10"></circle>
                 <polyline points="12 6 12 12 16 14"></polyline>
               </svg>
@@ -474,25 +513,73 @@ console.log(rol);
                 <p class="font-medium">{job.fechaPublicacion}</p>
               </div>
             </div>
+
+            <div class="flex items-start">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="mt-1 mr-3 text-primary"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <div>
+                <p class="text-sm text-text-light">Postulados</p>
+                <p class="font-medium">{job.totalpostulaciones}</p>
+              </div>
+            </div>
           </div>
 
-          {
-            rol === "CANDIDATO" ? (
-              <button
-                id="applyButton"
-                data-id={id}
-                class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-              >
-                Postularme ahora
-              </button>
-            ) : rol === "ROLE_INVITADO" ? (
-              <a
-                href="/login"
-                class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-              >
-                Inicia sesión para postularte
-              </a>
-            ) : rol === "EMPRESA" ? (
+          {rol === "CANDIDATO" ? (
+            <>
+              {job.candidatoPostulado ? (
+                <span class="top-4 right-4 bg-green-500 text-white text-xs font-semibold px-9 py-3 rounded-full shadow-md">
+                  Postulado
+                </span>
+              ) : (
+                <>
+                  {(!job.isActive || !job.activaPorEmpresa) ? (
+                    <p class="text-red-600 text-sm mt-2">
+                      Esta vacante está deshabilitada y no puedes postularte.
+                    </p>
+                  ) : (
+                    <>
+                      <button
+                        id="applyButton"
+                        data-id={id}
+                        class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={!curriculo}
+                      >
+                        Postularme ahora
+                      </button>
+                      {!curriculo && (
+                        <p class="text-red-600 text-sm mt-2">
+                          Debes subir tu currículum para poder postularte.
+                        </p>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+
+            </>
+          ) : rol === "ROLE_INVITADO" ? (
+            <a
+              href="/login"
+              class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+            >
+              Inicia sesión para postularte
+            </a>
+          ) : rol === "EMPRESA" ? (
+
+            job.idUsuario == idUsuarioLogueado ? (
               <a
                 class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
                 href={`/postulados/${id}`}
@@ -500,7 +587,10 @@ console.log(rol);
                 Ver Postulados
               </a>
             ) : null
-          }
+            
+          ) : null}
+
+
         </div>
       </div>
     </div>

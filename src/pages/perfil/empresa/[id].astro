@@ -3,6 +3,8 @@ import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.jsx";
 import Layout from "../../../layouts/Layout.astro";
 import "../../../styles/perfiles/empresa.css";
+import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
+
 
 const { id } = Astro.params;
 
@@ -13,7 +15,7 @@ const res = await fetch(apiUrl, {
 });
 
 
-const data = await res.json();
+const data = await manejarRespuesta(res); 
 const empresa = data.empresa || {};
 ---
 <Layout title={`${empresa.nombre} | SearchJobs`}>

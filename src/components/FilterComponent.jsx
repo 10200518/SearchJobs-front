@@ -1,4 +1,4 @@
-export default function FilterComponent({ filtersLocal, clearAllFilters, handleFilterChange, setFilters }) {
+export default function FilterComponent({ filtersLocal, clearAllFilters, handleFilterChange, setFilters, rol,handleEstadoChange }) {
   
   return (
     <div className="filters-container">
@@ -49,6 +49,17 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
           className="search-input"
         />
       </div>
+      
+      <div className="filter-group">
+        <h4 className="filter-group-title">Postulados</h4>
+        <input
+          type="number"
+          name="totalpostulaciones"
+          onChange={handleFilterChange}
+          value={filtersLocal.sueldo || ""}
+          className="search-input"
+        />
+      </div>
 
       <div className="filter-group">
         <h4 className="filter-group-title">Modalidad</h4>
@@ -85,6 +96,19 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
           </label>
         </div>
       </div>
+
+      {rol === "empresa" && (
+        <div className="filter-group">
+          <h4 className="filter-group-title">Estado</h4>
+          <select name="estado" value={filtersLocal.estado} onChange={handleEstadoChange} className="search-input">
+            <option value="todas">Todas</option>
+            <option value="activas">Activas</option>
+            <option value="desactivadasAdmin">Desactivadas por Admin</option>
+            <option value="pausadasEmpresa">Pausadas por Empresa</option>
+          </select>
+        </div>
+      )}
+
       
       <div className="filter-group">
         <h4 className="filter-group-title">Cargo</h4>
@@ -104,12 +128,15 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
             clearAllFilters(); // resetea filtros locales
             setFilters({
               titulo: null,
-              tipo: null,
+              tipo: "todos",
               experiencia: null,
               modalidad: null,
               cargo: null,
+              isActive: null,
+              activaPorEmpresa: null,
               ciudad: null,
-              sueldo: null
+              sueldo: null,
+              totalpostulaciones: null
             }); // fuerza los filtros globales a reiniciarse
           }}
         >

@@ -3,36 +3,13 @@ import Layout from "../../../layouts/Layout.astro";
 import Header from "../../../components/Header.jsx";
 import Footer from "../../../components/Footer.astro";
 import "../../../styles/perfiles/empresa.css"
+import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
 
-// Datos por defecto para la empresa
-const defaultEmpresa = {
-  nombre: "Empresa no encontrada",
-  imagen: "/images/imgEmpresa.png",
-  sectorEmpresarial: "No especificado",
-  nit: "No registrado",
-  correo: "No registrado",
-  telefono: "No registrado",
-  sitioWeb: "",
-  descripcion: "No hay descripción disponible"
-};
-
-let empresa = defaultEmpresa;
-
-try {
-  const res = await fetch("http://localhost:8080/api/empresas/perfil", {
-    headers: Astro.request.headers,
-  });
-  
-  if (!res.ok) {
-    throw new Error(`Error HTTP: ${res.status}`);
-  }
-  
-  const data = await res.json();
-  empresa = data?.empresa ? {...defaultEmpresa, ...data.empresa} : defaultEmpresa;
-} catch (error) {
-  console.error("Error al cargar los datos de la empresa:", error);
-  // Mantenemos los valores por defecto si hay error
-}
+const res = await fetch("http://localhost:8080/api/empresas/perfil", {
+  headers: Astro.request.headers,
+});
+const data = await manejarRespuesta(res); 
+const empresa = data.empresa;
 ---
 
 <Layout title={`${empresa.nombre} | SearchJobs`}>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const ChatBox = ({ chatId }) => {
   const [messages, setMessages] = useState([]);
@@ -19,9 +20,8 @@ const ChatBox = ({ chatId }) => {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Error al obtener la información del chat");
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
         setChatInfo(data);
-        console.log(data)
       } catch (err) {
         console.error("Error:", err);
       }
@@ -41,7 +41,7 @@ const ChatBox = ({ chatId }) => {
       onConnect: () => {
         console.log("✅ Conectado a WebSocket");
 
-        client.subscribe(`/user/${userId}/queue/messages`, (msg) => {
+        client.subscribe(`/user/queue/messages`, (msg) => {
           const message = JSON.parse(msg.body);
           setMessages((prev) => [...prev, message]);
         });
@@ -70,7 +70,8 @@ const ChatBox = ({ chatId }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e?.preventDefault();
     if (!chatInfo || input.trim() === "") return;
 
     const { userId, rolPrincipal: role, chatInfo: chatDetails } = chatInfo;
@@ -93,7 +94,6 @@ const ChatBox = ({ chatId }) => {
         destination: "/app/chats.sendMessage",
         body: JSON.stringify(msg),
       });
-      setMessages((prev) => [...prev, msg]);
       setInput("");
     }
   };
@@ -190,12 +190,6 @@ const ChatBox = ({ chatId }) => {
               className="flex-1 resize-none border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Tab') {
-                  e.preventDefault();
-                  setInput(e.target.value);
-                }
-              }}
               placeholder="Escribe tu mensaje..."
             />
             <button
@@ -206,6 +200,12 @@ const ChatBox = ({ chatId }) => {
                   ? "bg-blue-500 text-white hover:bg-blue-600"
                   : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }`}
+              onKeyDown={(e) => {
+                if (e.key === 'Tab') {
+                  e.preventDefault();
+                  setInput(e.target.value);
+                }
+              }}
             >
               Enviar
             </button>

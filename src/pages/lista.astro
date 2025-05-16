@@ -45,7 +45,7 @@ let totalPages = 1;
     const cargarVacantes = async (page = 1) => {
       try {
         const res = await fetch(`/api/vacantes?page=${page}&size=${itemsPerPage}`);
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
 
         vacantes = data.vacantes; // Los datos de las vacantes
         totalPages = data.totalPages; // Número total de páginas

@@ -1,93 +1,28 @@
 ---
+import AdminSidebar from "../../components/AdminSidebar.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.jsx";
 import VacantesActivas from "../../components/VacantesActivas.jsx";
-import VacantesDesactivadas from "../../components/VacantesDesactivadas.jsx";
 import Layout from "../../layouts/Layout.astro";
 ;
-// En un caso real, estos datos vendrían de una base de datos
-const vacantesActivas = [
-  {
-    id: 1,
-    titulo: "Desarrollador Frontend",
-    empresa: "TechCorp",
-    ubicacion: "Bogotá, Colombia",
-    fechaPublicacion: "2023-04-28",
-    postulaciones: 24,
-  },
-  {
-    id: 2,
-    titulo: "Diseñador UX/UI",
-    empresa: "CreativeStudio",
-    ubicacion: "Remoto",
-    fechaPublicacion: "2023-04-27",
-    postulaciones: 18,
-  },
-  {
-    id: 3,
-    titulo: "Desarrollador Backend",
-    empresa: "SoftwareInc",
-    ubicacion: "Medellín, Colombia",
-    fechaPublicacion: "2023-04-26",
-    postulaciones: 15,
-  },
-  {
-    id: 4,
-    titulo: "Product Manager",
-    empresa: "InnovaTech",
-    ubicacion: "Bogotá, Colombia",
-    fechaPublicacion: "2023-04-25",
-    postulaciones: 12,
-  },
-  {
-    id: 5,
-    titulo: "DevOps Engineer",
-    empresa: "CloudSolutions",
-    ubicacion: "Remoto",
-    fechaPublicacion: "2023-04-24",
-    postulaciones: 9,
-  },
-];
-
-const vacantesDesactivadas = [
-  {
-    id: 6,
-    titulo: "Marketing Digital",
-    empresa: "DigitalAgency",
-    ubicacion: "Cali, Colombia",
-    fechaDesactivacion: "2023-04-23",
-    motivo: "Contenido inapropiado",
-  },
-  {
-    id: 7,
-    titulo: "Analista de Datos",
-    empresa: "DataInsights",
-    ubicacion: "Bogotá, Colombia",
-    fechaDesactivacion: "2023-04-22",
-    motivo: "Información incompleta",
-  },
-  {
-    id: 8,
-    titulo: "Asistente Administrativo",
-    empresa: "AdminCorp",
-    ubicacion: "Barranquilla, Colombia",
-    fechaDesactivacion: "2023-04-21",
-    motivo: "Solicitud de la empresa",
-  },
-];
 ---
-
 <Layout title="Gestión de Vacantes | SearchJobs">
   <Header client:load />
-
-  <VacantesActivas client:load />
-
-  <VacantesDesactivadas client:load />
-  
-  <!-- <div class="container px-4 py-6 mx-auto">
-    <div class="flex flex-col gap-6 md:flex-row">
+    <div class="container px-4 py-6 mx-auto">
+        <div class="flex flex-col gap-6 md:flex-row">
      
       <AdminSidebar activeItem="vacantes" />
+      <div class="flex-1"> <VacantesActivas client:load /> </div>
+      
+        </div>
+    </div>
+    <Footer slot="footer" />
+</Layout>
+      
+
+  <!-- <VacantesDesactivadas client:load /> -->
+  
+  <!-- 
       
       <div class="flex-1">
         <div class="flex items-center justify-between mb-6">
@@ -217,7 +152,7 @@ const vacantesDesactivadas = [
     </div>
   </div> -->
   
-  <div id="modal-desactivar" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+  <!-- <div id="modal-desactivar" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
     <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
       <h3 class="mb-4 text-lg font-semibold">Desactivar Vacante</h3>
       <p class="mb-4">¿Estás seguro de que deseas desactivar la vacante <span id="vacante-titulo-desactivar" class="font-medium"></span>?</p>
@@ -249,10 +184,9 @@ const vacantesDesactivadas = [
         <button id="confirmar-activar" class="px-4 py-2 text-white transition-colors bg-green-600 rounded-md hover:bg-green-700">Activar</button>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <Footer slot="footer" />
-</Layout>
+  
 
 <!-- <script type="text/javascript">
   document.addEventListener('DOMContentLoaded', () => {

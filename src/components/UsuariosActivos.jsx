@@ -1,40 +1,48 @@
 import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const UsuariosActivos = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
-  const [fade, setFade] = useState(true);
+  const [fade] = useState(true);
   const [totalElements, setTotalElements] = useState(0);
+   const [AdminId,setAdminId] = useState('');
 
-  useEffect(() => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchInput, setSearchInput] = useState('');
+  const [searchTipoInput, setSearchTipoInput] = useState('');
+  const [tipoUsuario, setTipoUsuario] = useState('');
+  const [verBaneados, setVerBaneados] = useState(false);
+ 
+
+  
     const fetchUsuarios = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage - 1}&size=${pageSize}`,{
-          credentials: 'include' 
-      });
-        const data = await res.json();
+        const url = `http://localhost:8080/api/admin/listar/filtrados?nombre=${searchTerm}&rolPrinciapl=${tipoUsuario}&estado=${!verBaneados}&page=${currentPage - 1}&size=${pageSize}`;
+        const res = await fetch(url, { credentials: 'include' });
+        const data = await manejarRespuesta(res); 
+        
         setTotalElements(data.totalElements || 0);
         setUsuarios(data.usuarios || []);
+        console.log(data.idUsuario)
         setTotalPages(data.totalPages || 0);
-        console.log(data.totalPages);
       } catch (err) {
         console.error('Error:', err);
       }
     };
-
+  useEffect(() => {
     fetchUsuarios();
-  }, [currentPage, pageSize]);
+  }, [currentPage, pageSize, searchTerm, tipoUsuario, verBaneados, AdminId]);
 
   const verPerfil = (idUsuario) => {
     fetch(`http://localhost:8080/api/candidatos/perfil?idUsuario=${idUsuario}`, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },credentials: 'include' 
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
     })
       .then((res) => {
         if (!res.ok) throw new Error('Error al obtener el perfil');
@@ -46,111 +54,111 @@ const UsuariosActivos = () => {
       .catch((err) => console.error('Error al obtener el perfil:', err));
   };
 
-  const banearUsuario = (idUsuario, motivo = 'Falta grave') => {
-    fetch(`http://localhost:8080/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=false&comentario=${motivo}`, {
+  const cambiarEstado = (idUsuario, motivo = 'Falta grave', isActive) => {
+    fetch(`http://localhost:8080/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=${isActive}&comentario=${motivo}`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },credentials: 'include' 
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      credentials: 'include',
     })
       .then((res) => {
-        if (!res.ok) throw new Error('Error al banear usuario');
+        if (!res.ok) throw new Error('Error al cambiar el estado del usuario');
         return res.json();
       })
       .then(() => {
-        // Recargar lista después de banear
-        return fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage - 1}&size=${pageSize}`,{
-          credentials: 'include' 
-      });
+        fetchUsuarios();
       })
-      .then((res) => res.json())
-      .then((data) => setUsuarios(data.usuarios || []))
-      .catch((err) => console.error('Error al banear el usuario:', err));
+      .catch((err) => console.error('Error al cambiar el estado del usuario:', err));
+  };
+
+  const aplicarFiltros = () => {
+    setSearchTerm(searchInput);
+    setTipoUsuario(searchTipoInput);
+    setCurrentPage(1);
   };
 
   return (
-    <div>
-      <div className="mb-6">
-        <div className="border-b border-gray-200">
-          <nav className="flex -mb-px">
-            <button className="px-4 py-3 font-medium text-blue-600 border-b-2 border-blue-600 tab-button active">
-              Usuarios Activos ({totalElements})
-            </button>
-          </nav>
+    <div className="flex-1">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">Gestión de Usuarios</h1>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            placeholder="Buscar usuarios..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            className="py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+          <select
+            value={searchTipoInput}
+            onChange={(e) => setSearchTipoInput(e.target.value)}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="">Todos los tipos</option>
+            <option value="CANDIDATO">Candidatos</option>
+            <option value="EMPRESA">Empresas</option>
+          </select>
+          <button onClick={aplicarFiltros} className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
+            Buscar
+          </button>
+          <button onClick={() => setVerBaneados(!verBaneados)} className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
+            {verBaneados ? 'Ver Activos' : 'Ver Baneados'}
+          </button>
         </div>
       </div>
-
-      <div className={`tab-content transition-opacity duration-300 ${fade ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Nombre</th>
-                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Email</th>
-                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Tipo</th>
-                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Fecha Registro</th>
-                <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Último Acceso</th>
-                <th className="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Acciones</th>
+       <p className="mb-2 text-sm text-gray-600">
+            {totalElements} Usuarios {verBaneados ? 'Baneados' : 'Activos'}
+          </p>
+      <div className="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className={`px-6 py-3 text-xs font-medium text-left uppercase ${verBaneados ? 'text-red-800' : 'text-blue-500'}`}>Nombre</th>
+              <th className={`px-6 py-3 text-xs font-medium text-left uppercase ${verBaneados ? 'text-red-800' : 'text-blue-500'}`}>Email</th>
+              <th className={`px-6 py-3 text-xs font-medium text-left uppercase ${verBaneados ? 'text-red-800' : 'text-blue-500'}`}>Tipo</th>
+              {verBaneados ? (
+                <th className="px-6 py-3 text-xs font-medium text-left uppercase text-red-800">Comentario Admin</th>
+              ) : (
+                <th className="px-6 py-3 text-xs font-medium text-left uppercase text-blue-500">Fecha Registro</th>
+              )}
+              <th className={`px-6 py-3 text-xs font-medium text-left uppercase ${verBaneados ? 'text-red-800' : 'text-blue-500'}`}>Último Acceso</th>
+              <th className={`px-6 py-3 text-xs font-medium text-right uppercase ${verBaneados ? 'text-red-800' : 'text-blue-500'}`}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {usuarios.map((user) => (
+              <tr key={user.idUsuario}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{user.nombre}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.correo}</td>
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${user.rolPrinciapl === 'CANDIDATO' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                    {user.rolPrinciapl}
+                  </span>
+                </td>
+                {verBaneados ? (
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.comentarioAdmin || '-'}</td>
+                    ):(
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.fechaRegistro || '-'}</td>
+                )}
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{user.fechaInicioSesion || '-'}</td>
+                  
+              
+                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/candidato/${user.idUsuario}`}> Ver Perfil 
+                      </a>
+                  {verBaneados ? (
+                    <button onClick={() => cambiarEstado(user.idUsuario, 'Desbaneado', true)} className="text-green-600 hover:text-green-800">Reactivar</button>
+                  ) : (
+                    <button onClick={() => cambiarEstado(user.idUsuario, 'Falta grave', false)} className="text-red-600 hover:text-red-800">Banear</button>
+                  )}
+                </td>
               </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {usuarios.map((user) => (
-                  <tr key={user.idUsuario}>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{user.nombre}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{user.correo}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          user.rolPrinciapl === 'Candidato'
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-blue-100 text-blue-800'
-                        }`}
-                      >
-                        {user.rolPrinciapl}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">{/* Fecha Registro */}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">{/* Último Acceso */}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button
-                        className="mr-3 text-blue-600 hover:text-blue-900"
-                        onClick={() => verPerfil(user.idUsuario)}>  Ver  </button>
-                    <a
-                      className="mr-3 text-blue-600 hover:text-blue-900"
-                      href={
-                        user.rolPrinciapl === "EMPRESA"
-                          ? `/perfil/empresa/${user.idUsuario}`
-                          : `/perfil/candidato/${user.idUsuario}`
-                      }
-                    >
-                      Ver Perfil ahora sí
-                    </a>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-                        
-                      <button
-                        className="mr-3 text-red-600 hover:text-red-900"
-                        onClick={() => banearUsuario(user.idUsuario)}
-                      >
-                        Banear
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-
-          <div className="p-4">
-            <Paginacion
-              totalPages={totalPages}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
-          </div>
-        </div>
+      <div className="p-4">
+        <Paginacion currentPage={currentPage} setCurrentPage={setCurrentPage} totalPages={totalPages} />
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const ChatList = () => {
   const [userRole, setUserRole] = useState(null);
@@ -12,7 +13,7 @@ const ChatList = () => {
         const res = await fetch('http://localhost:8080/api/usuarios/rol', {
           credentials: 'include',
         });
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
         setId(data.id)
         setUserRole(data.rolPrincipal);  // Guarda el rol del usuario
       } catch (error) {
@@ -41,7 +42,7 @@ const ChatList = () => {
           const res = await fetch(url, {
             credentials: 'include',
           });
-          const data = await res.json();
+          const data = await manejarRespuesta(res); 
           setChats(data.chats);  // Guarda los chats en el estado
         } catch (error) {
           console.error('Error fetching chats:', error);
