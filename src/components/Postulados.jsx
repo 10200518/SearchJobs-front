@@ -34,7 +34,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
 
       const data = await manejarRespuesta(res);
       if(!data){return;}
-      
+      console.log(data.postulados)
       setPostulados(data.postulados);
       setTotalPages(data.totalPage);
     } catch (error) {
@@ -192,14 +192,14 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                   <tr key={postulado.candidato.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {postulado.candidato.nombre}
-                      {!postulado.isActive && (
+                      {!postulado.active && (
                         <span className="block text-xs text-yellow-600 font-medium">
                           Postulación desactivada
                         </span>
                       )}
-                      {!postulado.vacante.vacanteIsActive && (
+                      {!postulado.vacanteIsActive && (
                         <span className="block text-xs text-red-600 font-medium">
-                          Vacante deshabilitada
+                          Vacante deshabilitada {"hola"+postulado.vacanteIsActive}
                         </span>
                       )}
                     </td>
@@ -227,9 +227,9 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                       </a>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {(postulado.estado === 'Espera' || postulado.estado === 'Activo') &&
-                        postulado.isActive &&
-                        postulado.vacante.vacanteIsActive && (
+                      {(postulado.estado === 'Espera' || postulado.estado === 'Aceptada') &&
+                        postulado.active &&
+                        postulado.vacanteIsActive && (
                           <button
                             onClick={() =>
                               abrirChat(postulado.candidato.id, postulado.vacante.id)
@@ -242,8 +242,8 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap space-y-2">
                       {postulado.estado === 'Espera' &&
-                        postulado.isActive &&
-                        postulado.vacante.vacanteIsActive && (
+                        postulado.active &&
+                        postulado.vacanteIsActive && (
                           <>
                             <button
                               className="block w-full bg-red-100 hover:bg-red-200 text-red-700 font-semibold py-1 px-3 rounded-md"

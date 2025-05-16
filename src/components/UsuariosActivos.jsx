@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const UsuariosActivos = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -23,7 +24,7 @@ const UsuariosActivos = () => {
       try {
         const url = `http://localhost:8080/api/admin/listar/filtrados?nombre=${searchTerm}&rolPrinciapl=${tipoUsuario}&estado=${!verBaneados}&page=${currentPage - 1}&size=${pageSize}`;
         const res = await fetch(url, { credentials: 'include' });
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
         
         setTotalElements(data.totalElements || 0);
         setUsuarios(data.usuarios || []);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const VacantesDesactivadas = () => {
   const [vacantes, setVacantes] = useState([]);
@@ -17,7 +18,7 @@ const VacantesDesactivadas = () => {
           credentials: 'include' 
         })
           
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
         setTotalElements(data.totalElements || 0);
         setVacantes(data.vacantesDesactivadas || []);
         setTotalPages(data.totalPages || 0);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const ChatBox = ({ chatId }) => {
   const [messages, setMessages] = useState([]);
@@ -19,7 +20,7 @@ const ChatBox = ({ chatId }) => {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Error al obtener la información del chat");
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
         setChatInfo(data);
       } catch (err) {
         console.error("Error:", err);

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import '../styles/pages/header.css'
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const Header = () => {
   const [userRole, setUserRole] = useState(null);
@@ -10,7 +11,8 @@ const Header = () => {
         const res = await fetch('http://localhost:8080/api/usuarios/rol', {
           credentials: 'include',
         });
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
+        if(!data){return;}
         setUserRole(data.rolPrincipal);
       } catch (error) {
         console.error('Error fetching user role:', error);

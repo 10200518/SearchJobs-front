@@ -6,17 +6,19 @@ export const manejarRespuesta = async (res) => {
     } catch (e) {
       data = {};
     }
-    console.log("data: "+data)
+    console.log("data: "+data.error)
     console.log("res: "+ res.status)
 
     if (res.status === 401) {
       if (data?.error === "TOKEN_EXPIRED") {
         alert("Tu sesión ha expirado.");
-        await fetch("http://localhost:8080/usuarios/cerrarSesion");
+        window.location.href="http://localhost:8080/usuarios/cerrarSesion";
       } else {
         alert("No estás autenticado.");
       }
-      window.location.href = "/login";
+      window.location.href="http://localhost:8080/usuarios/cerrarSesion";
+
+      // window.location.href = "/login";
       data= null
       return;
     }

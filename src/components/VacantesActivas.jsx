@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const VacantesActivas = () => {
   const [vacantes, setVacantes] = useState([]);
@@ -46,7 +47,7 @@ const VacantesActivas = () => {
         body: JSON.stringify(filtro)
       });
 
-      const data = await res.json();
+      const data = await manejarRespuesta(res); 
       setTotalElements(data.totalElements || 0);
       setVacantes(data.vacantes || []);
       setTotalPages(data.totalPages || 0);

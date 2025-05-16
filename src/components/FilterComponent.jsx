@@ -49,6 +49,17 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
           className="search-input"
         />
       </div>
+      
+      <div className="filter-group">
+        <h4 className="filter-group-title">Postulados</h4>
+        <input
+          type="number"
+          name="totalpostulaciones"
+          onChange={handleFilterChange}
+          value={filtersLocal.sueldo || ""}
+          className="search-input"
+        />
+      </div>
 
       <div className="filter-group">
         <h4 className="filter-group-title">Modalidad</h4>
@@ -124,7 +135,8 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
               isActive: null,
               activaPorEmpresa: null,
               ciudad: null,
-              sueldo: null
+              sueldo: null,
+              totalpostulaciones: null
             }); // fuerza los filtros globales a reiniciarse
           }}
         >

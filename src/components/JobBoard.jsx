@@ -18,7 +18,8 @@ const JobBoard = ({ fetchUrl, rol }) => {
         activaPorEmpresa: null,
         cargo: null,
         ciudad: null,
-        sueldo: null
+        sueldo: null,
+        totalpostulaciones:null
     });
     const [filtersLocal, setFiltersLocal] = useState({
         titulo:null,
@@ -29,7 +30,8 @@ const JobBoard = ({ fetchUrl, rol }) => {
         activaPorEmpresa: null,
         cargo: null,
         ciudad: null,
-        sueldo: null
+        sueldo: null,
+        totalpostulaciones:null
     });
     const [filteredJobs, setFilteredJobs] = useState([]);
     const itemsPerPage = 20;
@@ -113,7 +115,8 @@ const JobBoard = ({ fetchUrl, rol }) => {
             modalidad: null,
             cargo: null,
             ciudad: null,
-            sueldo: null
+            sueldo: null,
+            totalpostulaciones: null
         });
     };
 

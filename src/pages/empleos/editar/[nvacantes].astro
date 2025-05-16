@@ -4,10 +4,11 @@ import Layout from '../../../layouts/Layout.astro';
 import Header from '../../../components/Header.jsx';
 import Footer from '../../../components/Footer.astro';
 import '../../../styles/pages/vacantes.css';
+import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
 
 const { nvacantes } = Astro.params;
 const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${nvacantes}`);
-const data = await res.json();
+const data = await manejarRespuesta(res); 
 const vacante = data.vacanteSeleccionada;
 ---
 

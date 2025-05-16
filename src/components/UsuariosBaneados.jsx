@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 
 const UsuariosBaneados = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -15,7 +16,7 @@ const UsuariosBaneados = () => {
         const res = await fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage-1}&size=${pageSize}%&estado=false`,{
           credentials: 'include' 
         });
-        const data = await res.json();
+        const data = await manejarRespuesta(res); 
         setTotalElements(data.totalElements || 0);
         setUsuarios(data.usuarios || []);
         setTotalPages(data.totalPages || 0);

@@ -5,6 +5,7 @@ import Footer from '../../components/Footer.astro';
 import JobCard from '../../components/JobCard.astro';
 import FeatureCard from '../../components/FeatureCard.astro';
 import'../../styles/pages/index.css'
+import { manejarRespuesta } from '../../javascripts/ManejarRespuesta';
 
 interface Job {
   nvacantes: String;
@@ -17,7 +18,7 @@ interface Job {
 }
 
 const res = await fetch('http://localhost:8080/api/vacantes/Top/listar');
-const data = await res.json();
+const data = await manejarRespuesta(res); 
 const featuredJobs: Job[] = data.vacantes; 
 const features = [
   {
