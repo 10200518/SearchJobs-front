@@ -15,11 +15,13 @@ interface Vacante {
 
 const { id } = Astro.params;
 
-const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`);
+const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`, {
+  headers: Astro.request.headers
+});
 const data = await res.json();
-console.log(data.vacanteSeleccionada);
 const job = data.vacanteSeleccionada;
 let rol = "ROLE_INVITADO";
+let curriculo = null;
 
 try {
   const res = await fetch("http://localhost:8080/api/usuarios/rol", {
@@ -30,7 +32,15 @@ try {
 } catch (error) {
   console.error("Error fetching user role:", error);
 }
-console.log(rol);
+if(rol=== "CANDIDATO"){
+  const res = await fetch("http://localhost:8080/api/candidatos/perfil", {
+    headers: Astro.request.headers,
+  });
+  const data = await res.json();
+  curriculo = data.candidato.curriculo;
+}
+
+
 ---
 
 <Layout title={`${job.titulo} en ${job.nameEmpresa} | SearchJobs`}>
@@ -476,31 +486,56 @@ console.log(rol);
             </div>
           </div>
 
-          {
-            rol === "CANDIDATO" ? (
-              <button
-                id="applyButton"
-                data-id={id}
-                class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-              >
-                Postularme ahora
-              </button>
-            ) : rol === "ROLE_INVITADO" ? (
-              <a
-                href="/login"
-                class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-              >
-                Inicia sesión para postularte
-              </a>
-            ) : rol === "EMPRESA" ? (
-              <a
-                class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-                href={`/postulados/${id}`}
-              >
-                Ver Postulados
-              </a>
-            ) : null
-          }
+          {rol === "CANDIDATO" ? (
+            <>
+              {job.candidatoPostulado ? (
+                <span class="top-4 right-4 bg-green-500 text-white text-xs font-semibold px-9 py-3 rounded-full shadow-md">
+                  Postulado
+                </span>
+              ) : (
+                <>
+                  {(!job.isActive || !job.activaPorEmpresa) ? (
+                    <p class="text-red-600 text-sm mt-2">
+                      Esta vacante está deshabilitada y no puedes postularte.
+                    </p>
+                  ) : (
+                    <>
+                      <button
+                        id="applyButton"
+                        data-id={id}
+                        class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={!curriculo}
+                      >
+                        Postularme ahora
+                      </button>
+                      {!curriculo && (
+                        <p class="text-red-600 text-sm mt-2">
+                          Debes subir tu currículum para poder postularte.
+                        </p>
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+
+            </>
+          ) : rol === "ROLE_INVITADO" ? (
+            <a
+              href="/login"
+              class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+            >
+              Inicia sesión para postularte
+            </a>
+          ) : rol === "EMPRESA" ? (
+            <a
+              class="w-full bg-gradient-primary text-white py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+              href={`/postulados/${id}`}
+            >
+              Ver Postulados
+            </a>
+          ) : null}
+
+
         </div>
       </div>
     </div>

@@ -69,7 +69,8 @@ const ChatBox = ({ chatId }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const sendMessage = () => {
+  const sendMessage = (e) => {
+    e?.preventDefault();
     if (!chatInfo || input.trim() === "") return;
 
     const { userId, rolPrincipal: role, chatInfo: chatDetails } = chatInfo;
@@ -188,12 +189,6 @@ const ChatBox = ({ chatId }) => {
               className="flex-1 resize-none border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Tab') {
-                  e.preventDefault();
-                  setInput(e.target.value);
-                }
-              }}
               placeholder="Escribe tu mensaje..."
             />
             <button
@@ -204,6 +199,12 @@ const ChatBox = ({ chatId }) => {
                   ? "bg-blue-500 text-white hover:bg-blue-600"
                   : "bg-gray-300 text-gray-600 cursor-not-allowed"
               }`}
+              onKeyDown={(e) => {
+                if (e.key === 'Tab') {
+                  e.preventDefault();
+                  setInput(e.target.value);
+                }
+              }}
             >
               Enviar
             </button>

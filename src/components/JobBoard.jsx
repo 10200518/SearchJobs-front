@@ -22,7 +22,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
         tipo: "todos",
         experiencia: null,
         modalidad: null,
-        isActive: true,
+        isActive: "true",
         cargo: null,
         ciudad: null,
         sueldo: null
@@ -53,6 +53,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
         };
 
         fetchAllJobs();
+        console.log(filteredJobs)
     }, [filters,currentPage]); 
 
     const handleFilterChange = (event) => {
@@ -91,6 +92,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
                     clearAllFilters={clearAllFilters}
                     handleFilterChange={handleFilterChange}
                     setFilters={setFilters} 
+                    rol={rol}
                 />    
                 <div className="jobs-container">
                     <div className="jobs-header">

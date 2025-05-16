@@ -191,6 +191,16 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                   <tr key={postulado.candidato.id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                       {postulado.candidato.nombre}
+                      {!postulado.isActive && (
+                        <span className="block text-xs text-yellow-600 font-medium">
+                          Postulación desactivada
+                        </span>
+                      )}
+                      {!postulado.vacante.vacanteIsActive && (
+                        <span className="block text-xs text-red-600 font-medium">
+                          Vacante deshabilitada
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {postulado.fechaPostulacion || '-'}
@@ -216,37 +226,43 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                       </a>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {/* Condición para mostrar "Abrir chat" solo si la postulación está en estado Pendiente o Activa */}
-                      {(postulado.estado === 'Espera' || postulado.estado === 'Activo') && (
-                        <button
-                          onClick={() => abrirChat(postulado.candidato.id, postulado.vacante.id)}
-                          className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-3 rounded-md"
-                        >
-                          Abrir chat
-                        </button>
-                      )}
+                      {(postulado.estado === 'Espera' || postulado.estado === 'Activo') &&
+                        postulado.isActive &&
+                        postulado.vacante.vacanteIsActive && (
+                          <button
+                            onClick={() =>
+                              abrirChat(postulado.candidato.id, postulado.vacante.id)
+                            }
+                            className="bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-1 px-3 rounded-md"
+                          >
+                            Abrir chat
+                          </button>
+                        )}
                     </td>
-
                     <td className="px-6 py-4 whitespace-nowrap space-y-2">
-                      {/* Condición para mostrar los botones de aceptar y rechazar solo si la postulación está en estado Espera */}
-                      {postulado.estado === 'Espera' && (
-                        <>
-                          <button
-                            className="block w-full bg-red-100 hover:bg-red-200 text-red-700 font-semibold py-1 px-3 rounded-md"
-                            onClick={() => actualizarEstadoPostulacion(postulado.nPostulacion, 'Rechazada')}
-                          >
-                            Rechazar
-                          </button>
-                          <button
-                            className="block w-full bg-green-100 hover:bg-green-200 text-green-700 font-semibold py-1 px-3 rounded-md"
-                            onClick={() => actualizarEstadoPostulacion(postulado.nPostulacion, 'Aceptada')}
-                          >
-                            Aceptar
-                          </button>
-                        </>
-                      )}
+                      {postulado.estado === 'Espera' &&
+                        postulado.isActive &&
+                        postulado.vacante.vacanteIsActive && (
+                          <>
+                            <button
+                              className="block w-full bg-red-100 hover:bg-red-200 text-red-700 font-semibold py-1 px-3 rounded-md"
+                              onClick={() =>
+                                actualizarEstadoPostulacion(postulado.nPostulacion, 'Rechazada')
+                              }
+                            >
+                              Rechazar
+                            </button>
+                            <button
+                              className="block w-full bg-green-100 hover:bg-green-200 text-green-700 font-semibold py-1 px-3 rounded-md"
+                              onClick={() =>
+                                actualizarEstadoPostulacion(postulado.nPostulacion, 'Aceptada')
+                              }
+                            >
+                              Aceptar
+                            </button>
+                          </>
+                        )}
                     </td>
-
                   </tr>
                 ))}
               </tbody>
@@ -261,6 +277,8 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
         </>
       )}
     </div>
+
+    
   );
 }
 

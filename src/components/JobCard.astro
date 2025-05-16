@@ -1,6 +1,5 @@
 ---
-
-const { job } = Astro.props;
+const { job, rol } = Astro.props;
 ---
 
 <a href={`/empleos/${job.nvacantes}`} class="card">
@@ -9,6 +8,24 @@ const { job } = Astro.props;
       <img src={"http://localhost:8080"+job.imagenEmpresa || "/placeholder.svg?height=80&width=80"} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
     </div>
     <div class="info">
+      {!job.active && (
+        <span class="top-4 left-4 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+          {rol === "EMPRESA"? "Desactivada por Admin": "Desactivada"}
+        </span>
+      )}
+
+      {!job.activaPorEmpresa && job.isActive && (
+        <span class="top-4 left-4 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+          {rol === "EMPRESA"? "Desactivada por ti": "Desactivada"}
+        </span>
+      )}
+
+      {job.candidatoPostulado && (
+        <span class="top-4 right-4 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+          Postulado
+        </span>
+      )}
+
       <h3 class="title">{job.titulo}</h3>
       <p class="company">{job.nameEmpresa}</p>
     </div>

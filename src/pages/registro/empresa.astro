@@ -3,6 +3,28 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
 import '../../styles/registro/empresa.css';
+
+const sectores = [
+  "Tecnologia de la Informacion (TI) / Software",
+  "Salud y Medicina",
+  "Educacion y Formacion",
+  "Construccion e Infraestructura",
+  "Manufactura e Industria",
+  "Comercio y Ventas",
+  "Logistica y Transporte",
+  "Banca, Finanzas y Seguros",
+  "Agroindustria y Agricultura",
+  "Legal y Juridico",
+  "Turismo, Hoteleria y Gastronomia",
+  "Medios, Comunicacion y Publicidad",
+  "Energia y Mineria",
+  "Servicios Profesionales y Consultoria",
+  "Arte, Cultura y Entretenimiento",
+  "Bienes Raices e Inmobiliaria",
+  "Ciencia e Investigacion",
+  "Organizaciones sin Fines de Lucro y ONG",
+  "Otros"
+];
 ---
 <Layout title="Registro de Empresa | SearchJobs">
   <Header client:load />
@@ -13,7 +35,7 @@ import '../../styles/registro/empresa.css';
       <p class="subtitle">Completa el formulario para comenzar a publicar vacantes y encontrar talento</p>
       
       <form id="registroEmpresaForm" class="form">
-        <!-- Paso 1: Información básica -->
+        <!-- Paso 1: Informacion básica -->
         <div class="step-content active" id="step1">
           <div class="form-group">
             <label for="nombreEmpresa">Nombre de la empresa <span class="required">*</span></label>
@@ -45,10 +67,9 @@ import '../../styles/registro/empresa.css';
               <label for="sectorEmpresa">Sector Empresa <span class="required">*</span></label>
               <select id="sectorEmpresa" name="sectorEmpresa" class="form-control" required>
                 <option value="" disabled selected>Selecciona tu sector</option>
-                <option value="tecnologia">Tecnología</option>
-                <option value="finanzas">Finanzas</option>
-                <option value="manufactura">Manufactura</option>
-                <option value="salud">Salud</option>
+                {sectores.map((sector) => (
+                  <option value={sector}>{sector}</option>
+                ))}
               </select>
             </div>
           </div>

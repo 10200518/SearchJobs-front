@@ -4,23 +4,25 @@ import Paginacion from './Paginacion';
 
 const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
 
-  async function eliminarVacante(id) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar esta vacante?");
+  async function cambiarEstado(id, estado) {
+    let mensaje = estado? "activar":"desactivar";
+    const confirmacion = confirm(`¿Estás seguro de que deseas ${mensaje} esta vacante?`);
     if (!confirmacion) return;
 
     try {
-      const response = await fetch(`http://localhost:8080/api/vacantes/delete/${id}`, {
-        method: "DELETE",
+      const response = await fetch(`http://localhost:8080/api/vacantes/estado/${id}?estado=${estado}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include", 
       });
 
       if (response.ok) {
-        alert("Vacante eliminada exitosamente.");
+        alert(`Exito al ${mensaje} la vacante`);
         location.reload();
       } else {
-        alert("Error al eliminar la vacante.");
+        alert(`Error al ${mensaje} la vacante.`);
       }
     } catch (error) {
       console.error("Error en la solicitud:", error);
@@ -57,6 +59,24 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
                   />
                 </div>
                 <div className="info">
+                  {!job.active && (
+                    <span class=" top-4 left-4 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+                      {rol === "empresa"? "Desactivada por Admin": "Desactivada"}
+                    </span>
+                  )}
+
+                  {!job.activaPorEmpresa && job.active && (
+                    <span class=" top-4 left-4 bg-yellow-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+                      {rol === "empresa"? "Desactivada por ti": "Desactivada"}
+                    </span>
+                  )}
+
+                  {job.candidatoPostulado && (
+                    <span class=" top-4 right-4 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
+                      Postulado
+                    </span>
+                  )}
+
                   <h3 className="title">{job.titulo}</h3>
                   <p className="company">{job.nameEmpresa}</p>
                 </div>
@@ -94,7 +114,16 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
             {rol === 'empresa' && (
               <div className="apply">
                 <a href={`/empleos/editar/${job.nvacantes}`} className="btn btn-edit">Editar</a>
-                <button onClick={() => eliminarVacante(job.nvacantes)} className="btn btn-delete">Eliminar</button>
+                <button
+                  onClick={() => cambiarEstado(job.nvacantes, !job.activaPorEmpresa)}
+                  className={`px-4 py-2 font-semibold rounded-lg shadow ${
+                    job.activaPorEmpresa
+                      ? "bg-red-500 hover:bg-red-600 text-white"
+                      : "bg-green-500 hover:bg-green-600 text-white"
+                  }`}
+                >
+                  {job.activaPorEmpresa ? "Desactivar" : "Activar"}
+                </button>
               </div>
             )}
             

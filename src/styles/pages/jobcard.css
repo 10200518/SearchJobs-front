@@ -132,7 +132,7 @@
 
   .btn-edit,
   .btn-delete {
-    padding: 8px 8px;
+    padding: 6px 6px;
     border: none;
     border-radius: 8px;
     font-weight: bold;
@@ -153,11 +153,3 @@
     background-color: #60a5fa;
   }
 
-  .btn-delete {
-    background-color: #ff3b30; /* Rojo */
-    color: white;
-  }
-
-  .btn-delete:hover {
-    background-color: #e53935;
-  }

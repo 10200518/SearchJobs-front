@@ -1,4 +1,4 @@
-export default function FilterComponent({ filtersLocal, clearAllFilters, handleFilterChange, setFilters }) {
+export default function FilterComponent({ filtersLocal, clearAllFilters, handleFilterChange, setFilters, rol }) {
   
   return (
     <div className="filters-container">
@@ -86,31 +86,44 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
         </div>
       </div>
 
-      <div className="filter-group">
-        <h4 className="filter-group-title">Estado</h4>
-        <div className="filter-options">
-          <label className="filter-option">
-            <input
-              type="radio"
-              name="isActive"
-              value="true"
-              onChange={handleFilterChange}
-              checked={filtersLocal.isActive=== true}
-            />
-            <span>Activas</span>
-          </label>
-          <label className="filter-option">
-            <input
-              type="radio"
-              name="isActive"
-              value="false"
-              onChange={handleFilterChange}
-              checked={filtersLocal.isActive=== false}
-            />
-            <span>Desactivadas</span>
-          </label>
+      {rol === "empresa" && (
+        <div className="filter-group">
+          <h4 className="filter-group-title">Estado</h4>
+          <div className="filter-options">
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="isActive"
+                value="true"
+                onChange={handleFilterChange}
+                checked={filtersLocal.isActive == "true"}
+              />
+              <span>Activas</span>
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="isActive"
+                value="false"
+                onChange={handleFilterChange}
+                checked={filtersLocal.isActive == "false"}
+              />
+              <span>Desactivadas por Admin</span>
+            </label>
+            <label className="filter-option">
+              <input
+                type="radio"
+                name="activaPorEmpresa"
+                value="false"
+                onChange={handleFilterChange}
+                checked={filtersLocal.isActive == "false"}
+              />
+              <span>Desactivadas por Empresa</span>
+            </label>
+          </div>
         </div>
-      </div>
+      )}
+
       
       <div className="filter-group">
         <h4 className="filter-group-title">Cargo</h4>
