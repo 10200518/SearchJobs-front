@@ -55,7 +55,7 @@ const historrialLaboral = data.historialLaboral;
 
         <!-- Botones de acción -->
         <div class="candidato-header-actions">
-          <button id="editProfileBtn" class="candidato-edit-button">
+          <a href="/perfil/candidato/editar" id="editProfileBtn" class="candidato-edit-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -72,7 +72,7 @@ const historrialLaboral = data.historialLaboral;
               ></path>
             </svg>
             Editar perfil
-          </button>
+          </a>
 
           <a
             href={candidato.curriculo ? `http://localhost:8080${candidato.curriculo}` : "#"}

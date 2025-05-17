@@ -6,7 +6,7 @@ import "../../../styles/perfiles/empresa.css";
 
 const { id } = Astro.params;
 
-const apiUrl = `http://localhost:8080/api/empresas/perfil?idUsuario=${id}`;
+const apiUrl = `http://localhost:8080/api/empresas/perfil`;
 const updateUrl = `http://localhost:8080/api/empresas/actualizar`;
 
 const res = await fetch(apiUrl, {
@@ -176,7 +176,7 @@ const empresa = data.empresa || {};
           <button type="submit" class="empresa-save-button">
             Guardar cambios
           </button>
-          <a href={`/perfil/empresa/${id}`} class="empresa-cancel-button">
+          <a href="/perfil/empresa/" class="empresa-cancel-button">
             Cancelar
           </a>
         </div>
