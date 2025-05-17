@@ -6,8 +6,6 @@ export const manejarRespuesta = async (res) => {
     } catch (e) {
       data = {};
     }
-    console.log("data: "+data.error)
-    console.log("res: "+ res.status)
 
     if (res.status === 401) {
       if (data?.error === "TOKEN_EXPIRED") {
@@ -41,9 +39,7 @@ export const manejarRespuesta = async (res) => {
     console.error("Error de red:", error);
     alert("Ocurrió un error de red.");
   }
-
-    
-
 };
 
 
+export default manejarRespuesta;

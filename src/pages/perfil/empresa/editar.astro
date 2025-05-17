@@ -3,27 +3,48 @@ import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.jsx";
 import Layout from "../../../layouts/Layout.astro";
 import "../../../styles/perfiles/empresa.css";
+import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
 
-const { id } = Astro.params;
 
 const apiUrl = `http://localhost:8080/api/empresas/perfil`;
-const updateUrl = `http://localhost:8080/api/empresas/actualizar`;
+
 
 const res = await fetch(apiUrl, {
   headers: Astro.request.headers,
 });
 
-const data = await res.json();
+const data = await manejarRespuesta(res);
 const empresa = data.empresa || {};
+
+const sectores = [
+  "Tecnologia de la Informacion (TI) / Software",
+  "Salud y Medicina",
+  "Educacion y Formacion",
+  "Construccion e Infraestructura",
+  "Manufactura e Industria",
+  "Comercio y Ventas",
+  "Logistica y Transporte",
+  "Banca, Finanzas y Seguros",
+  "Agroindustria y Agricultura",
+  "Legal y Juridico",
+  "Turismo, Hoteleria y Gastronomia",
+  "Medios, Comunicacion y Publicidad",
+  "Energia y Mineria",
+  "Servicios Profesionales y Consultoria",
+  "Arte, Cultura y Entretenimiento",
+  "Bienes Raices e Inmobiliaria",
+  "Ciencia e Investigacion",
+  "Organizaciones sin Fines de Lucro y ONG",
+  "Otros"
+];
 ---
 
 
 <Layout title={`Editar ${empresa.nombre} | SearchJobs`}>
     <Header client:load />
 
-      <div class="empresa-perfil-container">
-    <form class="empresa-perfil empresa-editar-form" method="POST" action={updateUrl} enctype="multipart/form-data">
-      <input type="hidden" name="idUsuario" value={id} />
+    <div class="empresa-perfil-container">
+    <form class="empresa-perfil empresa-editar-form" id="vacanteForm"  data-id={empresa.idUsuario}>
       
       <!-- Cabecera del perfil -->
       <div class="empresa-perfil-header">
@@ -66,15 +87,16 @@ const empresa = data.empresa || {};
             />
           </div>
           <div class="form-group">
-            <input 
-              type="text" 
-              id="sectorEmpresarial" 
-              name="sectorEmpresarial" 
-              value={empresa.sectorEmpresarial} 
-              class="empresa-sector-input" 
-              placeholder="Sector empresarial"
-              required
-            />
+           <select id="sectorEmpresa" name="sectorEmpresarial" class="form-control" required>
+              {sectores.map(sector => (
+                <option
+                  value={sector}
+                  selected={sector === empresa.sectorEmpresarial}   
+                >
+                  {sector}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>
@@ -203,4 +225,5 @@ const empresa = data.empresa || {};
       }
     }
   </script>
+  <script type="module" src="/src/javascripts/EditarPerfilEmpresa"></script>
   
