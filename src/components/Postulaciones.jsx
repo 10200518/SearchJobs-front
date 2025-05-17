@@ -65,15 +65,13 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
       });
 
       if (res.status === 204) {
-        alert("✅ Postulación cancelada exitosamente.");
-        fetchPostulaciones(currentPage);
+        Swal.fire({ text: "Postulación cancelada exitosamente.", icon: 'success' });        fetchPostulaciones(currentPage);
       } else {
         throw new Error("No se pudo cancelar la postulación.");
       }
     } catch (error) {
       console.error("❌ Error al cancelar postulación:", error);
-      alert("❌ Ocurrió un error al cancelar la postulación.");
-    }
+      Swal.fire({ text: "❌ Ocurrió un error al cancelar la postulación.", icon: 'info' });    }
   };
 
   return (

@@ -9,11 +9,9 @@ export const manejarRespuesta = async (res) => {
 
     if (res.status === 401) {
       if (data?.error === "TOKEN_EXPIRED") {
-        alert("Tu sesión ha expirado.");
-        window.location.href="http://localhost:8080/usuarios/cerrarSesion";
+        Swal.fire({ text: "Tu sesión ha expirado.", icon: 'error' });        window.location.href="http://localhost:8080/usuarios/cerrarSesion";
       } else {
-        alert("No estás autenticado.");
-      }
+        Swal.fire({ text: "No estás autenticado.", icon: 'error' });      }
       window.location.href="http://localhost:8080/usuarios/cerrarSesion";
 
       // window.location.href = "/login";
@@ -28,8 +26,7 @@ export const manejarRespuesta = async (res) => {
     }
 
     if (!res.ok) {
-      alert(data.message || "Error desconocido");
-      return;
+      Swal.fire({ text: data.message || "Error desconocido", icon: 'error' });      return;
     }
 
     // Si todo va bien
@@ -37,8 +34,7 @@ export const manejarRespuesta = async (res) => {
 
   } catch (error) {
     console.error("Error de red:", error);
-    alert("Ocurrió un error de red.");
-  }
+    Swal.fire({ text: "Ocurrió un error de red.", icon: 'error' });  }
 };
 
 

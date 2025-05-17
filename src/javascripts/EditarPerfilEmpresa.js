@@ -17,8 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const id of requiredFields) {
       const input = document.getElementById(id);
       if (!input || !input.value.trim()) {
-        alert("Por favor completa todos los campos requeridos.");
-        return false;
+        Swal.fire({ text: "Por favor completa todos los campos requeridos.", icon: 'info' });        return false;
       }
     }
     return true;

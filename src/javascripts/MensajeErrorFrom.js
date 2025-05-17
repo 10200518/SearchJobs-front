@@ -2,8 +2,7 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
   limpiarErrores();
 
   if (!validateForm()) {
-    alert("Por favor, complete los campos correctamente.");
-    return;
+    Swal.fire({ text: "Por favor, complete los campos correctamente.", icon: 'info' });    return;
   }
 
   try {
@@ -34,19 +33,16 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
 
     if (responseData.status === 201) {
       form.reset();
-      alert(responseData.mensaje || "Formulario enviado correctamente");
-      if (redirectUrl) {
+      Swal.fire({ text: responseData.mensaje || "Formulario enviado correctamente", icon: 'success' });      if (redirectUrl) {
         window.location.href = redirectUrl;
       }
     } else if (responseData.errors) {
       mostrarErrores(responseData.errors);
     } else {
-      alert(responseData.message || "Error desconocido");
-    }
+      Swal.fire({ text: responseData.message || "Error desconocido", icon: 'error' });    }
 
   } catch (error) {
-    alert("Error al conectar con el servidor");
-    console.error(error);
+    Swal.fire({ text: "Error al conectar con el servidor", icon: 'error' });    console.error(error);
   }
 }
 

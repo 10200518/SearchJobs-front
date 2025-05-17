@@ -238,8 +238,7 @@ import Layout from "../../layouts/Layout.astro";
     
     confirmarDesactivar.addEventListener('click', () => {
      
-      alert('Vacante desactivada correctamente');
-      modalDesactivar.classList.add('hidden');
+      Swal.fire({ text: 'Vacante desactivada correctamente', icon: 'info' });      modalDesactivar.classList.add('hidden');
     });
     
     const modalActivar = document.getElementById('modal-activar');
@@ -264,8 +263,7 @@ import Layout from "../../layouts/Layout.astro";
     
     confirmarActivar.addEventListener('click', () => {
      
-      alert('Vacante activada correctamente');
-      modalActivar.classList.add('hidden');
+      Swal.fire({ text: 'Vacante activada correctamente', icon: 'info' });      modalActivar.classList.add('hidden');
     });
   });
 </script> -->

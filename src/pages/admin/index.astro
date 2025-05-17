@@ -204,10 +204,9 @@ const stats = {
 
     if (configurePowerBIBtn) {
       configurePowerBIBtn.addEventListener("click", () => {
-        alert(
+        Swal.fire({ text: 
           "Aquí se abriría un formulario para configurar la integración con Power BI.",
-        );
-      });
+        , icon: 'info' });      });
     }
   });
 </script>

@@ -108,8 +108,7 @@ const ChatBox = ({ chatId }) => {
       });
 
       if (response.ok) {
-        alert(`Chat ${estado? "Abierto":"Cerrardo"} correctamente`);
-        
+        Swal.fire({ text: `Chat ${estado? "Abierto":"Cerrardo"} correctamente`, icon: 'info' });        
         setChatInfo(prev => ({
           ...prev,
           chatInfo: {
@@ -119,14 +118,11 @@ const ChatBox = ({ chatId }) => {
         }));
         
       } else if (response.status === 403) {
-        alert(`No tienes permisos para ${mensaje} este chat`);
-      } else {
-        alert(`Ocurrió un error al ${mensaje} el chat`);
-      }
+        Swal.fire({ text: `No tienes permisos para ${mensaje} este chat`, icon: 'error' });      } else {
+        Swal.fire({ text: `Ocurrió un error al ${mensaje} el chat`, icon: 'error' });      }
     } catch (error) {
       console.error(`Error al ${mensaje} el chat:`, error);
-      alert(`Error de red o servidor al ${mensaje} el chat`);
-    }
+      Swal.fire({ text: `Error de red o servidor al ${mensaje} el chat`, icon: 'error' });    }
   };
 
   if (!chatInfo) return (

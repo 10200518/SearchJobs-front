@@ -83,8 +83,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
       window.location.href = `/chat/${chat.id}`;
     } catch (err) {
       console.error('Error al abrir el chat:', err);
-      alert('No se pudo abrir el chat.');
-    }
+      Swal.fire({ text: 'No se pudo abrir el chat.', icon: 'info' });    }
   };
 
   const actualizarEstadoPostulacion = async (nPostulacion, nuevoEstado) => {
@@ -107,8 +106,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
       fetchPostulados(currentPage);
     } catch (error) {
       console.error('Error al actualizar:', error);
-      alert('Ocurrió un error al actualizar la postulación');
-    }
+      Swal.fire({ text: 'Ocurrió un error al actualizar la postulación', icon: 'error' });    }
   };
 
   return (

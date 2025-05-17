@@ -26,14 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPasswordValue = confirmPassword.value.trim();
 
     if (!companyName || !taxId || companyType === "Selecciona una opción" || !email || !passwordValue || !confirmPasswordValue) {
-      alert('Por favor, completa todos los campos obligatorios.');
-      return false;
+      Swal.fire({ text: 'Por favor, completa todos los campos obligatorios.', icon: 'info' });      return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert('Por favor, ingresa un correo electrónico válido.');
-      return false;
+      Swal.fire({ text: 'Por favor, ingresa un correo electrónico válido.', icon: 'error' });      return false;
     }
 
     const lengthValid = passwordValue.length >= 8 && passwordValue.length <= 15;
@@ -43,13 +41,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const matchValid = passwordValue !== '' && passwordValue === confirmPasswordValue;
 
     if (!lengthValid || !uppercaseValid || !lowercaseValid || !numberValid) {
-      alert('La contraseña no cumple con los requisitos de seguridad.');
-      return false;
+      Swal.fire({ text: 'La contraseña no cumple con los requisitos de seguridad.', icon: 'error' });      return false;
     }
 
     if (!matchValid) {
-      alert('Las contraseñas no coinciden.');
-      return false;
+      Swal.fire({ text: 'Las contraseñas no coinciden.', icon: 'error' });      return false;
     }
 
     return true;
@@ -71,8 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       if (validateForm()) {
         progressFill.style.width = '100%';
-        alert('Formulario válido. Avanzando al siguiente paso...');
-      }
+        Swal.fire({ text: 'Formulario válido. Avanzando al siguiente paso...', icon: 'info' });      }
     });
   }
 

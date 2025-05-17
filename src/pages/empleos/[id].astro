@@ -621,17 +621,13 @@ if(rol=== "CANDIDATO"){
         const data = await response.json();
 
         if (data.status === "success") {
-          alert(data.message || "Postulación exitosa.");
-        } else if (data.status === "info") {
-          alert(data.message || "Completa tu perfil para postularte.");
-          window.location.href = "/perfil/candidato"; // ajusta esta ruta a la real
+          Swal.fire({ text: data.message || "Postulación exitosa.", icon: 'success' });        } else if (data.status === "info") {
+          Swal.fire({ text: data.message || "Completa tu perfil para postularte.", icon: 'info' });          window.location.href = "/perfil/candidato"; // ajusta esta ruta a la real
         } else if (data.status === "error") {
-          alert(data.message || "No se pudo realizar la postulación.");
-        }
+          Swal.fire({ text: data.message || "No se pudo realizar la postulación.", icon: 'error' });        }
       } catch (error) {
         console.error("Error al postularse:", error);
-        alert("Hubo un error al postularse.");
-      }
+        Swal.fire({ text: "Hubo un error al postularse.", icon: 'error' });      }
     });
   });
 </script>

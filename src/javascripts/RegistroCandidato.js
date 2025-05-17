@@ -47,14 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const terminos = document.getElementById('terminos').checked;
 
       if (!nombre || !email || !passwordValue || !confirmPasswordValue || !apellido || !identificacion) {
-        alert('Completa todos los campos requeridos');
-        return false;
+        Swal.fire({ text: 'Completa todos los campos requeridos', icon: 'info' });        return false;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        alert('Ingresa un correo electrónico válido');
-        return false;
+        Swal.fire({ text: 'Ingresa un correo electrónico válido', icon: 'error' });        return false;
       }
 
       const passwordValidations = {
@@ -66,13 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       if (Object.values(passwordValidations).includes(false)) {
-        alert('La contraseña no cumple los requisitos');
-        return false;
+        Swal.fire({ text: 'La contraseña no cumple los requisitos', icon: 'error' });        return false;
       }
 
       if (!terminos) {
-        alert('Debes aceptar los términos y condiciones');
-        return false;
+        Swal.fire({ text: 'Debes aceptar los términos y condiciones', icon: 'info' });        return false;
       }
 
       return true;
