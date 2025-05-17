@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { manejarRespuesta } from "../javascripts/ManejarRespuesta";
 import Paginacion from './Paginacion';
+import { API_URL } from '../javascripts/Api';
+
 
 const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
   const [postulados, setPostulados] = useState([]);
@@ -28,13 +30,12 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
     });
 
     try {
-      const res = await fetch(`http://localhost:8080/api/postulados/lista?${params}`, {
+      const res = await fetch(`${API_URL}/api/postulados/lista?${params}`, {
         credentials: 'include',
       });
 
       const data = await manejarRespuesta(res);
       if(!data){return;}
-      console.log(data.postulados)
       setPostulados(data.postulados);
       setTotalPages(data.totalPage);
     } catch (error) {
@@ -67,7 +68,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
 
   const abrirChat = async (candidatoId, vacanteId) => {
     try {
-      const response = await fetch('http://localhost:8080/api/chats/crear', {
+      const response = await fetch(`${API_URL}/api/chats/crear`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -83,7 +84,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
       window.location.href = `/chat/${chat.id}`;
     } catch (err) {
       console.error('Error al abrir el chat:', err);
-      Swal.fire({ text: 'No se pudo abrir el chat.', icon: 'info' });    }
+      await Swal.fire({ text: 'No se pudo abrir el chat.', icon: 'info' });    }
   };
 
   const actualizarEstadoPostulacion = async (nPostulacion, nuevoEstado) => {
@@ -91,7 +92,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`http://localhost:8080/api/postulados/edit/${nPostulacion}`, {
+      const res = await fetch(`${API_URL}/api/postulados/edit/${nPostulacion}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
       fetchPostulados(currentPage);
     } catch (error) {
       console.error('Error al actualizar:', error);
-      Swal.fire({ text: 'Ocurrió un error al actualizar la postulación', icon: 'error' });    }
+      await Swal.fire({ text: 'Ocurrió un error al actualizar la postulación', icon: 'error' });    }
   };
 
   return (

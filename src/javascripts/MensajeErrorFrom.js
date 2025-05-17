@@ -1,8 +1,10 @@
+import Swal from 'sweetalert2';
+
 export async function manejarFormulario({ form, validateForm, buildData, endpointUrl, redirectUrl, metodo, tipo = "application/json" }) {
   limpiarErrores();
 
   if (!validateForm()) {
-    Swal.fire({ text: "Por favor, complete los campos correctamente.", icon: 'info' });    return;
+    await Swal.fire({ text: "Por favor, complete los campos correctamente.", icon: 'info' });    return;
   }
 
   try {
@@ -33,16 +35,16 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
 
     if (responseData.status === 201) {
       form.reset();
-      Swal.fire({ text: responseData.mensaje || "Formulario enviado correctamente", icon: 'success' });      if (redirectUrl) {
+      await Swal.fire({ text: responseData.mensaje || "Formulario enviado correctamente", icon: 'success' });      if (redirectUrl) {
         window.location.href = redirectUrl;
       }
     } else if (responseData.errors) {
       mostrarErrores(responseData.errors);
     } else {
-      Swal.fire({ text: responseData.message || "Error desconocido", icon: 'error' });    }
+      await Swal.fire({ text: responseData.message || "Error desconocido", icon: 'error' });    }
 
   } catch (error) {
-    Swal.fire({ text: "Error al conectar con el servidor", icon: 'error' });    console.error(error);
+    await Swal.fire({ text: "Error al conectar con el servidor", icon: 'error' });    console.error(error);
   }
 }
 

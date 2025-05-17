@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
+import { API_URL } from '../javascripts/Api';
+
 
 const UsuariosBaneados = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -13,7 +15,7 @@ const UsuariosBaneados = () => {
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
-        const res = await fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage-1}&size=${pageSize}%&estado=false`,{
+        const res = await fetch(`${API_URL}/api/admin/listar/filtrados?page=${currentPage-1}&size=${pageSize}%&estado=false`,{
           credentials: 'include' 
         });
         const data = await manejarRespuesta(res); 
@@ -30,7 +32,7 @@ const UsuariosBaneados = () => {
   }, [currentPage, pageSize]);
 
   const verPerfil = (idUsuario) => {
-    fetch(`http://localhost:8080/api/candidatos/perfil?idUsuario=${idUsuario}`, {
+    fetch(`${API_URL}/api/candidatos/perfil?idUsuario=${idUsuario}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +48,7 @@ const UsuariosBaneados = () => {
       .catch((err) => console.error('Error al obtener el perfil:', err));
   };
   const desbanearUsuario = (idUsuario, motivo = 'Desbaneado') => {
-    fetch(`http://localhost:8080/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=True&comentario=${motivo}`, {
+    fetch(`${API_URL}/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=True&comentario=${motivo}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -58,7 +60,7 @@ const UsuariosBaneados = () => {
       })
       .then(() => {
         // Recargar lista después de banear
-        return fetch(`http://localhost:8080/api/admin/listar/filtrados?page=${currentPage-1}&size=${pageSize}`,{
+        return fetch(`${API_URL}/api/admin/listar/filtrados?page=${currentPage-1}&size=${pageSize}`,{
           credentials: 'include' 
         });
       })

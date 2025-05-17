@@ -5,9 +5,10 @@ import Header from '../../../components/Header.jsx';
 import Footer from '../../../components/Footer.astro';
 import '../../../styles/pages/vacantes.css';
 import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
+import { API_URL } from '../../../javascripts/Api';
 
 const { nvacantes } = Astro.params;
-const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${nvacantes}`);
+const res = await fetch(`${API_URL}/api/vacantes/seleccion/${nvacantes}`);
 const data = await manejarRespuesta(res); 
 const vacante = data.vacanteSeleccionada;
 ---
@@ -20,7 +21,7 @@ const vacante = data.vacanteSeleccionada;
     <p class="vacante-form-subtitle">Modifica los campos necesarios</p>
 
     {vacante ? (
-    <form id="vacanteForm" class="vacante-form" data-metodo="PUT" data-endpoint-url={`http://localhost:8080/api/vacantes/edit/${vacante.nvacantes}`}>
+    <form id="vacanteForm" class="vacante-form" data-metodo="PUT" data-endpoint-url={`${API_URL}/api/vacantes/edit/${vacante.nvacantes}`}>
       <input type="hidden" name="nvacantes" value={vacante.nvacantes} />
 
       <!-- Primera fila -->

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
+import { API_URL } from '../javascripts/Api';
+
 
 const VacantesActivas = () => {
   const [vacantes, setVacantes] = useState([]);
@@ -38,7 +40,7 @@ const VacantesActivas = () => {
 
       }; // Filtros aqui
 
-      const res = await fetch(`http://localhost:8080/api/admin/listar/filtrovacantes?page=${currentPage - 1}&size=${pageSize}`, {
+      const res = await fetch(`${API_URL}/api/admin/listar/filtrovacantes?page=${currentPage - 1}&size=${pageSize}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -90,7 +92,7 @@ const VacantesActivas = () => {
 
 
   //     const verVacante = (idUsuario) => {
-  //     fetch(`http://localhost:8080/api/candidatos/perfil?idUsuario=${idUsuario}`, {
+  //     fetch(`${API_URL}/api/candidatos/perfil?idUsuario=${idUsuario}`, {
   //       method: 'GET',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -107,7 +109,7 @@ const VacantesActivas = () => {
   //   };
 
   const DesactivarVacante = (nvacante, estado, motivo = 'Falta grave') => {
-    fetch(`http://localhost:8080/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=${estado}&comentario=${motivo}`, {
+    fetch(`${API_URL}/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=${estado}&comentario=${motivo}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -4,7 +4,7 @@ import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.jsx";
 import VacantesActivas from "../../components/VacantesActivas.jsx";
 import Layout from "../../layouts/Layout.astro";
-;
+
 ---
 <Layout title="Gestión de Vacantes | SearchJobs">
   <Header client:load />
@@ -238,7 +238,7 @@ import Layout from "../../layouts/Layout.astro";
     
     confirmarDesactivar.addEventListener('click', () => {
      
-      Swal.fire({ text: 'Vacante desactivada correctamente', icon: 'info' });      modalDesactivar.classList.add('hidden');
+      await Swal.fire({ text: 'Vacante desactivada correctamente', icon: 'info' });      modalDesactivar.classList.add('hidden');
     });
     
     const modalActivar = document.getElementById('modal-activar');
@@ -263,7 +263,7 @@ import Layout from "../../layouts/Layout.astro";
     
     confirmarActivar.addEventListener('click', () => {
      
-      Swal.fire({ text: 'Vacante activada correctamente', icon: 'info' });      modalActivar.classList.add('hidden');
+      await Swal.fire({ text: 'Vacante activada correctamente', icon: 'info' });      modalActivar.classList.add('hidden');
     });
   });
 </script> -->

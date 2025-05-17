@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
+import { API_URL } from '../javascripts/Api';
 
 const UsuariosActivos = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -22,13 +23,12 @@ const UsuariosActivos = () => {
   
     const fetchUsuarios = async () => {
       try {
-        const url = `http://localhost:8080/api/admin/listar/filtrados?nombre=${searchTerm}&rolPrinciapl=${tipoUsuario}&estado=${!verBaneados}&page=${currentPage - 1}&size=${pageSize}`;
+        const url = `${API_URL}/api/admin/listar/filtrados?nombre=${searchTerm}&rolPrinciapl=${tipoUsuario}&estado=${!verBaneados}&page=${currentPage - 1}&size=${pageSize}`;
         const res = await fetch(url, { credentials: 'include' });
         const data = await manejarRespuesta(res); 
         
         setTotalElements(data.totalElements || 0);
         setUsuarios(data.usuarios || []);
-        console.log(data.idUsuario)
         setTotalPages(data.totalPages || 0);
       } catch (err) {
         console.error('Error:', err);
@@ -38,24 +38,8 @@ const UsuariosActivos = () => {
     fetchUsuarios();
   }, [currentPage, pageSize, searchTerm, tipoUsuario, verBaneados, AdminId]);
 
-  const verPerfil = (idUsuario) => {
-    fetch(`http://localhost:8080/api/candidatos/perfil?idUsuario=${idUsuario}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error('Error al obtener el perfil');
-        return res.json();
-      })
-      .then(() => {
-        window.location.href = `/perfil/candidato?idUsuario=${idUsuario}`;
-      })
-      .catch((err) => console.error('Error al obtener el perfil:', err));
-  };
-
   const cambiarEstado = (idUsuario, motivo = 'Falta grave', isActive) => {
-    fetch(`http://localhost:8080/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=${isActive}&comentario=${motivo}`, {
+    fetch(`${API_URL}/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=${isActive}&comentario=${motivo}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       credentials: 'include',
@@ -143,7 +127,7 @@ const UsuariosActivos = () => {
                   
               
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/candidato/${user.idUsuario}`}> Ver Perfil 
+                  <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/${user.rolPrinciapl.toLowerCase()}/${user.idUsuario}`}> Ver Perfil 
                       </a>
                   {verBaneados ? (
                     <button onClick={() => cambiarEstado(user.idUsuario, 'Desbaneado', true)} className="text-green-600 hover:text-green-800">Reactivar</button>

@@ -1,3 +1,6 @@
+import { API_URL } from './Api.js';
+import Swal from 'sweetalert2';
+
 export const manejarRespuesta = async (res) => {
   let data;
   try {
@@ -8,11 +11,13 @@ export const manejarRespuesta = async (res) => {
     }
 
     if (res.status === 401) {
-      if (data?.error === "TOKEN_EXPIRED") {
-        Swal.fire({ text: "Tu sesión ha expirado.", icon: 'error' });        window.location.href="http://localhost:8080/usuarios/cerrarSesion";
+      if (data.error === "TOKEN_EXPIRED") {
+        await Swal.fire({ text: "Tu sesión ha expirado.", icon: 'error' });       
+        window.location.href=`${API_URL}/usuarios/cerrarSesion`;
       } else {
-        Swal.fire({ text: "No estás autenticado.", icon: 'error' });      }
-      window.location.href="http://localhost:8080/usuarios/cerrarSesion";
+        await Swal.fire({ text: "No estás autenticado.", icon: 'error' });      
+      }
+      window.location.href =`${API_URL}/usuarios/cerrarSesion`;
 
       // window.location.href = "/login";
       data= null
@@ -20,13 +25,13 @@ export const manejarRespuesta = async (res) => {
     }
 
     if (res.status === 403) {
-      console.log("No autorizado")
+      await await Swal.fire({ text: "no autorizado", icon: 'error' });
       window.location.href = "/404";
       return;
     }
 
     if (!res.ok) {
-      Swal.fire({ text: data.message || "Error desconocido", icon: 'error' });      return;
+      await Swal.fire({ text: data.message || "Error desconocido", icon: 'error' });      return;
     }
 
     // Si todo va bien
@@ -34,7 +39,7 @@ export const manejarRespuesta = async (res) => {
 
   } catch (error) {
     console.error("Error de red:", error);
-    Swal.fire({ text: "Ocurrió un error de red.", icon: 'error' });  }
+    await Swal.fire({ text: "Ocurrió un error de red.", icon: 'error' });  }
 };
 
 

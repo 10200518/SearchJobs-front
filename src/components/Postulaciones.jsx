@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
+import { API_URL } from '../javascripts/Api';
+
 
 const Postulaciones = ({ itemsPerPage = 10 }) => {
   const [postulaciones, setPostulaciones] = useState([]);
@@ -18,7 +20,7 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:8080/api/postulados/lista/candidato?page=${page - 1}&size=${itemsPerPage}&estado=${estado}&fechaMinima=${fechaMinima}&tituloVacante=${tituloVacante}&empresa=${empresa}`,
+        `${API_URL}/api/postulados/lista/candidato?page=${page - 1}&size=${itemsPerPage}&estado=${estado}&fechaMinima=${fechaMinima}&tituloVacante=${tituloVacante}&empresa=${empresa}`,
         { credentials: 'include' }
       );
       if (!res.ok) throw new Error('Error al obtener postulaciones');
@@ -59,19 +61,19 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
     if (!confirmar) return;
 
     try {
-      const res = await fetch(`http://localhost:8080/api/postulados/delete/${nPostulacion}`, {
+      const res = await fetch(`${API_URL}/api/postulados/delete/${nPostulacion}`, {
         method: "DELETE",
         credentials: "include",
       });
 
       if (res.status === 204) {
-        Swal.fire({ text: "Postulación cancelada exitosamente.", icon: 'success' });        fetchPostulaciones(currentPage);
+        await Swal.fire({ text: "Postulación cancelada exitosamente.", icon: 'success' });        fetchPostulaciones(currentPage);
       } else {
         throw new Error("No se pudo cancelar la postulación.");
       }
     } catch (error) {
       console.error("❌ Error al cancelar postulación:", error);
-      Swal.fire({ text: "❌ Ocurrió un error al cancelar la postulación.", icon: 'info' });    }
+      await Swal.fire({ text: "❌ Ocurrió un error al cancelar la postulación.", icon: 'info' });    }
   };
 
   return (

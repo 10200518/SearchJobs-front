@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import manejarRespuesta from "../javascripts/ManejarRespuesta";
+import { API_URL } from '../javascripts/Api';
+
 const ChatList = ({ searchText, Estado , onSelectChat }) => {
   const [userRole, setUserRole] = useState(null);
   const [userId, setUserId] = useState(null);
@@ -10,7 +12,7 @@ const ChatList = ({ searchText, Estado , onSelectChat }) => {
   useEffect(() => {
     async function fetchUserRole() {
       try {
-        const res = await fetch("http://localhost:8080/api/usuarios/rol", {
+        const res = await fetch(`${API_URL}/api/usuarios/rol`, {
           credentials: "include",
         });
         const  data = await res.json();;
@@ -38,9 +40,8 @@ const ChatList = ({ searchText, Estado , onSelectChat }) => {
           page: 0,
           size: 10,
         });  
-        let url =`http://localhost:8080/api/chats/${tipoUsuario}/${userId}?${params.toString()}`;
+        let url =`${API_URL}/api/chats/${tipoUsuario}/${userId}?${params.toString()}`;
 
-        console.log(Estado)
         const res = await fetch(url, {
           method: 'PATCH',
           credentials: 'include'

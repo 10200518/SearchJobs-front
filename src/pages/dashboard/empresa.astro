@@ -6,7 +6,7 @@ import JobCard from '../../components/JobCard.astro';
 import FeatureCard from '../../components/FeatureCard.astro';
 import'../../styles/pages/index.css'
 import { manejarRespuesta } from '../../javascripts/ManejarRespuesta';
-
+import { API_URL } from '../../javascripts/Api';
 interface Job {
   nvacantes: String;
   titulo: string;
@@ -17,7 +17,7 @@ interface Job {
   imagenEmpresa: string;
 }
 
-const res = await fetch('http://localhost:8080/api/vacantes/Top/listar');
+const res = await fetch(`${API_URL}/api/vacantes/Top/listar`);
 const data = await manejarRespuesta(res); 
 const featuredJobs: Job[] = data.vacantes; 
 const features = [

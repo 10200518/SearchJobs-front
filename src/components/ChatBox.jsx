@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
+import { API_URL } from '../javascripts/Api';
+import { WS_URL } from '../javascripts/Api';
 
 const ChatBox = ({ chatId }) => {
   const [messages, setMessages] = useState([]);
@@ -15,7 +17,7 @@ const ChatBox = ({ chatId }) => {
       if(chatId === "candidato" || chatId === "empresa"){return}
 
       try {
-        const res = await fetch(`http://localhost:8080/api/chats/${chatId}/info`, {
+        const res = await fetch(`${API_URL}/api/chats/${chatId}/info`, {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Error al obtener la información del chat");
@@ -35,7 +37,7 @@ const ChatBox = ({ chatId }) => {
     const { userId } = chatInfo;
 
     const client = new Client({
-      brokerURL: "ws://localhost:8080/chats",
+      brokerURL: `${WS_URL}/chats`,
       reconnectDelay: 5000,
       onConnect: () => {
         console.log("✅ Conectado a WebSocket");
@@ -45,7 +47,7 @@ const ChatBox = ({ chatId }) => {
           setMessages((prev) => [...prev, message]);
         });
 
-        fetch(`http://localhost:8080/api/chats/${chatId}/mensajes`, {
+        fetch(`${API_URL}/api/chats/${chatId}/mensajes`, {
           credentials: "include",
         })
           .then((res) => res.json())
@@ -102,13 +104,13 @@ const ChatBox = ({ chatId }) => {
   const cambiarEstadoChat = async (chatId, estado) => {
     let mensaje = estado? "Abrir":"Cerrar";
     try {
-      const response = await fetch(`http://localhost:8080/api/chats/${chatId}/estado?isActive=${estado}`, {
+      const response = await fetch(`${API_URL}/api/chats/${chatId}/estado?isActive=${estado}`, {
         method: 'PATCH',
         credentials: 'include', 
       });
 
       if (response.ok) {
-        Swal.fire({ text: `Chat ${estado? "Abierto":"Cerrardo"} correctamente`, icon: 'info' });        
+        await Swal.fire({ text: `Chat ${estado? "Abierto":"Cerrardo"} correctamente`, icon: 'info' });        
         setChatInfo(prev => ({
           ...prev,
           chatInfo: {
@@ -118,11 +120,11 @@ const ChatBox = ({ chatId }) => {
         }));
         
       } else if (response.status === 403) {
-        Swal.fire({ text: `No tienes permisos para ${mensaje} este chat`, icon: 'error' });      } else {
-        Swal.fire({ text: `Ocurrió un error al ${mensaje} el chat`, icon: 'error' });      }
+        await Swal.fire({ text: `No tienes permisos para ${mensaje} este chat`, icon: 'error' });      } else {
+        await Swal.fire({ text: `Ocurrió un error al ${mensaje} el chat`, icon: 'error' });      }
     } catch (error) {
       console.error(`Error al ${mensaje} el chat:`, error);
-      Swal.fire({ text: `Error de red o servidor al ${mensaje} el chat`, icon: 'error' });    }
+      await Swal.fire({ text: `Error de red o servidor al ${mensaje} el chat`, icon: 'error' });    }
   };
 
   if (!chatInfo) return (

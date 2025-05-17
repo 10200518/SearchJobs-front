@@ -4,11 +4,12 @@ import Header from "../../../components/Header.jsx";
 import Layout from "../../../layouts/Layout.astro";
 import "../../../styles/perfiles/empresa.css";
 import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
+import { API_URL } from '../../../javascripts/Api';
 
 
 const { id } = Astro.params;
 
-const apiUrl = `http://localhost:8080/api/empresas/perfil?idUsuario=${id}`;
+const apiUrl = `${API_URL}/api/empresas/perfil?idUsuario=${id}`;
 
 const res = await fetch(apiUrl, {
   headers: Astro.request.headers,
@@ -28,7 +29,7 @@ const empresa = data.empresa || {};
         <!-- Logo de la empresa -->
         <div class="empresa-logo-container">
           <img 
-            src={empresa.imagen ? "http://localhost:8080" + empresa.imagen : "http://localhost:8080/images/imgEmpresa.png"}
+            src={empresa.imagen ? `${API_URL}` + empresa.imagen : `${API_URL}/images/imgEmpresa.png`}
             alt={empresa.nombre} 
             class="empresa-logo"
           />

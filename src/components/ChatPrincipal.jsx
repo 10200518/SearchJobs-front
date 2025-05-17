@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ChatList from "./ChatList.jsx";
 import ChatBox from "./ChatBox.jsx";
 
+
 export default function ChatApp({ chatId: initialChatId }) {
   const [chatId, setChatId] = useState(initialChatId);
   const [searchText, setSearchText] = useState("");

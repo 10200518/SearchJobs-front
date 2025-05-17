@@ -225,7 +225,7 @@ const usuariosBaneados = [
     
     confirmarBanear.addEventListener('click', () => {
       // La lógica para usuario
-      Swal.fire({ text: 'Usuario baneado correctamente', icon: 'success' });      modalBanear.classList.add('hidden');
+      await Swal.fire({ text: 'Usuario baneado correctamente', icon: 'success' });      modalBanear.classList.add('hidden');
     });
     
     // Modal para desbanear usuario
@@ -251,7 +251,7 @@ const usuariosBaneados = [
     
     confirmarDesbanear.addEventListener('click', () => {
       // La lógica para desbanear al usuario
-      Swal.fire({ text: 'Usuario desbaneado correctamente', icon: 'success' });      modalDesbanear.classList.add('hidden');
+      await Swal.fire({ text: 'Usuario desbaneado correctamente', icon: 'success' });      modalDesbanear.classList.add('hidden');
     });
   });
 </script>

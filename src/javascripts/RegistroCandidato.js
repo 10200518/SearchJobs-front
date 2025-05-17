@@ -1,4 +1,5 @@
 import { manejarFormulario } from './MensajeErrorFrom.js';
+import { API_URL } from './Api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('registroForm');
@@ -47,12 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const terminos = document.getElementById('terminos').checked;
 
       if (!nombre || !email || !passwordValue || !confirmPasswordValue || !apellido || !identificacion) {
-        Swal.fire({ text: 'Completa todos los campos requeridos', icon: 'info' });        return false;
+        await Swal.fire({ text: 'Completa todos los campos requeridos', icon: 'info' });        return false;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        Swal.fire({ text: 'Ingresa un correo electrónico válido', icon: 'error' });        return false;
+        await Swal.fire({ text: 'Ingresa un correo electrónico válido', icon: 'error' });        return false;
       }
 
       const passwordValidations = {
@@ -64,11 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       if (Object.values(passwordValidations).includes(false)) {
-        Swal.fire({ text: 'La contraseña no cumple los requisitos', icon: 'error' });        return false;
+        await Swal.fire({ text: 'La contraseña no cumple los requisitos', icon: 'error' });        return false;
       }
 
       if (!terminos) {
-        Swal.fire({ text: 'Debes aceptar los términos y condiciones', icon: 'info' });        return false;
+        await Swal.fire({ text: 'Debes aceptar los términos y condiciones', icon: 'info' });        return false;
       }
 
       return true;
@@ -115,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
             telefono: formData.get('telefono'),
             identificacion: formData.get('identificacion'),
         }),
-        endpointUrl: 'http://localhost:8080/api/candidatos/add',
+        endpointUrl: `${API_URL}/api/candidatos/add`,
         redirectUrl: '/login',
         metodo:"POST"
       });

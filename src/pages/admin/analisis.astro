@@ -91,14 +91,3 @@ import AdminSidebar from "../../components/AdminSidebar.astro";
   <Footer slot="footer" />
 </Layout>
 
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const configurePowerBIBtn = document.getElementById('configurePowerBI');
-    
-    if (configurePowerBIBtn) {
-      configurePowerBIBtn.addEventListener('click', () => {
-        Swal.fire({ text: 'Aquí se abriría un formulario para configurar la integración con Power BI.', icon: 'info' });      });
-    }
-  });
-</script>
-

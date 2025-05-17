@@ -60,7 +60,6 @@ const JobBoard = ({ fetchUrl, rol }) => {
         };
 
         fetchAllJobs();
-        console.log(filteredJobs)
     }, [filters,currentPage]); 
 
     const handleFilterChange = (event) => {

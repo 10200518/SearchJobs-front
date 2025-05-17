@@ -3,6 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.astro";
 import { manejarRespuesta } from '../../javascripts/ManejarRespuesta';
+import { API_URL } from '../../javascripts/Api';
 
 interface Vacante {
   nvacantes: string;
@@ -19,7 +20,7 @@ interface Vacante {
 
 const { id } = Astro.params;
 
-const res = await fetch(`http://localhost:8080/api/vacantes/seleccion/${id}`, {
+const res = await fetch(`${API_URL}/api/vacantes/seleccion/${id}`, {
   headers: Astro.request.headers
 });
 const data = await manejarRespuesta(res); 
@@ -29,7 +30,7 @@ let curriculo = null;
 let idUsuarioLogueado = null;
 
 try {
-  const res = await fetch("http://localhost:8080/api/usuarios/rol", {
+  const res = await fetch(`${API_URL}/api/usuarios/rol`, {
     headers: Astro.request.headers,
   });
   const data = await manejarRespuesta(res); 
@@ -40,7 +41,7 @@ try {
 }
 
 if(rol=== "CANDIDATO"){
-  const res = await fetch("http://localhost:8080/api/candidatos/perfil", {
+  const res = await fetch(`${API_URL}/api/candidatos/perfil`, {
     headers: Astro.request.headers,
   });
   const data = await manejarRespuesta(res); 
@@ -89,7 +90,7 @@ if(rol=== "CANDIDATO"){
           >
             <div class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
               <img
-                src={"http://localhost:8080" + job.imagenEmpresa ||
+                src={`${API_URL}` + job.imagenEmpresa ||
                   "/placeholder.svg"}
                 alt={`${job.nameEmpresa} logo`}
                 class="object-cover w-full h-full"
@@ -599,7 +600,9 @@ if(rol=== "CANDIDATO"){
   <Footer slot="footer" />
 </Layout>
 
-<script>
+<script type="text/javascript">
+  import { API_URL } from '/src/javascripts/Api';
+
   document.addEventListener("DOMContentLoaded", () => {
     const applyButton = document.getElementById("applyButton");
 
@@ -608,7 +611,7 @@ if(rol=== "CANDIDATO"){
 
       try {
         const response = await fetch(
-          `http://localhost:8080/api/postulados/add/${jobId}`,
+          `${API_URL}/api/postulados/add/${jobId}`,
           {
             method: "POST",
             headers: {
@@ -621,13 +624,13 @@ if(rol=== "CANDIDATO"){
         const data = await response.json();
 
         if (data.status === "success") {
-          Swal.fire({ text: data.message || "Postulación exitosa.", icon: 'success' });        } else if (data.status === "info") {
-          Swal.fire({ text: data.message || "Completa tu perfil para postularte.", icon: 'info' });          window.location.href = "/perfil/candidato"; // ajusta esta ruta a la real
+          await Swal.fire({ text: data.message || "Postulación exitosa.", icon: 'success' });        } else if (data.status === "info") {
+          await Swal.fire({ text: data.message || "Completa tu perfil para postularte.", icon: 'info' });          window.location.href = "/perfil/candidato"; // ajusta esta ruta a la real
         } else if (data.status === "error") {
-          Swal.fire({ text: data.message || "No se pudo realizar la postulación.", icon: 'error' });        }
+          await Swal.fire({ text: data.message || "No se pudo realizar la postulación.", icon: 'error' });        }
       } catch (error) {
         console.error("Error al postularse:", error);
-        Swal.fire({ text: "Hubo un error al postularse.", icon: 'error' });      }
+        await Swal.fire({ text: "Hubo un error al postularse.", icon: 'error' });      }
     });
   });
 </script>

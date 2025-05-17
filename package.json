@@ -19,6 +19,7 @@
     "react-dom": "^19.1.0",
     "searchjobs": "file:",
     "sockjs-client": "^1.6.1",
+    "sweetalert2": "11.6.13",
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {

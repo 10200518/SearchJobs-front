@@ -4,6 +4,8 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
 import '../../styles/pages/vacantes.css';
+import { API_URL } from '../../javascripts/Api';
+
 ---
 
 <Layout title="Crear Nueva Oferta">
@@ -13,7 +15,7 @@ import '../../styles/pages/vacantes.css';
     <h1 class="vacante-form-title">Crear Nueva Oferta</h1>
     <p class="vacante-form-subtitle">Complete todos los campos requeridos</p>
     
-    <form id="vacanteForm" class="vacante-form" data-metodo="POST" data-endpoint-url="http://localhost:8080/api/vacantes/add">
+    <form id="vacanteForm" class="vacante-form" data-metodo="POST" data-endpoint-url=`${API_URL}/api/vacantes/add`>
       <!-- Primera fila -->
       <div class="form-row">
         <div class="form-group">

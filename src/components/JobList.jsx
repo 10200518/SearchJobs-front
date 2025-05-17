@@ -1,5 +1,6 @@
 import '../styles/pages/JobCard.css';
 import Paginacion from './Paginacion';
+import { API_URL } from '../javascripts/Api';
 
 
 const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
@@ -10,7 +11,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
     if (!confirmacion) return;
 
     try {
-      const response = await fetch(`http://localhost:8080/api/vacantes/estado/${id}?estado=${estado}`, {
+      const response = await fetch(`${API_URL}/api/vacantes/estado/${id}?estado=${estado}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -19,12 +20,12 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
       });
 
       if (response.ok) {
-        Swal.fire({ text: `Exito al ${mensaje} la vacante`, icon: 'success' });        location.reload();
+        await Swal.fire({ text: `Exito al ${mensaje} la vacante`, icon: 'success' });        location.reload();
       } else {
-        Swal.fire({ text: `Error al ${mensaje} la vacante.`, icon: 'error' });      }
+        await Swal.fire({ text: `Error al ${mensaje} la vacante.`, icon: 'error' });      }
     } catch (error) {
       console.error("Error en la solicitud:", error);
-      Swal.fire({ text: "Hubo un problema al intentar eliminar la vacante.", icon: 'error' });    }
+      await Swal.fire({ text: "Hubo un problema al intentar eliminar la vacante.", icon: 'error' });    }
   }
   
   if (jobs.length === 0) {
@@ -49,7 +50,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
               <div className="header">
                 <div className="logo">
                   <img
-                    src={"http://localhost:8080" + job.imagenEmpresa || "/placeholder.svg?height=80&width=80"}
+                    src={`${API_URL}` + job.imagenEmpresa || "/placeholder.svg?height=80&width=80"}
                     alt={`${job.nameEmpresa} logo`}
                     width="60"
                     height="60"

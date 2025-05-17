@@ -4,9 +4,10 @@ import Header from "../../../components/Header.jsx";
 import Layout from "../../../layouts/Layout.astro";
 import "../../../styles/perfiles/candidato.css";
 import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
+import { API_URL } from '../../../javascripts/Api';
 
 
-const res = await fetch("http://localhost:8080/api/candidatos/perfil", {
+const res = await fetch(`${API_URL}/api/candidatos/perfil`, {
   headers: Astro.request.headers,
 });
 
@@ -39,7 +40,7 @@ const historrialLaboral = data.historialLaboral;
         <!-- Imagen de perfil -->
         <div class="candidato-imagen-container">
           <img
-            src={candidato.imagen ? `http://localhost:8080${candidato.imagen}` : "http://localhost:8080/images/imgCandidato.png"}
+            src={candidato.imagen ? `${API_URL}${candidato.imagen}` : "${API_URL}/images/imgCandidato.png"}
             alt={`${candidato.nombre} ${candidato.apellido}`}
             class="candidato-imagen"
           />
@@ -75,7 +76,7 @@ const historrialLaboral = data.historialLaboral;
           </a>
 
           <a
-            href={candidato.curriculo ? `http://localhost:8080${candidato.curriculo}` : "#"}
+            href={candidato.curriculo ? `${API_URL}${candidato.curriculo}` : "#"}
             class="candidato-cv-button"
           >
             <svg

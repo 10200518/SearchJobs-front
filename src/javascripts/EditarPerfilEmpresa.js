@@ -1,4 +1,5 @@
 import { manejarFormulario } from "./MensajeErrorFrom.js";
+import { API_URL } from './Api.js';
 
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("vacanteForm");
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (const id of requiredFields) {
       const input = document.getElementById(id);
       if (!input || !input.value.trim()) {
-        Swal.fire({ text: "Por favor completa todos los campos requeridos.", icon: 'info' });        return false;
+        await Swal.fire({ text: "Por favor completa todos los campos requeridos.", icon: 'info' });        return false;
       }
     }
     return true;
@@ -36,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       form,
       validateForm,                
       buildData: () => formData,   
-      endpointUrl: `http://localhost:8080/api/empresas/edit/${empresaId}`,
+      endpointUrl: `${API_URL}/api/empresas/edit/${empresaId}`,
       redirectUrl: "/perfil/empresa",
       metodo: "PUT",
       tipo: "multipart/form-data",          

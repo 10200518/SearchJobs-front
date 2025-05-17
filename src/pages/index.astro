@@ -5,6 +5,8 @@ import Header from '../components/Header.jsx';
 import JobCard from '../components/JobCard.astro';
 import Layout from '../layouts/Layout.astro';
 import '../styles/pages/index.css';
+import { API_URL } from '../javascripts/Api';
+
 
 interface Job {
   nvacantes: String;
@@ -17,12 +19,12 @@ interface Job {
   totalpostulaciones:Number;
 }
 
-const response = await fetch('http://localhost:8080/api/vacantes/Top/listar',{
+const response = await fetch(`${API_URL}/api/vacantes/Top/listar`,{
   headers: Astro.request.headers
 });
 const data = await response.json();
 
-const res = await fetch('http://localhost:8080/api/usuarios/rol', {
+const res = await fetch(`${API_URL}/api/usuarios/rol`, {
   headers: Astro.request.headers
 });
 const dataUser = await res.json();

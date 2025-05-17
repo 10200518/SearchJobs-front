@@ -4,6 +4,7 @@ import Header from "../../components/Header.jsx";
 import JobBoard from "../../components/JobBoard.jsx";
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/empleos/empleos.css";
+import { API_URL } from '../../javascripts/Api';
 ---
 
 <Layout title="Empleos | SearchJobs">
@@ -20,7 +21,7 @@ import "../../styles/empleos/empleos.css";
    
     <JobBoard  
       client:load
-      fetchUrl="http://localhost:8080/api/vacantes/listar/filtradas"
+      fetchUrl=`${API_URL}/api/vacantes/listar/filtradas`
       rol="candidato"
     />
     

@@ -14,13 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const id of requiredFields) {
             const input = document.getElementById(id);
             if (!input || !input.value.trim()) {
-                Swal.fire({ text: 'Por favor completa todos los campos requeridos.', icon: 'info' });                return false;
+                await Swal.fire({ text: 'Por favor completa todos los campos requeridos.', icon: 'info' });                return false;
             }
         }
 
         const sueldo = document.getElementById('sueldo').value.trim();
         if (sueldo && isNaN(sueldo)) {
-            Swal.fire({ text: 'El sueldo debe ser un número válido.', icon: 'error' });            return false;
+            await Swal.fire({ text: 'El sueldo debe ser un número válido.', icon: 'error' });            return false;
         }
 
         return true;

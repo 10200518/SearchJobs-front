@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import '../styles/pages/candidato.css';
+import { API_URL } from '../javascripts/Api';
 
 function PerfilCliente() {
   const [perfil, setPerfil] = useState(null);
@@ -7,7 +8,7 @@ function PerfilCliente() {
   useEffect(() => {
     const fetchPerfil = async () => {
       try {
-        const res = await fetch('http://localhost:8080/api/candidatos/perfil', {
+        const res = await fetch(`${API_URL}/api/candidatos/perfil`, {
           credentials: 'include',
         });
 

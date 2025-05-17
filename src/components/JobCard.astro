@@ -1,11 +1,12 @@
 ---
 const { job, rol } = Astro.props;
+import { API_URL } from '../javascripts/Api';
 ---
 
 <a href={`/empleos/${job.nvacantes}`} class="card">
   <div class="header">
     <div class="logo">
-      <img src={"http://localhost:8080"+job.imagenEmpresa || "/placeholder.svg?height=80&width=80"} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
+      <img src={`${API_URL}`+job.imagenEmpresa || "/placeholder.svg?height=80&width=80"} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
     </div>
     <div class="info">
       {!job.active && (
@@ -51,7 +52,7 @@ const { job, rol } = Astro.props;
         <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
       </svg>
-      <span>{job.experiencia} años</span>
+      <span>{job.experiencia}</span>
     </div>
     <div class="detail">
       <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" 

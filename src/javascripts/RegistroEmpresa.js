@@ -1,4 +1,5 @@
 import { manejarFormulario } from './MensajeErrorFrom.js';
+import { API_URL } from './Api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('form');
@@ -26,12 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmPasswordValue = confirmPassword.value.trim();
 
     if (!companyName || !taxId || companyType === "Selecciona una opción" || !email || !passwordValue || !confirmPasswordValue) {
-      Swal.fire({ text: 'Por favor, completa todos los campos obligatorios.', icon: 'info' });      return false;
+      await Swal.fire({ text: 'Por favor, completa todos los campos obligatorios.', icon: 'info' });      return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      Swal.fire({ text: 'Por favor, ingresa un correo electrónico válido.', icon: 'error' });      return false;
+      await Swal.fire({ text: 'Por favor, ingresa un correo electrónico válido.', icon: 'error' });      return false;
     }
 
     const lengthValid = passwordValue.length >= 8 && passwordValue.length <= 15;
@@ -41,11 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const matchValid = passwordValue !== '' && passwordValue === confirmPasswordValue;
 
     if (!lengthValid || !uppercaseValid || !lowercaseValid || !numberValid) {
-      Swal.fire({ text: 'La contraseña no cumple con los requisitos de seguridad.', icon: 'error' });      return false;
+      await Swal.fire({ text: 'La contraseña no cumple con los requisitos de seguridad.', icon: 'error' });      return false;
     }
 
     if (!matchValid) {
-      Swal.fire({ text: 'Las contraseñas no coinciden.', icon: 'error' });      return false;
+      await Swal.fire({ text: 'Las contraseñas no coinciden.', icon: 'error' });      return false;
     }
 
     return true;
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       if (validateForm()) {
         progressFill.style.width = '100%';
-        Swal.fire({ text: 'Formulario válido. Avanzando al siguiente paso...', icon: 'info' });      }
+        await Swal.fire({ text: 'Formulario válido. Avanzando al siguiente paso...', icon: 'info' });      }
     });
   }
 
@@ -105,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         telefono: formData.get('telefono'),
         nit: formData.get('nit'),
       }),
-      endpointUrl: 'http://localhost:8080/api/empresas/add',
+      endpointUrl: `${API_URL}/api/empresas/add`,
       redirectUrl: '/login',
       metodo:"POST"
     });
