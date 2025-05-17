@@ -69,9 +69,13 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
     try {
       const response = await fetch('http://localhost:8080/api/chats/crear', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({ candidatoId, vacanteId }),
+        credentials: 'include'  
       });
+
 
       if (!response.ok) throw new Error('Error al crear o buscar el chat');
 

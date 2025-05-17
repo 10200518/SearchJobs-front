@@ -60,33 +60,39 @@ const ChatList = () => {
   }
 
   return (
-    <div className="h-full overflow-y-auto custom-scroll bg-white border border-blue-200 rounded-md">
+    <div className="h-full overflow-y-auto bg-white border border-blue-200 rounded-lg shadow-sm custom-scroll">
       <ul className="divide-y divide-blue-100">
         {chats.map(chat => (
           <li key={chat.id}>
             <a
               href={`/chat/${chat.id}`}
-              className="block w-full px-4 py-3 hover:bg-blue-50 transition duration-150"
+              className="block px-4 py-3 hover:bg-blue-50 transition duration-200 group"
             >
-              <div className="flex justify-between items-center">
-                <span className="font-medium text-blue-900">
+              <div className="flex justify-between items-center mb-1">
+                <h3 className="font-semibold text-blue-800 text-sm group-hover:text-blue-900">
                   {userRole === 'EMPRESA'
                     ? `Candidato: ${chat.nombreCandidato}`
                     : `Empresa: ${chat.nombreEmpresa}`}
-                </span>
-                <span className="text-xs text-blue-500">
-                  {new Date(chat.horaUltimoMensaje).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </h3>
+                <span className="text-xs text-blue-400">
+                  {new Date(chat.horaUltimoMensaje).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
                 </span>
               </div>
-              <p className="text-sm text-blue-700">Vacante: {chat.tituloVacante}</p>
-              <p className="text-sm text-blue-800 truncate">
-                {chat.contentUltimoMensaje || 'Sin mensajes'}
+              <p className="text-xs text-blue-600">
+                Vacante: <span className="font-medium">{chat.tituloVacante}</span>
+              </p>
+              <p className="text-sm text-blue-700 truncate">
+                {chat.contentUltimoMensaje || <span className="italic text-blue-300">Sin mensajes</span>}
               </p>
             </a>
           </li>
         ))}
       </ul>
     </div>
+
   );
 };
 

@@ -7,7 +7,6 @@ const ChatBox = ({ chatId }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [chatInfo, setChatInfo] = useState(null);
-
   const stompClient = useRef(null);
   const messagesEndRef = useRef(null);
 
@@ -66,12 +65,14 @@ const ChatBox = ({ chatId }) => {
     };
   }, [chatInfo, chatId]);
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+ useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
   }, [messages]);
 
-  const sendMessage = (e) => {
-    e?.preventDefault();
+
+  const sendMessage = () => {
     if (!chatInfo || input.trim() === "") return;
 
     const { userId, rolPrincipal: role, chatInfo: chatDetails } = chatInfo;
@@ -109,6 +110,14 @@ const ChatBox = ({ chatId }) => {
       if (response.ok) {
         alert(`Chat ${estado? "Abierto":"Cerrardo"} correctamente`);
         
+        setChatInfo(prev => ({
+          ...prev,
+          chatInfo: {
+            ...prev.chatInfo,
+            isActive: estado
+          }
+        }));
+        
       } else if (response.status === 403) {
         alert(`No tienes permisos para ${mensaje} este chat`);
       } else {
@@ -119,7 +128,6 @@ const ChatBox = ({ chatId }) => {
       alert(`Error de red o servidor al ${mensaje} el chat`);
     }
   };
-
 
   if (!chatInfo) return (
       <div id="emptyChatState" className="empty-chat-state">
@@ -137,10 +145,10 @@ const ChatBox = ({ chatId }) => {
     );
 
   return (
-    <div className="flex flex-col w-full h-full border-l border-gray-200">
+    <div className="flex flex-col w-full h-full border-l border-blue-200 bg-white">
       {/* Header del chat */}
-      <div className="p-4 border-b bg-white shadow-sm flex justify-between items-center">
-        <h2 className="text-lg font-semibold text-blue-900">
+      <div className="p-4 border-b bg-blue-50 shadow-sm flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-blue-800">
           Conversación con {chatInfo.chatInfo.nombreCandidato || "Usuario"}
         </h2>
         {chatInfo.rolPrincipal === 'EMPRESA' && (
@@ -150,7 +158,7 @@ const ChatBox = ({ chatId }) => {
               chatInfo.chatInfo.isActive 
                 ? "bg-red-100 text-red-600 hover:bg-red-200" 
                 : "bg-green-100 text-green-600 hover:bg-green-200"
-            } font-medium px-4 py-2 rounded-lg transition duration-200 text-sm`}
+            } font-semibold px-4 py-2 rounded-lg transition duration-200 text-sm shadow-sm`}
           >
             {chatInfo.chatInfo.isActive ? "Cerrar Chat" : "Reabrir Chat"}
           </button>
@@ -158,7 +166,11 @@ const ChatBox = ({ chatId }) => {
       </div>
 
       {/* Área de mensajes */}
-      <div className="flex-1 overflow-y-auto p-4 bg-gray-50 space-y-2">
+      <div className="flex-1 min-h-0 overflow-y-auto p-4 bg-blue-100 space-y-3">
+        {messages.length === 0 && (
+          <p className="text-center text-blue-400 mt-10">No hay mensajes aún. ¡Comienza la conversación!</p>
+        )}
+
         {messages.map((msg, idx) => {
           const isOwn = msg.senderId === chatInfo.userId;
           return (
@@ -167,10 +179,10 @@ const ChatBox = ({ chatId }) => {
               className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-xs px-4 py-2 rounded-lg ${
+                className={`max-w-xs px-5 py-3 rounded-xl shadow-md ${
                   isOwn
                     ? "bg-blue-500 text-white rounded-br-none"
-                    : "bg-gray-200 text-gray-800 rounded-bl-none"
+                    : "bg-white text-blue-900 rounded-bl-none border border-blue-200"
                 }`}
               >
                 {msg.content}
@@ -184,37 +196,32 @@ const ChatBox = ({ chatId }) => {
       {/* Input de mensaje */}
       {chatInfo.chatInfo.isActive && (
         <div className="p-4 border-t bg-white">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <input
-              rows={1}
-              className="flex-1 resize-none border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              type="text"
+              className="flex-1 resize-none border border-blue-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Escribe tu mensaje..."
             />
             <button
-              onClick={sendMessage}
+              type="button"
               disabled={!input.trim()}
-              className={`px-4 py-2 rounded-lg font-semibold ${
+              onClick={() => sendMessage()}
+              className={`px-5 py-2 rounded-lg font-semibold ${
                 input.trim()
-                  ? "bg-blue-500 text-white hover:bg-blue-600"
-                  : "bg-gray-300 text-gray-600 cursor-not-allowed"
-              }`}
-              onKeyDown={(e) => {
-                if (e.key === 'Tab') {
-                  e.preventDefault();
-                  setInput(e.target.value);
-                }
-              }}
+                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                  : "bg-blue-200 text-blue-400 cursor-not-allowed"
+              } transition-colors duration-200 shadow`}
             >
               Enviar
             </button>
           </div>
         </div>
       )}
-
     </div>
   );
+
 };
 
 export default ChatBox;

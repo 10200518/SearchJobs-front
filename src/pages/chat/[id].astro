@@ -2,8 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
-import ChatBox from '../../components/ChatBox';
-import ChatList from '../../components/ChatList';
+import ChatPrincipal from '../../components/ChatPrincipal.jsx';
+
 import '../../styles/pages/chat.css'
 const { params } = Astro;
 const chatId = params.id;
@@ -11,38 +11,8 @@ const chatId = params.id;
 
 <Layout title="Chat | SearchJobs">
 <Header client:load />
-
-<div class="container">
-  <div class="chat-container">
-    <div class="sidebar">
-      <div class="sidebar-header">
-        <h2 class="sidebar-title">Mensajes</h2>
-      </div>
-
-      <div class="search-container">
-        <div class="search-input-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-          <input type="text" class="search-input" placeholder="Buscar conversaciones..." />
-        </div>
-      </div>
-
-      <div class="contacts-tabs">
-        <button class="contacts-tab active" data-tab="all">Todos</button>
-        <button class="contacts-tab" data-tab="unread">No leídos</button>
-        <button class="contacts-tab" data-tab="archived">Archivados</button>
-      </div>
-
-      <div class="contacts-list" id="contactsList">
-        <ChatList client:load>
-      </div>
-    </div>
-
-    <ChatBox client:only="react" chatId={chatId} />
-  </div>
-</div>
+ 
+  <ChatPrincipal client:only="react" chatId={chatId} />
 
 <Footer slot="footer" />
 </Layout>
