@@ -3,7 +3,7 @@ import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import { API_URL } from '../javascripts/Api';
-
+import Swal from 'sweetalert2';
 
 const VacantesActivas = () => {
   const [vacantes, setVacantes] = useState([]);
@@ -108,27 +108,44 @@ const VacantesActivas = () => {
   //       .catch((err) => console.error('Error al obtener el perfil:', err));
   //   };
 
-  const DesactivarVacante = (nvacante, estado, motivo = 'Falta grave') => {
-    fetch(`${API_URL}/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=${estado}&comentario=${motivo}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+ const cambiarEstadoVacante = async (nvacante, estado) => {
+    const { value: motivo } = await Swal.fire({
+      title: `Escribe el motivo ${estado ? 'de activación' : 'de desactivación'} de la vacante`,
+      input: 'text',
+      inputLabel: 'Comentario',
+      inputPlaceholder: 'Escribe aquí...',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+    });
 
-      }, credentials: 'include'
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error('Error al banear vacante');
-        return res.json();
-      })
-      .then(() => {
-        // Recargar lista después de banear
-        return fetchVacantes();
+    // Si canceló o no escribió nada
+    if (!motivo) {
+      return Swal.fire('Cancelado', 'No se cambió el estado de la vacante.', 'info');
+    }
 
-      })
-      .then((res) => res.json())
-      .then((data) => setVacantes(data.vacantes || []))
-      .catch((err) => console.error('Error al desactivar vacante:', err));
+    try {
+      const res = await fetch(`${API_URL}/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=${estado}&comentario=${encodeURIComponent(motivo)}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!res.ok) throw new Error('Error al cambiar el estado de la vacante');
+
+      await Swal.fire('Éxito', 'El estado de la vacante fue actualizado.', 'success');
+
+      const vacantesRes = await fetchVacantes();
+      const data = await vacantesRes.json();
+      setVacantes(data.vacantes || []);
+
+    } catch (err) {
+      console.error('Error al cambiar el estado de la vacante:', err);
+      Swal.fire('Error', 'Ocurrió un error al cambiar el estado.', 'error');
+    }
   };
+  
   return (
 
     <div className="flex-1 max-w-7xl mx-auto px-4">
@@ -246,14 +263,14 @@ const VacantesActivas = () => {
                     {searchIsActive ? (
                       <button
                         className="mr-3 text-red-600 hover:text-red-500"
-                        onClick={() => DesactivarVacante(vacantes.nvacantes, false, 'Falta grave')}
+                        onClick={() => cambiarEstadoVacante(vacantes.nvacantes, false)}
                       >
                         Desactivar
                       </button>
                     ) : (
                       <button
                         className="mr-3 text-green-800 hover:text-green-500"
-                        onClick={() => DesactivarVacante(vacantes.nvacantes, true, 'Perdonado')}
+                        onClick={() => cambiarEstadoVacante(vacantes.nvacantes, true)}
                       >
                         Reactivar
                       </button>

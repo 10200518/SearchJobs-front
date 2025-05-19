@@ -33,8 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!validateForm()) return;
 
     const empresaId = form.dataset.id;
-    console.log(empresaId)
-
       await manejarFormulario({
         form,
         validateForm,

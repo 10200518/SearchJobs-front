@@ -30,7 +30,6 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
     }
 
     const responseData = await response.json();
-    console.log(responseData.status)
     if (responseData.status === 201) {
       form.reset();
       await Swal.fire({ text: responseData.mensaje || "Formulario enviado correctamente", icon: 'success' }); if (redirectUrl) {

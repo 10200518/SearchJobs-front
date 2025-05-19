@@ -49,7 +49,6 @@ const JobBoard = ({ fetchUrl, rol }) => {
 
             const data = await manejarRespuesta(res);
             if(!data){return;}
-            console.log(data.vacantes)
             setFilteredJobs(data.vacantes || []);
             setTotalElement(data.totalElements)
             setTotalPages(data.totalPage)

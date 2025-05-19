@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import { API_URL } from '../javascripts/Api';
-
+import Swal from 'sweetalert2';
 
 const Postulaciones = ({ itemsPerPage = 10 }) => {
   const [postulaciones, setPostulaciones] = useState([]);
@@ -56,23 +56,35 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
     window.location.href = `/empleos/${id}`;
   };
 
-  const cancelarPostulacion = async (nPostulacion, estado) => {
-    const confirmar = window.confirm("¿Estás seguro de que deseas cancelar esta postulación?");
-    if (!confirmar) return;
+  const cancelarPostulacion = async (nPostulacion, estado, nVacante) => {
+    const { isConfirmed } = await Swal.fire({
+      title: 'Cancelar postulación',
+      text: '¿Estás seguro de que deseas cancelar esta postulación?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+    });
+
+    if (!isConfirmed) return;   
+
 
     try {
-      const res = await fetch(`${API_URL}/api/postulados/cancelar/${nPostulacion}?estado=${estado}`, {
-        method: "PATH",
+      const res = await fetch(`${API_URL}/api/postulados/cancelar/${nPostulacion}?estado=${estado}&nvacante=${nVacante}`, {
+        method: "PATCH",
         credentials: "include",
       });
 
       if (res.status === 204) {
-        await Swal.fire({ text: "Postulación cancelada exitosamente.", icon: 'success' });        fetchPostulaciones(currentPage);
+        await Swal.fire({ text: "Postulación cancelada exitosamente.", icon: 'success' });        
+        fetchPostulaciones(currentPage);
       } else {
         await Swal.fire({ text: "No se pudo cancelar la Postulacion", icon: 'error' }); 
       }
     } catch (error) {
-      await Swal.fire({ text: "❌ Ocurrió un error al cancelar la postulación.", icon: 'error' });    }
+        await Swal.fire({ text: "❌ Ocurrió un error al cancelar la postulación.", icon: 'error' });    
+    }
   };
 
   return (
@@ -165,12 +177,15 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
                       >
                         Ver Vacante
                       </button>
-                      <button
-                        onClick={() => cancelarPostulacion(p.nPostulacion, false)}
-                        className="bg-red-100 text-red-600 hover:bg-red-200"
-                      >
-                        Cancelar
-                      </button>
+                      {/* Mostrar solo si el estado NO es “Rechazada” */}
+                      {p.estado!== 'Rechazada' && (
+                        <button
+                          onClick={() => cancelarPostulacion(p.nPostulacion, false, p.vacante.id)}
+                          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg"
+                        >
+                          Cancelar
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}

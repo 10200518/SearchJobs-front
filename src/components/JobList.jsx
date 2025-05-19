@@ -81,8 +81,16 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJ
                   )}
 
                   {job.candidatoPostulado && (
-                    <span className=" top-4 right-4 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
-                      Postulado
+                    <span
+                      className={`top-4 right-4 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md ${
+                        job.estadoPostulacion === 'Aceptada'
+                          ? 'bg-green-500'
+                          : job.estadoPostulacion === 'Rechazada'
+                          ? 'bg-red-500'
+                          : 'bg-blue-500'
+                      }`}
+                    >
+                      {job.estadoPostulacion}
                     </span>
                   )}
 

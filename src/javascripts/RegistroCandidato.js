@@ -1,5 +1,6 @@
 import { manejarFormulario } from './MensajeErrorFrom.js';
 import { API_URL } from './Api.js';
+import Swal from 'sweetalert2';
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('registroForm');
@@ -48,12 +49,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const terminos = document.getElementById('terminos').checked;
 
       if (!nombre || !email || !passwordValue || !confirmPasswordValue || !apellido || !identificacion) {
-        await Swal.fire({ text: 'Completa todos los campos requeridos', icon: 'info' });        return false;
+        Swal.fire({ text: 'Completa todos los campos requeridos', icon: 'info' });       
+        return false;
       }
 
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
-        await Swal.fire({ text: 'Ingresa un correo electrónico válido', icon: 'error' });        return false;
+        Swal.fire({ text: 'Ingresa un correo electrónico válido', icon: 'error' });        
+        return false;
       }
 
       const passwordValidations = {
@@ -65,11 +68,11 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       if (Object.values(passwordValidations).includes(false)) {
-        await Swal.fire({ text: 'La contraseña no cumple los requisitos', icon: 'error' });        return false;
+        Swal.fire({ text: 'La contraseña no cumple los requisitos', icon: 'error' });        return false;
       }
 
       if (!terminos) {
-        await Swal.fire({ text: 'Debes aceptar los términos y condiciones', icon: 'info' });        return false;
+        Swal.fire({ text: 'Debes aceptar los términos y condiciones', icon: 'info' });        return false;
       }
 
       return true;

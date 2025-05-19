@@ -3,6 +3,8 @@ import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import { API_URL } from '../javascripts/Api';
+import Swal from 'sweetalert2';
+
 
 const UsuariosActivos = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -38,8 +40,22 @@ const UsuariosActivos = () => {
     fetchUsuarios();
   }, [currentPage, pageSize, searchTerm, tipoUsuario, verBaneados, AdminId]);
 
-  const cambiarEstado = (idUsuario, motivo = 'Falta grave', isActive) => {
-    fetch(`${API_URL}/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=${isActive}&comentario=${motivo}`, {
+  const cambiarEstado = async (idUsuario, isActive) => {
+    const { isConfirmed, value: motivo } = await Swal.fire({
+      title: `Escribe el motivo ${isActive ? 'de la activación' : 'del baneo'}`,
+      input: 'text',
+      inputLabel: 'Comentario',
+      inputPlaceholder: 'Escribe aquí...',
+      showCancelButton: true,
+      confirmButtonText: 'Enviar',
+      inputValidator: (value) => {
+        if (!value) return 'El comentario es obligatorio';
+      }
+    });
+
+    if (!isConfirmed) return; // si el usuario cancela, no continúa
+
+    fetch(`${API_URL}/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=${isActive}&comentario=${encodeURIComponent(motivo)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       credentials: 'include',
@@ -49,10 +65,11 @@ const UsuariosActivos = () => {
         return res.json();
       })
       .then(() => {
-        fetchUsuarios();
+        fetchUsuarios(); // recargar la lista
       })
       .catch((err) => console.error('Error al cambiar el estado del usuario:', err));
   };
+
 
   const aplicarFiltros = () => {
     setSearchTerm(searchInput);
@@ -130,9 +147,9 @@ const UsuariosActivos = () => {
                   <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/${user.rolPrinciapl.toLowerCase()}/${user.idUsuario}`}> Ver Perfil 
                       </a>
                   {verBaneados ? (
-                    <button onClick={() => cambiarEstado(user.idUsuario, 'Desbaneado', true)} className="text-green-600 hover:text-green-800">Reactivar</button>
+                    <button onClick={() => cambiarEstado(user.idUsuario, true)} className="text-green-600 hover:text-green-800">Reactivar</button>
                   ) : (
-                    <button onClick={() => cambiarEstado(user.idUsuario, 'Falta grave', false)} className="text-red-600 hover:text-red-800">Banear</button>
+                    <button onClick={() => cambiarEstado(user.idUsuario, false)} className="text-red-600 hover:text-red-800">Banear</button>
                   )}
                 </td>
               </tr>
