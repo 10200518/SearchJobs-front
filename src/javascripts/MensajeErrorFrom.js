@@ -32,16 +32,25 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
     }
 
     const responseData = await response.json();
-
+    console.log(responseData.status)
     if (responseData.status === 201) {
       form.reset();
-      await Swal.fire({ text: responseData.mensaje || "Formulario enviado correctamente", icon: 'success' });      if (redirectUrl) {
+      await Swal.fire({ text: responseData.mensaje || "Formulario enviado correctamente", icon: 'success' }); if (redirectUrl) {
         window.location.href = redirectUrl;
       }
-    } else if (responseData.errors) {
+    }
+    else if (responseData.status === 200) {
+      form.reset();
+      await Swal.fire({ text: responseData.mensaje || "Porceso exitoso!", icon: 'success' }); if (redirectUrl) {
+        window.location.href = redirectUrl;
+      }
+    }
+    else if (responseData.errors) {
       mostrarErrores(responseData.errors);
-    } else {
-      await Swal.fire({ text: responseData.message || "Error desconocido", icon: 'error' });    }
+    }
+    else {
+      await Swal.fire({ text: responseData.mensaje|| "Error desconocido", icon: 'error' });
+    }
 
   } catch (error) {
     await Swal.fire({ text: "Error al conectar con el servidor", icon: 'error' });    console.error(error);

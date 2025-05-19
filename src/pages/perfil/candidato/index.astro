@@ -3,9 +3,8 @@ import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.jsx";
 import Layout from "../../../layouts/Layout.astro";
 import "../../../styles/perfiles/candidato.css";
-import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
-import { API_URL } from '../../../javascripts/Api';
-
+import { manejarRespuesta } from "../../../javascripts/ManejarRespuesta";
+import { API_URL } from "../../../javascripts/Api";
 
 const res = await fetch(`${API_URL}/api/candidatos/perfil`, {
   headers: Astro.request.headers,
@@ -25,11 +24,13 @@ interface Estudio {
   descripcion: string;
 }
 
-const data = await manejarRespuesta(res); 
+const data = await manejarRespuesta(res);
 const candidato = data.candidato;
 const estudios = data.estudios;
 const historrialLaboral = data.historialLaboral;
+console.log(candidato.imagen);
 ---
+
 <Layout>
   <Header client:load />
 
@@ -40,23 +41,36 @@ const historrialLaboral = data.historialLaboral;
         <!-- Imagen de perfil -->
         <div class="candidato-imagen-container">
           <img
-            src={candidato.imagen ? `${API_URL}${candidato.imagen}` : "${API_URL}/images/imgCandidato.png"}
+            src={candidato.imagen
+              ? `${API_URL}/img/${candidato.imagen}`
+              : `${API_URL}/images/imgCandidato.png`}
             alt={`${candidato.nombre} ${candidato.apellido}`}
-            class="candidato-imagen"
+            class="h-32 w-32 object-cover shadow"
           />
         </div>
 
         <!-- Información del encabezado -->
         <div class="candidato-header-info">
           <h1 class="candidato-nombre">
-            {candidato.nombre} {candidato.apellido}
+            {candidato.nombre}
+            {candidato.apellido}
           </h1>
-          <p class="candidato-cargo">{candidato.cargo}</p>
+          <p class="candidato-cargo">
+            {
+              candidato.experiencia
+                ? `${candidato.experiencia} años laborando`
+                : ""
+            }
+          </p>
         </div>
 
         <!-- Botones de acción -->
         <div class="candidato-header-actions">
-          <a href="/perfil/candidato/editar" id="editProfileBtn" class="candidato-edit-button">
+          <a
+            href="/perfil/candidato/editar"
+            id="editProfileBtn"
+            class="candidato-edit-button"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -74,10 +88,11 @@ const historrialLaboral = data.historialLaboral;
             </svg>
             Editar perfil
           </a>
-
           <a
-            href={candidato.curriculo ? `${API_URL}${candidato.curriculo}` : "#"}
-            class="candidato-cv-button"
+            href={candidato.curriculo? `${API_URL}/pdf/${candidato.curriculo}`: "#"}
+            class={"candidato-cv-button " + (!candidato.curriculo ? "pointer-events-none opacity-50" : "")}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +107,7 @@ const historrialLaboral = data.historialLaboral;
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            Descargar CV
+            Ver CV
           </a>
         </div>
       </div>
@@ -156,7 +171,7 @@ const historrialLaboral = data.historialLaboral;
           <h2 class="candidato-section-title">Estudios</h2>
           <div class="candidato-timeline">
             {
-              estudios.map((estudio:Estudio) => (
+              estudios.map((estudio: Estudio) => (
                 <div class="candidato-timeline-item">
                   <div class="candidato-timeline-dot" />
                   <h3 class="candidato-timeline-title">{estudio.titulo}</h3>
@@ -178,7 +193,7 @@ const historrialLaboral = data.historialLaboral;
           <h2 class="candidato-section-title">Historial Laboral</h2>
           <div class="candidato-timeline">
             {
-              historrialLaboral.map((exp:Experiencia) => (
+              historrialLaboral.map((exp: Experiencia) => (
                 <div class="candidato-timeline-item">
                   <div class="candidato-timeline-dot" />
                   <h3 class="candidato-timeline-title">{exp.cargo}</h3>
@@ -194,28 +209,7 @@ const historrialLaboral = data.historialLaboral;
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 
   <Footer slot="footer" />
 </Layout>
-
-<script type="text/javascript">
-  document.addEventListener("DOMContentLoaded", function () {
-
-    const editBtn = document.getElementById("editProfileBtn");
-    const cvButton = document.querySelector(".candidato-cv-button");
-    
-    const candidato = {
-      curriculo: null, 
-    };
-    
-    if (candidato.curriculo) {
-      cvButton.classList.remove("disabled"); 
-    } else {
-      cvButton.classList.add("disabled");
-      cvButton.addEventListener("click", function (e) {
-        e.preventDefault();  
-      });
-    }
-  });
-</script>

@@ -101,7 +101,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
         body: JSON.stringify({ estado: nuevoEstado }),
       });
 
-      if (!res.ok) throw new Error('Error al actualizar estado');
+      if (!res.ok){await Swal.fire({ text: 'Error al actualizar estado', icon: 'error' });}
 
       alert(`Postulación ${nuevoEstado.toLowerCase()} correctamente`);
       fetchPostulados(currentPage);

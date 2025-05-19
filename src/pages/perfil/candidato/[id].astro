@@ -49,9 +49,9 @@ const historrialLaboral = data.historialLaboral || [];
         <!-- Imagen de perfil -->
         <div class="candidato-imagen-container">
           <img
-            src={candidato.imagen ? `${API_URL}` + candidato.imagen : `${API_URL}/images/imgCandidato.png`}
+            src={candidato.imagen ? `${API_URL}`+"/img/"+ candidato.imagen : `${API_URL}/images/imgCandidato.png`}
             alt={`${candidato.nombre} ${candidato.apellido}`}
-            class="candidato-imagen"
+            class="h-32 w-32  object-cover shadow"
           />
         </div>
 
@@ -60,13 +60,18 @@ const historrialLaboral = data.historialLaboral || [];
           <h1 class="candidato-nombre">
             {candidato.nombre} {candidato.apellido}
           </h1>
-          <p class="candidato-cargo">Falta un cargo</p>
+          <p class="candidato-cargo">{candidato.experiencia} años || </p>
         </div>
 
         <!-- Botones de acción -->
         <div class="candidato-header-actions">
           <!-- Botón para descargar CV -->
-          <a href={candidato.curriculo ? `${API_URL}${candidato.curriculo}` : "#"} class="candidato-cv-button">
+          <a
+            href={candidato.curriculo? `${API_URL}/pdf/${candidato.curriculo}`: "#"}
+            class={"candidato-cv-button " + (!candidato.curriculo ? "pointer-events-none opacity-50" : "")}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -80,26 +85,7 @@ const historrialLaboral = data.historialLaboral || [];
               <polyline points="7 10 12 15 17 10"></polyline>
               <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
-            Descargar CV
-          </a>
-
-          <!-- Botón para editar perfil -->
-          <a href={`/pages/candidato/editar.astro`} class="candidato-edit-button">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              width="16"
-              height="16"
-            >
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-            </svg>
-            Editar perfil
+            Ver CV
           </a>
         </div>
       </div>

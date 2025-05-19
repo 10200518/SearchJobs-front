@@ -29,7 +29,7 @@ const empresa = data.empresa || {};
         <!-- Logo de la empresa -->
         <div class="empresa-logo-container">
           <img 
-            src={empresa.imagen ? `${API_URL}` + empresa.imagen : `${API_URL}/images/imgEmpresa.png`}
+            src={empresa.imagen ? `${API_URL}` +"/img/"+ empresa.imagen : `${API_URL}/images/imgEmpresa.png`}
             alt={empresa.nombre} 
             class="empresa-logo"
           />
