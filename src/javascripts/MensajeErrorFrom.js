@@ -15,16 +15,14 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
     if (tipo === "application/json") {
       response = await fetch(endpointUrl, {
         method: metodo,
-        headers: {
-          "Content-Type": tipo
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
         credentials: 'include'
       });
     } else if (tipo === "multipart/form-data") {
       response = await fetch(endpointUrl, {
         method: metodo,
-        body: formData,
+        body: buildData(formData),
         credentials: 'include'
       });
     } else {

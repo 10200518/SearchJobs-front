@@ -11,17 +11,15 @@ const res = await fetch(`${API_URL}/api/candidatos/perfil`, {
 });
 
 interface Experiencia {
-  cargo: string;
+  titulo: string;
   empresa: string;
-  periodo: string;
-  descripcion: string;
+
 }
 
 interface Estudio {
   titulo: string;
   institucion: string;
-  periodo: string;
-  descripcion: string;
+
 }
 
 const data = await manejarRespuesta(res);
@@ -176,11 +174,7 @@ console.log(candidato.imagen);
                   <div class="candidato-timeline-dot" />
                   <h3 class="candidato-timeline-title">{estudio.titulo}</h3>
                   <p class="candidato-timeline-subtitle">
-                    {estudio.institucion}
-                  </p>
-                  <p class="candidato-timeline-period">{estudio.periodo}</p>
-                  <p class="candidato-timeline-description">
-                    {estudio.descripcion}
+                    {estudio.titulo}
                   </p>
                 </div>
               ))
@@ -196,12 +190,9 @@ console.log(candidato.imagen);
               historrialLaboral.map((exp: Experiencia) => (
                 <div class="candidato-timeline-item">
                   <div class="candidato-timeline-dot" />
-                  <h3 class="candidato-timeline-title">{exp.cargo}</h3>
+                  <h3 class="candidato-timeline-title">{exp.titulo}</h3>
                   <p class="candidato-timeline-subtitle">{exp.empresa}</p>
-                  <p class="candidato-timeline-period">{exp.periodo}</p>
-                  <p class="candidato-timeline-description">
-                    {exp.descripcion}
-                  </p>
+
                 </div>
               ))
             }

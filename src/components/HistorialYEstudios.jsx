@@ -63,7 +63,7 @@ export default function HistorialYEstudios() {
   const agregarEstudio = () =>
     setEstudios([
       ...estudios,
-      { _tmpId: tmpId(), idEstudio: null, titulo: "", institucion: "" },
+      { _tmpId: tmpId(), idEstudio: "", titulo: "", academia: "", idUsuario:candidato.idUsuario },
     ]);
 
   const eliminarEstudio = (id) =>
@@ -83,8 +83,9 @@ export default function HistorialYEstudios() {
       {
         _tmpId: tmpId(),
         idHistorial: null,
-        cargo: "",
+        titulo: "",
         empresa: "",
+        idUsuario:candidato.idUsuario
       },
     ]);
 
@@ -103,6 +104,8 @@ export default function HistorialYEstudios() {
   /* ------------ SUBMIT --------------------------- */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    /* ----------- 1. Subir candidato + CV ------------ */
     await manejarFormulario({
       form: e.target,
       validateForm: () =>
@@ -123,20 +126,53 @@ export default function HistorialYEstudios() {
         return fd;
       },
       endpointUrl: `${API_URL}/api/candidatos/edit/${candidato.idUsuario}`,
-      redirectUrl: "/perfil/candidato",
+      redirectUrl: null,          // ya redirigiremos al final
       metodo: "PUT",
       tipo: "multipart/form-data",
     });
 
-    const body = {
-      idUsuario: candidato.id,
-      estudios: estudios.map(({ _tmpId, ...rest }) => rest),
-      historialLaboral: historialLaboral.map(({ _tmpId, ...rest }) => rest),
-    };
+    /* ----------- 2. Preparar payloads ------------ */
+    const estudiosEnviar   = estudios.map(({ _tmpId, ...rest }) => rest);
+    const historialEnviar  = historialLaboral.map(({ _tmpId, ...rest }) => rest);
 
-    // Aquí podrías enviar estudios e historial si quieres
-    // ...
+    /* ----------- 3. Enviar estudios e historial en paralelo ------------ */
+    try {
+      const [respEst, respHist] = await Promise.all([
+        fetch(`${API_URL}/api/estudios/replace/${candidato.idUsuario}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(estudiosEnviar),
+          credentials: "include",
+        }),
+        fetch(`${API_URL}/api/historialLaborals/replace/${candidato.idUsuario}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(historialEnviar),
+          credentials: "include",
+        }),
+      ]);
+
+      /* ----------- 4. Comprobar respuestas ------------ */
+      if (!respEst.ok || !respHist.ok) {
+        // leer mensajes de error si existen
+        const mensajeEst  = (!respEst.ok  ? (await respEst.json().catch(() => ({}))).mensaje  : "") || "";
+        const mensajeHist = (!respHist.ok ? (await respHist.json().catch(() => ({}))).mensaje : "") || "";
+        throw new Error(`${mensajeEst} ${mensajeHist}`.trim() || "Error al actualizar datos");
+      }
+
+      /* ----------- 5. Éxito global ------------ */
+      await Swal.fire({ icon: "success", text: "Perfil actualizado con éxito" });
+      window.location.href = "/perfil/candidato";
+
+    } catch (err) {
+      console.error(err);
+      await Swal.fire({
+        icon: "error",
+        text: err.message || "Ocurrió un error actualizando tu perfil",
+      });
+    }
   };
+
 
   /* ---- RENDER ----------------------------------- */
   if (loading) return <p className="p-8 text-center">Cargando…</p>;
@@ -430,18 +466,18 @@ export default function HistorialYEstudios() {
 
                     {/* --- Institución --- */}
                     <div className="flex flex-col">
-                      <label htmlFor={`institucion-${key}`} className="mb-1 text-sm font-medium">
+                      <label htmlFor={`academia-${key}`} className="mb-1 text-sm font-medium">
                         Institución
                       </label>
                       <input
-                        id={`institucion-${key}`}
+                        id={`academia-${key}`}
                         placeholder="Institución"
-                        name="institucion"
-                        value={est.institucion}
-                        onChange={(e) => actualizarEstudio(key, 'institucion', e.target.value)}
+                        name="academia"
+                        value={est.academia}
+                        onChange={(e) => actualizarEstudio(key, 'academia', e.target.value)}
                         className="w-full rounded-2xl border border-gray-300 bg-white px-4 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                       />
-                      <p id="error-institucion" className="error-text hidden mt-1 text-xs text-red-500" />
+                      <p id="error-academia" className="error-text hidden mt-1 text-xs text-red-500" />
                     </div>
 
                   </div>
@@ -493,7 +529,8 @@ export default function HistorialYEstudios() {
                       <input
                         placeholder="Cargo"
                         value={exp.cargo}
-                        onChange={(e) => actualizarHistorial(key, 'cargo', e.target.value)}
+                        name="titulo"
+                        onChange={(e) => actualizarHistorial(key, 'titulo', e.target.value)}
                         className="w-full rounded-2xl border border-gray-300 bg-white px-4 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
                       />
                     </div>
