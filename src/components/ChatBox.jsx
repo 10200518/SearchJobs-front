@@ -21,7 +21,8 @@ const ChatBox = ({ chatId }) => {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Error al obtener la información del chat");
-        const data = await manejarRespuesta(res); 
+        const data = manejarRespuesta(res);
+        if(!data){return}
         setChatInfo(data);
       } catch (err) {
         console.error("Error:", err);

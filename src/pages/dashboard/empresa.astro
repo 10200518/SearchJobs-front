@@ -19,14 +19,16 @@ interface Job {
 
 let featuredJobs: Job[]= []; 
 let data = null;
-async function obtenerVacantes() {
+
+try {
   const res = await fetch(`${API_URL}/api/vacantes/popular/listar`, {
-    headers: Astro.request.headers
+    headers: Astro.request.headers,   
   });
   data = await manejarRespuesta(res); 
-  featuredJobs = data.vacantes; 
+  featuredJobs = data.vacantes as Job[];
+} catch (err) {
+  console.error(err);
 }
- 
 
 const features = [
   {

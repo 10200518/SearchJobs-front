@@ -26,7 +26,7 @@ const UsuariosActivos = () => {
         const url = `${API_URL}/api/admin/listar/filtrados?nombre=${searchTerm}&rolPrinciapl=${tipoUsuario}&estado=${!verBaneados}&page=${currentPage - 1}&size=${pageSize}`;
         const res = await fetch(url, { credentials: 'include' });
         const data = await manejarRespuesta(res); 
-        
+        if(!data){return}
         setTotalElements(data.totalElements || 0);
         setUsuarios(data.usuarios || []);
         setTotalPages(data.totalPages || 0);

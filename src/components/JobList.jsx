@@ -1,14 +1,23 @@
 import '../styles/pages/JobCard.css';
 import Paginacion from './Paginacion';
 import { API_URL } from '../javascripts/Api';
+import Swal from 'sweetalert2';
 
 
-const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
+const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJobs }) => {
 
   async function cambiarEstado(id, estado) {
     let mensaje = estado? "activar":"desactivar";
-    const confirmacion = confirm(`¿Estás seguro de que deseas ${mensaje} esta vacante?`);
-    if (!confirmacion) return;
+    const { isConfirmed } = await Swal.fire({
+      title: 'Confirmar acción',
+      text: `¿Estás seguro de que deseas ${mensaje} esta vacante?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,      // pone Cancelar a la izquierda
+    });
+    if (!isConfirmed) return;    // e
 
     try {
       const response = await fetch(`${API_URL}/api/vacantes/estado/${id}?estado=${estado}`, {
@@ -20,9 +29,11 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
       });
 
       if (response.ok) {
-        await Swal.fire({ text: `Exito al ${mensaje} la vacante`, icon: 'success' });        location.reload();
+        await Swal.fire({ text: `Exito al ${mensaje} la vacante`, icon: 'success' });        
+        fetchAllJobs()
       } else {
-        await Swal.fire({ text: `Error al ${mensaje} la vacante.`, icon: 'error' });      }
+        await Swal.fire({ text: `Error al ${mensaje} la vacante.`, icon: 'error' });    
+      }
     } catch (error) {
       console.error("Error en la solicitud:", error);
       await Swal.fire({ text: "Hubo un problema al intentar eliminar la vacante.", icon: 'error' });    }
@@ -50,7 +61,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages }) => {
               <div className="header">
                 <div className="logo">
                   <img
-                    src={`${API_URL}` + job.imagenEmpresa || "/placeholder.svg?height=80&width=80"}
+                    src={job.imagenEmpresa ? `${API_URL}`+"/img/"+ job.imagenEmpresa : `${API_URL}/images/imgEmpresa.png`}
                     alt={`${job.nameEmpresa} logo`}
                     width="60"
                     height="60"

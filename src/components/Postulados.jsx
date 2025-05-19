@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { manejarRespuesta } from "../javascripts/ManejarRespuesta";
 import Paginacion from './Paginacion';
 import { API_URL } from '../javascripts/Api';
-
+import Swal from 'sweetalert2';
 
 const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
   const [postulados, setPostulados] = useState([]);
@@ -77,10 +77,8 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
         credentials: 'include'  
       });
 
-
-      if (!response.ok) throw new Error('Error al crear o buscar el chat');
-
-      const chat = await response.json();
+      const chat = await manejarRespuesta(response);
+      if (!chat){return}
       window.location.href = `/chat/${chat.id}`;
     } catch (err) {
       console.error('Error al abrir el chat:', err);
@@ -88,8 +86,17 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
   };
 
   const actualizarEstadoPostulacion = async (nPostulacion, nuevoEstado) => {
-    const confirmar = confirm(`¿Seguro que deseas marcar esta postulación como "${nuevoEstado}"?`);
-    if (!confirmar) return;
+    const { isConfirmed } = await Swal.fire({
+      title: 'Confirmar acción',
+      text: `¿Seguro que deseas marcar esta postulación como "${nuevoEstado}"?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, continuar',
+      cancelButtonText: 'Cancelar',
+      reverseButtons: true,
+    });
+
+    if (!isConfirmed) return;   
 
     try {
       const res = await fetch(`${API_URL}/api/postulados/edit/${nPostulacion}`, {
@@ -214,7 +221,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <a
-                        href={postulado.candidato.curriculo}
+                        href={`${API_URL}/pdf/${postulado.candidato.curriculo}`}
                         target="_blank"
                         className="text-blue-500 hover:underline font-medium"
                       >
