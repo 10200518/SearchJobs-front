@@ -17,7 +17,6 @@ function PerfilCliente() {
         }
 
         const data = await res.json();
-        console.log(data); // <-- Aquí ves el objeto completo
         setPerfil(data);
       } catch (error) {
         console.error('Error al obtener el perfil:', error);

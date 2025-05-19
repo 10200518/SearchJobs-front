@@ -56,7 +56,7 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
           type="number"
           name="totalpostulaciones"
           onChange={handleFilterChange}
-          value={filtersLocal.sueldo || ""}
+          value={filtersLocal.totalpostulaciones || ""}
           className="search-input"
         />
       </div>

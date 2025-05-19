@@ -6,7 +6,7 @@ import { API_URL } from '../javascripts/Api';
 <a href={`/empleos/${job.nvacantes}`} class="card">
   <div class="header">
     <div class="logo">
-      <img src={`${API_URL}`+job.imagenEmpresa || "/placeholder.svg?height=80&width=80"} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
+      <img src={job.imagenEmpresa ? `${API_URL}`+"/img/"+ job.imagenEmpresa : `${API_URL}/images/imgEmpresa.png`} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
     </div>
     <div class="info">
       {!job.active && (
@@ -22,8 +22,16 @@ import { API_URL } from '../javascripts/Api';
       )}
 
       {job.candidatoPostulado && (
-        <span class="top-4 right-4 bg-green-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md">
-          Postulado
+        <span
+          class={`top-4 right-4 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md ${
+            job.estadoPostulacion === 'Aceptada'
+              ? 'bg-green-500'
+              : job.estadoPostulacion === 'Rechazada'
+              ? 'bg-red-500'
+              : 'bg-blue-500'
+          }`}
+        >
+          {job.estadoPostulacion}
         </span>
       )}
 

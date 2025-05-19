@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import { API_URL } from '../javascripts/Api';
-
+import Swal from 'sweetalert2';
 
 const Postulaciones = ({ itemsPerPage = 10 }) => {
   const [postulaciones, setPostulaciones] = useState([]);
@@ -56,24 +56,35 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
     window.location.href = `/empleos/${id}`;
   };
 
-  const eliminarPostulacion = async (nPostulacion) => {
-    const confirmar = window.confirm("¿Estás seguro de que deseas cancelar esta postulación?");
-    if (!confirmar) return;
+  const cancelarPostulacion = async (nPostulacion, estado, nVacante) => {
+    const { isConfirmed } = await Swal.fire({
+      title: 'Cancelar postulación',
+      text: '¿Estás seguro de que deseas cancelar esta postulación?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, cancelar',
+      cancelButtonText: 'No',
+      reverseButtons: true,
+    });
+
+    if (!isConfirmed) return;   
+
 
     try {
-      const res = await fetch(`${API_URL}/api/postulados/delete/${nPostulacion}`, {
-        method: "DELETE",
+      const res = await fetch(`${API_URL}/api/postulados/cancelar/${nPostulacion}?estado=${estado}&nvacante=${nVacante}`, {
+        method: "PATCH",
         credentials: "include",
       });
 
       if (res.status === 204) {
-        await Swal.fire({ text: "Postulación cancelada exitosamente.", icon: 'success' });        fetchPostulaciones(currentPage);
+        await Swal.fire({ text: "Postulación cancelada exitosamente.", icon: 'success' });        
+        fetchPostulaciones(currentPage);
       } else {
-        throw new Error("No se pudo cancelar la postulación.");
+        await Swal.fire({ text: "No se pudo cancelar la Postulacion", icon: 'error' }); 
       }
     } catch (error) {
-      console.error("❌ Error al cancelar postulación:", error);
-      await Swal.fire({ text: "❌ Ocurrió un error al cancelar la postulación.", icon: 'info' });    }
+        await Swal.fire({ text: "❌ Ocurrió un error al cancelar la postulación.", icon: 'error' });    
+    }
   };
 
   return (
@@ -132,58 +143,61 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
       </div>
 
       {loading ? (
-        <p>Cargando postulaciones...</p>
-      ) : postulaciones.length === 0 ? (
-        <div className="flex flex-col items-center justify-center p-8 text-center text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v1m0 14v1m8-8h-1M5 12H4m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.021 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
-          </svg>
-          <p className="text-lg font-semibold">No tienes postulaciones aún</p>
-          <p className="text-sm text-gray-500 mt-1">Una vez te postules a vacantes, aparecerán aquí.</p>
-        </div>
-      ) : (
-        <>
-          {/* Tabla */}
-          <table className="min-w-full table-auto border-collapse">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="px-6 py-3 text-left text-gray-600">Vacante</th>
-                <th className="px-6 py-3 text-left text-gray-600">Fecha</th>
-                <th className="px-6 py-3 text-left text-gray-600">Estado</th>
-                <th className="px-6 py-3 text-left text-gray-600">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {postulaciones.map((p) => (
-                <tr key={p.nPostulacion} className="border-t">
-                  <td className="px-6 py-4 text-gray-800">{p.vacante.titulo}</td>
-                  <td className="px-6 py-4 text-gray-800">{p.fechaPostulacion || '-'}</td>
-                  <td className="px-6 py-4 text-gray-800">{p.estado || 'Espera'}</td>
-                  <td className="px-6 py-4 space-x-2">
-                    <button
-                      onClick={() => irADetalleVacante(p.vacante.id)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
-                    >
-                      Ver Vacante
-                    </button>
-                    <button
-                      onClick={() => eliminarPostulacion(p.nPostulacion)}
-                      className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg"
-                    >
-                      Cancelar
-                    </button>
-                  </td>
+          <p>Cargando postulaciones...</p>
+        ) : postulaciones.length === 0 ? (
+          <div className="flex flex-col items-center justify-center p-8 text-center text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-16 h-16 mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v1m0 14v1m8-8h-1M5 12H4m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.021 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+            </svg>
+            <p className="text-lg font-semibold">No tienes postulaciones aún</p>
+            <p className="text-sm text-gray-500 mt-1">Una vez te postules a vacantes, aparecerán aquí.</p>
+          </div>
+        ) : (
+          <>
+            {/* Tabla */}
+            <table className="min-w-full table-auto border-collapse">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="px-6 py-3 text-left text-gray-600">Vacante</th>
+                  <th className="px-6 py-3 text-left text-gray-600">Fecha</th>
+                  <th className="px-6 py-3 text-left text-gray-600">Estado</th>
+                  <th className="px-6 py-3 text-left text-gray-600">Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {postulaciones.map((p) => (
+                  <tr key={p.nPostulacion} className="border-t">
+                    <td className="px-6 py-4 text-gray-800">{p.vacante.titulo}</td>
+                    <td className="px-6 py-4 text-gray-800">{p.fechaPostulacion || '-'}</td>
+                    <td className="px-6 py-4 text-gray-800">{p.estado || 'Espera'}</td>
+                    <td className="px-6 py-4 space-x-2">
+                      <button
+                        onClick={() => irADetalleVacante(p.vacante.id)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg"
+                      >
+                        Ver Vacante
+                      </button>
+                      {/* Mostrar solo si el estado NO es “Rechazada” */}
+                      {p.estado!== 'Rechazada' && (
+                        <button
+                          onClick={() => cancelarPostulacion(p.nPostulacion, false, p.vacante.id)}
+                          className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg"
+                        >
+                          Cancelar
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-          <Paginacion
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPages={totalPages}
-          />
-        </>
+            <Paginacion
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+            />
+          </>
       )}
     </div>
   );

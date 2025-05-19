@@ -17,9 +17,19 @@ interface Job {
   imagenEmpresa: string;
 }
 
-const res = await fetch(`${API_URL}/api/vacantes/Top/listar`);
-const data = await manejarRespuesta(res); 
-const featuredJobs: Job[] = data.vacantes; 
+let featuredJobs: Job[]= []; 
+let data = null;
+
+try {
+  const res = await fetch(`${API_URL}/api/vacantes/popular/listar`, {
+    headers: Astro.request.headers,   
+  });
+  data = await manejarRespuesta(res); 
+  featuredJobs = data.vacantes as Job[];
+} catch (err) {
+  console.error(err);
+}
+
 const features = [
   {
     icon: "search",

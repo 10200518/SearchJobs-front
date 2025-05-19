@@ -14,7 +14,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
         tipo: "todos",
         experiencia: null,
         modalidad: null,
-        isActive: null,
+        active: null,
         activaPorEmpresa: null,
         cargo: null,
         ciudad: null,
@@ -26,7 +26,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
         tipo: "todos",
         experiencia: null,
         modalidad: null,
-        isActive: null,
+        active: null,
         activaPorEmpresa: null,
         cargo: null,
         ciudad: null,
@@ -36,31 +36,31 @@ const JobBoard = ({ fetchUrl, rol }) => {
     const [filteredJobs, setFilteredJobs] = useState([]);
     const itemsPerPage = 20;
 
+    const fetchAllJobs = async () => {
+        try {
+            const res = await fetch(`${fetchUrl}?page=${currentPage - 1}&size=${itemsPerPage}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify(filters), 
+            });
+
+            const data = await manejarRespuesta(res);
+            if(!data){return;}
+            setFilteredJobs(data.vacantes || []);
+            setTotalElement(data.totalElements)
+            setTotalPages(data.totalPage)
+            
+        } catch (error) {
+            console.error('Error cargando vacantes:', error);
+        }
+    };
+
     useEffect(() => {
-        const fetchAllJobs = async () => {
-            try {
-                const res = await fetch(`${fetchUrl}?page=${currentPage - 1}&size=${itemsPerPage}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    credentials: "include",
-                    body: JSON.stringify(filters), 
-                });
-
-                const data = await manejarRespuesta(res);
-                if(!data){return;}
-                setFilteredJobs(data.vacantes || []);
-                setTotalElement(data.totalElements)
-                setTotalPages(data.totalPage)
-                
-            } catch (error) {
-                console.error('Error cargando vacantes:', error);
-            }
-        };
-
         fetchAllJobs();
-    }, [filters,currentPage]); 
+    }, [filters,currentPage, ]); 
 
     const handleFilterChange = (event) => {
         const { name, value } = event.target;
@@ -80,17 +80,17 @@ const JobBoard = ({ fetchUrl, rol }) => {
         const nuevoFiltro = {
             ...filtersLocal,
             estado: estadoSeleccionado, 
-            isActive: undefined,
+            active: undefined,
             activaPorEmpresa: undefined
         };
 
         switch (estadoSeleccionado) {
             case "activas":
-            nuevoFiltro.isActive = true;
+            nuevoFiltro.active = true;
             nuevoFiltro.activaPorEmpresa = true;
             break;
             case "desactivadasAdmin":
-            nuevoFiltro.isActive = false;
+            nuevoFiltro.active = false;
             break;
             case "pausadasEmpresa":
             nuevoFiltro.activaPorEmpresa = false;
@@ -109,7 +109,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
             titulo:null,
             tipo: null,
             experiencia: null,
-            isActive: null,
+            active: null,
             activaPorEmpresa: null,
             modalidad: null,
             cargo: null,
@@ -148,6 +148,7 @@ const JobBoard = ({ fetchUrl, rol }) => {
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         totalPages={totalPages}
+                        fetchAllJobs={fetchAllJobs}
                     />
                 </div>
             </div>

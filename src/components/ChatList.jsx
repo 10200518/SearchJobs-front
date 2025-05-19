@@ -15,8 +15,8 @@ const ChatList = ({ searchText, Estado , onSelectChat }) => {
         const res = await fetch(`${API_URL}/api/usuarios/rol`, {
           credentials: "include",
         });
-        const  data = await res.json();;
-        
+        const  data = await manejarRespuesta(res);
+        if(!data){return}
         setUserId(data.id);
         setUserRole(data.rolPrincipal);
       } catch (error) {
@@ -47,7 +47,8 @@ const ChatList = ({ searchText, Estado , onSelectChat }) => {
           credentials: 'include'
         });
 
-        const data = await res.json();
+        const  data = await manejarRespuesta(res);
+        if(!data){return}
         setChats(data.chats || []);
       } catch (error) {
         console.error("Error fetching chats:", error);

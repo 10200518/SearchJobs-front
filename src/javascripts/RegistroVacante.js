@@ -1,4 +1,5 @@
 import { manejarFormulario } from './MensajeErrorFrom.js';
+import Swal from 'sweetalert2';
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('vacanteForm');
@@ -14,13 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const id of requiredFields) {
             const input = document.getElementById(id);
             if (!input || !input.value.trim()) {
-                await Swal.fire({ text: 'Por favor completa todos los campos requeridos.', icon: 'info' });                return false;
+                 Swal.fire({ text: 'Por favor completa todos los campos requeridos.', icon: 'info' });                return false;
             }
         }
 
         const sueldo = document.getElementById('sueldo').value.trim();
         if (sueldo && isNaN(sueldo)) {
-            await Swal.fire({ text: 'El sueldo debe ser un número válido.', icon: 'error' });            return false;
+             Swal.fire({ text: 'El sueldo debe ser un número válido.', icon: 'error' });            return false;
         }
 
         return true;

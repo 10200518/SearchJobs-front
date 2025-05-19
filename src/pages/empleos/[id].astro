@@ -15,7 +15,8 @@ interface Vacante {
   imagenEmpresa: string;
   idUsuario: Number
   totalpostulaciones: Number,
-  comentarioAdmin: string;
+  comentarioAdmin: string,
+  estadoPostulacion:String
 }
 
 const { id } = Astro.params;
@@ -55,49 +56,31 @@ if(rol=== "CANDIDATO"){
   <Header client:load />
 
   <div class="container px-5 py-10 mx-auto">
-    <div class="mb-6">
-      <a
-        href="/empleos"
-        class="inline-flex items-center text-primary hover:underline"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="mr-2"
-        >
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
-        Volver a empleos
-      </a>
-    </div>
-
+    
     <div class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-8">
       <!-- Detalles del empleo -->
       <div>
         <div
           class="p-8 mb-8 border rounded-lg shadow-lg bg-white/80 backdrop-blur-xl border-white/20"
         >
+          {!job.active && rol === "EMPRESA" && (
+            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-md shadow-sm mb-4">
+              <p class="font-semibold">⚠️ Vacante desactivada por el administrador</p>
+              <p>{job.comentarioAdmin}</p>
+            </div>
+          )}
           <div
             class="flex flex-col gap-6 pb-8 mb-8 border-b border-gray-100 md:flex-row md:items-center"
           >
             <div class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
               <img
-                src={`${API_URL}` + job.imagenEmpresa ||
-                  "/placeholder.svg"}
+                src={job.imagenEmpresa ? `${API_URL}`+"/img/"+ job.imagenEmpresa : `${API_URL}/images/imgEmpresa.png`}
                 alt={`${job.nameEmpresa} logo`}
                 class="object-cover w-full h-full"
               />
             </div>
             <div class="flex-grow">
-              <h1 class="mb-2 text-2xl font-bold">{job.titulo}</h1>
+              <a  class="mb-2 text-2xl font-bold">{job.titulo}</a>
               <div class="flex flex-wrap gap-2 mb-3">
                 <span class="inline-flex items-center text-sm text-text-light">
                   <svg
@@ -444,7 +427,13 @@ if(rol=== "CANDIDATO"){
               </svg>
               <div>
                 <p class="text-sm text-text-light">Empresa</p>
-                <p class="font-medium">{job.nameEmpresa}</p>
+                <a
+                  href={`/perfil/empresa/${job.idUsuario}`}
+                  class="font-medium text-blue-600 no-underline hover:text-blue-700 transition-colors"
+                >
+                  {job.nameEmpresa}
+                </a>
+
               </div>
             </div>
 
@@ -541,12 +530,20 @@ if(rol=== "CANDIDATO"){
           {rol === "CANDIDATO" ? (
             <>
               {job.candidatoPostulado ? (
-                <span class="top-4 right-4 bg-green-500 text-white text-xs font-semibold px-9 py-3 rounded-full shadow-md">
-                  Postulado
+                <span
+                  class={`top-4 right-4 text-white text-xs font-semibold px-9 py-3 rounded-full shadow-md ${
+                    job.estadoPostulacion === 'Aceptada'
+                      ? 'bg-green-500'
+                      : job.estadoPostulacion === 'Rechazada'
+                      ? 'bg-red-500'
+                      : 'bg-blue-500'
+                  }`}
+                >
+                  {job.estadoPostulacion}
                 </span>
               ) : (
                 <>
-                  {(!job.isActive || !job.activaPorEmpresa) ? (
+                  {(!job.active || !job.activaPorEmpresa) ? (
                     <p class="text-red-600 text-sm mt-2">
                       Esta vacante está deshabilitada y no puedes postularte.
                     </p>
@@ -600,37 +597,5 @@ if(rol=== "CANDIDATO"){
   <Footer slot="footer" />
 </Layout>
 
-<script type="text/javascript">
-  import { API_URL } from '/src/javascripts/Api';
+<script type="module" src="/src/javascripts/Postulacion.js"></script>
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const applyButton = document.getElementById("applyButton");
-
-    applyButton?.addEventListener("click", async () => {
-      const jobId = applyButton.getAttribute("data-id");
-
-      try {
-        const response = await fetch(
-          `${API_URL}/api/postulados/add/${jobId}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include", // incluye cookies si usas JWT en cookies
-          },
-        );
-
-        const data = await response.json();
-
-        if (data.status === "success") {
-          await Swal.fire({ text: data.message || "Postulación exitosa.", icon: 'success' });        } else if (data.status === "info") {
-          await Swal.fire({ text: data.message || "Completa tu perfil para postularte.", icon: 'info' });          window.location.href = "/perfil/candidato"; // ajusta esta ruta a la real
-        } else if (data.status === "error") {
-          await Swal.fire({ text: data.message || "No se pudo realizar la postulación.", icon: 'error' });        }
-      } catch (error) {
-        console.error("Error al postularse:", error);
-        await Swal.fire({ text: "Hubo un error al postularse.", icon: 'error' });      }
-    });
-  });
-</script>
