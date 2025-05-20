@@ -1,15 +1,9 @@
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { API_URL } from '../javascripts/Api';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
-<<<<<<< HEAD
-
-=======
-import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
-import { API_URL } from '../javascripts/Api';
-import Swal from 'sweetalert2';
->>>>>>> d9a1e0d85f9cfed475c2e93a73e98443ef30dfc4
 
 const VacantesActivas = () => {
   const [vacantes, setVacantes] = useState([]);
@@ -29,7 +23,7 @@ const VacantesActivas = () => {
   const [searchTipo, setSearchTipo] = useState("todos");
   const [searchTipoInput, setSearchTipoInput] = useState("todos");
   const [searchIsActive, setSearchIsActive] = useState(true);
-  const [searchPostulado, setSearchPostulado] = useState(100000000);
+  const [searchPostulado, setSearchPostulado] = useState(0);
   const [searchPostuladoInput, setSearchPostuladoInput] = useState('');
 
 

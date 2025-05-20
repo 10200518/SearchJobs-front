@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import { API_URL } from '../javascripts/Api';
+import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
-import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
-import { API_URL } from '../javascripts/Api';
-import Swal from 'sweetalert2';
 
 
 const UsuariosActivos = () => {
@@ -20,7 +20,6 @@ const UsuariosActivos = () => {
   const [searchTipoInput, setSearchTipoInput] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [verBaneados, setVerBaneados] = useState(false);
- 
 
   
     const fetchUsuarios = async () => {
@@ -39,6 +38,36 @@ const UsuariosActivos = () => {
   useEffect(() => {
     fetchUsuarios();
   }, [currentPage, pageSize, searchTerm, tipoUsuario, verBaneados, AdminId]);
+
+
+const crearAdmin = async (idUsuario, estado) => {
+  const accion = estado ? 'crear este admin' : 'revocar este administrador';
+
+  const confirmacion = await Swal.fire({
+    title: `¿Estás seguro de ${accion}?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, confirmar',
+    cancelButtonText: 'Cancelar',
+  });
+
+  if (!confirmacion.isConfirmed) return;
+
+  fetch(`${API_URL}/api/admin/agregarRol?idUsuario=${idUsuario}&estado=${estado}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    credentials: 'include',
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error('Error al modificar el rol del admin');
+      return res.json();
+    })
+    .then((data) => {
+      setAdminId(data.idUsuario);
+      fetchUsuarios(); // recargar la lista
+    })
+    .catch((err) => console.error('Error al modificar el rol del admin:', err));
+};
 
   const cambiarEstado = async (idUsuario, isActive) => {
     const { isConfirmed, value: motivo } = await Swal.fire({
@@ -95,6 +124,7 @@ const UsuariosActivos = () => {
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Todos los tipos</option>
+            <option value="ADMIN">Administradores</option>
             <option value="CANDIDATO">Candidatos</option>
             <option value="EMPRESA">Empresas</option>
           </select>
@@ -144,13 +174,26 @@ const UsuariosActivos = () => {
                   
               
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/${user.rolPrinciapl.toLowerCase()}/${user.idUsuario}`}> Ver Perfil 
+                  <button
+                    onClick={() => crearAdmin(user.idUsuario, user.rolPrinciapl !== 'ADMIN')}
+                    className={`hover:underline font-semibold ${user.rolPrinciapl === 'ADMIN'
+                        ? 'text-black hover:text-gray-800'
+                        : 'text-purple-600 hover:text-purple-800'
+                      }`}
+                  >
+                    {user.rolPrinciapl === 'ADMIN' ? '- Admin' : '+ Admin'}
+                  </button>
+
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"></td>
+
+                   <a className="mr-3 text-blue-600 hover:text-blue-900" href={`/perfil/${user.rolPrinciapl.toLowerCase()}/${user.idUsuario}`}> Ver Perfil 
                       </a>
                   {verBaneados ? (
                     <button onClick={() => cambiarEstado(user.idUsuario, true)} className="text-green-600 hover:text-green-800">Reactivar</button>
                   ) : (
                     <button onClick={() => cambiarEstado(user.idUsuario, false)} className="text-red-600 hover:text-red-800">Banear</button>
                   )}
+                  
                 </td>
               </tr>
             ))}
