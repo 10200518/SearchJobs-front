@@ -3,13 +3,12 @@ import react from '@astrojs/react';
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  output: 'server',
+  output: 'server', 
   site: 'https://searchjobs.com/',
   integrations: [react()],
-  adapter: node({ mode: 'standalone' }),
+  adapter: node({ mode: 'standalone' }), 
   experimental: {
-    session: true, 
+    session: true,
   },
 });
-
 
