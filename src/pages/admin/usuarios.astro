@@ -5,36 +5,11 @@ import Footer from "../../components/Footer.astro";
 import AdminSidebar from "../../components/AdminSidebar.astro";
 import UsuariosActivos from "../../components/UsuariosActivos.jsx";
 
-const usuariosBaneados = [
-  {
-    id: 6,
-    nombre: "Pedro Gómez",
-    email: "pedro.gomez@ejemplo.com",
-    tipo: "Candidato",
-    fechaBaneo: "2023-04-20",
-    motivo: "Comportamiento inapropiado",
-  },
-  {
-    id: 7,
-    nombre: "FakeCompany",
-    email: "info@fakecompany.com",
-    tipo: "Empresa",
-    fechaBaneo: "2023-04-15",
-    motivo: "Publicación de vacantes fraudulentas",
-  },
-  {
-    id: 8,
-    nombre: "María López",
-    email: "maria.lopez@ejemplo.com",
-    tipo: "Candidato",
-    fechaBaneo: "2023-04-10",
-    motivo: "Spam en mensajes",
-  },
-];
+
 ---
 
 <Layout title="Gestión de Usuarios | SearchJobs">
-  <Header client:load />
+  <Header client:load /><br>
   
   <div class="container px-4 py-6 mx-auto">
     <div class="flex flex-col gap-6 md:flex-row">
@@ -225,7 +200,7 @@ const usuariosBaneados = [
     
     confirmarBanear.addEventListener('click', () => {
       // La lógica para usuario
-      await Swal.fire({ text: 'Usuario baneado correctamente', icon: 'success' });      modalBanear.classList.add('hidden');
+      Swal.fire({ text: 'Usuario baneado correctamente', icon: 'success' });      modalBanear.classList.add('hidden');
     });
     
     // Modal para desbanear usuario
@@ -251,7 +226,7 @@ const usuariosBaneados = [
     
     confirmarDesbanear.addEventListener('click', () => {
       // La lógica para desbanear al usuario
-      await Swal.fire({ text: 'Usuario desbaneado correctamente', icon: 'success' });      modalDesbanear.classList.add('hidden');
+      Swal.fire({ text: 'Usuario desbaneado correctamente', icon: 'success' });      modalDesbanear.classList.add('hidden');
     });
   });
 </script>

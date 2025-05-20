@@ -80,7 +80,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJ
                     </span>
                   )}
 
-                  {job.candidatoPostulado && (
+                  {job.candidatoPostulado  && job.estadoPostulacion !== 'Cancelada' && (
                     <span
                       className={`top-4 right-4 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-md ${
                         job.estadoPostulacion === 'Aceptada'

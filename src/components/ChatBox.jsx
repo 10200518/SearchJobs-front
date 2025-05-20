@@ -9,6 +9,7 @@ const ChatBox = ({ chatId }) => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [chatInfo, setChatInfo] = useState(null);
+  const [chatChange, setChatChange] = useState(null);
   const stompClient = useRef(null);
   const messagesEndRef = useRef(null);
 
@@ -21,16 +22,20 @@ const ChatBox = ({ chatId }) => {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Error al obtener la información del chat");
-        const data = manejarRespuesta(res);
+        const data = await manejarRespuesta(res);
         if(!data){return}
         setChatInfo(data);
       } catch (err) {
         console.error("Error:", err);
       }
     };
-
+    const mensajeGuardado = localStorage.getItem(`chat-mensaje-${chatId}`);
+    if (mensajeGuardado) {
+      setChatChange(mensajeGuardado);
+      console.log(mensajeGuardado)
+    }
     fetchChatInfo();
-  }, [chatId]);
+  }, [chatId, chatChange ]);
 
   useEffect(() => {
     if (!chatInfo) return;
@@ -40,20 +45,32 @@ const ChatBox = ({ chatId }) => {
     const client = new Client({
       brokerURL: `${WS_URL}/chats`,
       reconnectDelay: 5000,
+
       onConnect: () => {
         console.log("✅ Conectado a WebSocket");
 
+        // Escuchar mensajes nuevos
         client.subscribe(`/user/queue/messages`, (msg) => {
           const message = JSON.parse(msg.body);
           setMessages((prev) => [...prev, message]);
         });
 
+        // Escuchar cierre de chat
+        client.subscribe(`/user/queue/chat-change`, (msg) => {
+          const contenido = msg.body;
+          setChatChange(contenido);
+          localStorage.setItem(`chat-mensaje-${chatId}`, contenido);
+        });
+
+        // Cargar historial al conectar
         fetch(`${API_URL}/api/chats/${chatId}/mensajes`, {
           credentials: "include",
         })
           .then((res) => res.json())
           .then((data) => setMessages(data))
-          .catch((error) => console.error("❌ Error al obtener los mensajes:", error));
+          .catch((error) =>
+            console.error("❌ Error al obtener los mensajes:", error)
+          );
       },
       onStompError: (frame) => {
         console.error("❌ STOMP error:", frame);
@@ -142,14 +159,18 @@ const ChatBox = ({ chatId }) => {
         </div>
       </div>
     );
-
+    
   return (
     <div className="flex flex-col w-full h-full border-l border-blue-200 bg-white">
       {/* Header del chat */}
       <div className="p-4 border-b bg-blue-50 shadow-sm flex justify-between items-center">
         <h2 className="text-xl font-semibold text-blue-800">
-          Conversación con {chatInfo.chatInfo.nombreCandidato || "Usuario"}
+          Conversación con{" "}
+          {chatInfo.rolPrincipal === "EMPRESA"
+            ? chatInfo.chatInfo.nombreCandidato
+            : chatInfo.chatInfo.nombreEmpresa || "Usuario"}
         </h2>
+
         {chatInfo.rolPrincipal === 'EMPRESA' && (
           <button
             onClick={() => cambiarEstadoChat(chatInfo.chatInfo.id, !chatInfo.chatInfo.isActive)} 
@@ -178,13 +199,20 @@ const ChatBox = ({ chatId }) => {
               className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
             >
               <div
-                className={`max-w-xs px-5 py-3 rounded-xl shadow-md ${
+                className={`max-w-xs px-5 py-3 rounded-xl shadow-md text-base relative ${
                   isOwn
                     ? "bg-blue-500 text-white rounded-br-none"
                     : "bg-white text-blue-900 rounded-bl-none border border-blue-200"
                 }`}
               >
-                {msg.content}
+                <p className="mb-4">{msg.content}</p>
+                <span className="absolute bottom-1 right-3 text-xs text-gray-300">
+                  {new Date(msg.time).toLocaleTimeString([], {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
+                </span>
               </div>
             </div>
           );
@@ -192,7 +220,12 @@ const ChatBox = ({ chatId }) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input de mensaje */}
+      {!chatInfo.chatInfo.isActive && (
+        <div className="p-4 border-t bg-white text-center text-red-600 font-semibold">
+          {chatChange}
+        </div>
+      )}
+
       {chatInfo.chatInfo.isActive && (
         <div className="p-4 border-t bg-white">
           <div className="flex items-center gap-3">
