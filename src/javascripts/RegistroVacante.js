@@ -5,6 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('vacanteForm');
     const endpointUrl = form.dataset.endpointUrl;
     const metodo = form.dataset.metodo;
+    const tipoSelect = document.getElementById('tipo');
+    const experienciaInput = document.getElementById('experiencia');
+
+    tipoSelect.addEventListener('change', function () {
+        if (this.value === 'Practica') {
+            experienciaInput.value = 0;
+            experienciaInput.disabled = true;
+        } else {
+            experienciaInput.disabled = false;
+            experienciaInput.value = '';
+        }
+    });
 
     const validateForm = () => {
         const requiredFields = [

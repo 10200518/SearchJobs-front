@@ -32,6 +32,7 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
         <h4 className="filter-group-title">Experiencia Minima</h4>
         <input
           type="number"
+          min={0}
           name="experiencia"
           onChange={handleFilterChange}
           value={filtersLocal.experiencia || ""}
@@ -44,6 +45,7 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
         <input
           type="number"
           name="sueldo"
+          min={0}
           onChange={handleFilterChange}
           value={filtersLocal.sueldo || ""}
           className="search-input"
@@ -54,6 +56,7 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
         <h4 className="filter-group-title">Postulados</h4>
         <input
           type="number"
+          min={0}
           name="totalpostulaciones"
           onChange={handleFilterChange}
           value={filtersLocal.totalpostulaciones || ""}
@@ -101,7 +104,7 @@ export default function FilterComponent({ filtersLocal, clearAllFilters, handleF
         <div className="filter-group">
           <h4 className="filter-group-title">Estado</h4>
           <select name="estado" value={filtersLocal.estado} onChange={handleEstadoChange} className="search-input">
-            <option value="todas">Todas</option>
+            <option value="todas" selected>Todas</option>
             <option value="activas">Activas</option>
             <option value="desactivadasAdmin">Desactivadas por Admin</option>
             <option value="pausadasEmpresa">Pausadas por Empresa</option>

@@ -9,7 +9,7 @@ export const manejarRespuesta = async (res) => {
     } catch (e) {
       data = {};
     }
-
+    console.log(res.status)
     if (res.status === 401) {
       if (data.error === "TOKEN_EXPIRED") {
         await Swal.fire({ text: "Tu sesión ha expirado.", icon: 'error' });       
@@ -25,7 +25,7 @@ export const manejarRespuesta = async (res) => {
     }
 
     if (res.status === 403) {
-      await await Swal.fire({ text: "no autorizado", icon: 'error' });
+      await Swal.fire({ text: "no autorizado", icon: 'error' });
       window.location.href = "/404";
       return;
     }

@@ -9,12 +9,26 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [userRole, setUserRole] = useState("ROLE_INVITADO");
   const [filtroLocal, setFiltroLocal] = useState({
     estado: '',
     fechaMinima: '',
     nombreCandidato: '',
   });
   const [filtroActivo, setFiltroActivo] = useState({ ...filtroLocal });
+
+  const fetchUserRole = async () => {
+    try {
+      const res = await fetch(`${API_URL}/api/usuarios/rol`, {
+        credentials: 'include',
+      });
+      const data = await manejarRespuesta(res); 
+      if(!data){return;}
+      setUserRole(data.rolPrincipal);
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+    }
+  };
 
   const fetchPostulados = async (page = 1) => {
     setLoading(true);
@@ -43,6 +57,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
     } finally {
       setLoading(false);
     }
+    fetchUserRole()
   };
 
   const handleBuscar = () => {
@@ -133,6 +148,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
             <option value="Espera">En Espera</option>
             <option value="Aceptada">Aceptada</option>
             <option value="Rechazada">Rechazada</option>
+            <option value="Cancelada">Canceladas</option>
           </select>
         </div>
 
@@ -209,7 +225,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                       )}
                       {!postulado.vacanteIsActive && (
                         <span className="block text-xs text-red-600 font-medium">
-                          Vacante deshabilitada {"hola"+postulado.vacanteIsActive}
+                          Vacante deshabilitada 
                         </span>
                       )}
                     </td>
@@ -239,7 +255,8 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                     <td className="px-6 py-4 whitespace-nowrap">
                       {(postulado.estado === 'Espera' || postulado.estado === 'Aceptada') &&
                         postulado.active &&
-                        postulado.vacanteIsActive && (
+                        postulado.vacanteIsActive && 
+                        userRole === "EMPRESA"&&(
                           <button
                             onClick={() =>
                               abrirChat(postulado.candidato.id, postulado.vacante.id)
@@ -253,7 +270,8 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                     <td className="px-6 py-4 whitespace-nowrap space-y-2">
                       {postulado.estado === 'Espera' &&
                         postulado.active &&
-                        postulado.vacanteIsActive && (
+                        postulado.vacanteIsActive &&
+                        userRole === "EMPRESA" &&(
                           <>
                             <button
                               className="block w-full bg-red-100 hover:bg-red-200 text-red-700 font-semibold py-1 px-3 rounded-md"

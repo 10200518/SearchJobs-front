@@ -5,7 +5,7 @@ import { API_URL } from '../javascripts/Api';
 
 
 const Header = () => {
-  const [userRole, setUserRole] = useState(null);
+  const [userRole, setUserRole] = useState("ROLE_INVITADO");
   
   useEffect(() => {
     const fetchUserRole = async () => {

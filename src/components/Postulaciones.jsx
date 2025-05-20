@@ -23,7 +23,6 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
         `${API_URL}/api/postulados/lista/candidato?page=${page - 1}&size=${itemsPerPage}&estado=${estado}&fechaMinima=${fechaMinima}&tituloVacante=${tituloVacante}&empresa=${empresa}`,
         { credentials: 'include' }
       );
-      if (!res.ok) throw new Error('Error al obtener postulaciones');
       const data = await manejarRespuesta(res); 
       setPostulaciones(data.postulados);
       setTotalPages(data.totalPage);
