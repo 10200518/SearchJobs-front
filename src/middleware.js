@@ -1,16 +1,27 @@
 import { API_URL } from './javascripts/Api.js';
 
 const rutasPorRol = {
-  'ROLE_INVITADO': ['/', '/login','/empleos', '/registro', '/registro/candidato','/registro/empresa', '/404'],
-  'CANDIDATO': ['/','/login', '/dashboard/candidato', '/perfil/candidato', '/logout', '/chat', '/404'],
-  'EMPRESA': ['/', '/dashboard/empresa', '/perfil', '/logout', '/chat', '/404'],
-  'ADMIN': ['/', '/admin', '/dashboard/admin', '/logout', '/no-autorizado', '/404'],
-  'SUPER_ADMIN': ['/', '/admin', '/dashboard/admin', '/logout', '/no-autorizado', '/404']
+  'ROLE_INVITADO': ['/', '/login','/empleos/*', '/registro','/perfil/empresa/*', '/registro/candidato','/registro/empresa', '/404'],
+  'CANDIDATO': [ '/login','/perfil/empresa/*','/dashboard/candidato','/empleos/*', '/perfil/candidato/*', '/logout', '/chat/candidato/*', '/postulados', '/404'],
+  'EMPRESA': [ '/dashboard/empresa', '/perfil/empresa/*', '/logout','/postulados/*', '/chat/empresa/*', '/404', "/empleos/*"],
+  'ADMIN': [ '/admin/*','/perfil/*', '/logout', '/404', '/empleos/*','/postulados/*'],
+  'SUPER_ADMIN': ['/admin/*', '/perfil/*','/logout', '/404', '/empleos/*','/postulados/*' ]
 };
 
 export async function onRequest(context, next) {
+  const { request, url } = context;
+  function rutaPermitida(rutasPermitidas, rutaActual) {
+    return rutasPermitidas.some(ruta => {
+      if (ruta.endsWith('/*')) {
+        const prefijo = ruta.slice(0, -2);
+        return rutaActual.startsWith(prefijo);
+      }
+      return rutaActual === ruta;
+    });
+  }
+
   try {
-    const { request, url } = context;
+    
     
     const cookie = request.headers.get('cookie');
 
@@ -30,10 +41,8 @@ export async function onRequest(context, next) {
     const data = await res.json();
     const rolPrincipal = data.rolPrincipal.toUpperCase();
     const rutaActual = url.pathname;
-    console.log("rol: "+rolPrincipal)
     const rutasPermitidas = rutasPorRol[rolPrincipal] || [];
-    console.log("rutas "+ rutasPermitidas)
-    if (rutasPermitidas.includes(rutaActual)) {
+    if (rutaPermitida(rutasPermitidas, rutaActual)) {
       return next();
     } else {
       url.pathname = "/404";
