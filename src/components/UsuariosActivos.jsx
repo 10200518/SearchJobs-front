@@ -20,6 +20,7 @@ const UsuariosActivos = () => {
   const [searchTipoInput, setSearchTipoInput] = useState('');
   const [tipoUsuario, setTipoUsuario] = useState('');
   const [verBaneados, setVerBaneados] = useState(false);
+  const [userRol, setUserRol] = useState(null);
 
   
     const fetchUsuarios = async () => {
@@ -28,13 +29,29 @@ const UsuariosActivos = () => {
         const res = await fetch(url, { credentials: 'include' });
         const data = await manejarRespuesta(res); 
         if(!data){return}
-        setTotalElements(data.totalElements || 0);
+        setTotalElements(data.totalElements );
         setUsuarios(data.usuarios || []);
-        setTotalPages(data.totalPages || 0);
+        setTotalPages(data.totalPages );
       } catch (err) {
         console.error('Error:', err);
       }
     };
+
+
+    useEffect(() => {
+    fetch(`${API_URL}/api/usuarios/rol`, {
+    credentials: 'include', 
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setUserRol(data.rolPrincipal);
+    })
+    .catch((err) => {
+      console.error("Error al obtener el rol:", err);
+      setUserRol("ROLE_INVITADO"); // fallback en caso de error
+    });
+}, []);
+
   useEffect(() => {
     fetchUsuarios();
   }, [currentPage, pageSize, searchTerm, tipoUsuario, verBaneados, AdminId]);
@@ -118,16 +135,22 @@ const crearAdmin = async (idUsuario, estado) => {
             onChange={(e) => setSearchInput(e.target.value)}
             className="py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
+
           <select
             value={searchTipoInput}
             onChange={(e) => setSearchTipoInput(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Todos los tipos</option>
-            <option value="ADMIN">Administradores</option>
+
+            {userRol !== "ROLE_ADMIN" && (
+              <option value="ADMIN">Administradores</option>
+            )}
+
             <option value="CANDIDATO">Candidatos</option>
             <option value="EMPRESA">Empresas</option>
           </select>
+
           <button onClick={aplicarFiltros} className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700">
             Buscar
           </button>

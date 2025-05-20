@@ -1,9 +1,9 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/Header.jsx";
 import Footer from "../../components/Footer.astro";
-import { manejarRespuesta } from '../../javascripts/ManejarRespuesta';
+import Header from "../../components/Header.jsx";
 import { API_URL } from '../../javascripts/Api';
+import { manejarRespuesta } from '../../javascripts/ManejarRespuesta';
+import Layout from "../../layouts/Layout.astro";
 
 interface Vacante {
   nvacantes: string;
@@ -312,7 +312,7 @@ if(rol=== "CANDIDATO"){
               </svg>
               <div>
                 <p class="text-sm text-text-light">Postulados</p>
-                <p class="font-medium">{job.totalpostulaciones}</p>
+                <p class="font-medium">{job.nPostulados}</p>
               </div>
             </div>
 
@@ -522,7 +522,7 @@ if(rol=== "CANDIDATO"){
               </svg>
               <div>
                 <p class="text-sm text-text-light">Postulados</p>
-                <p class="font-medium">{job.totalpostulaciones}</p>
+                <p class="font-medium">{job.nPostulados}</p>
               </div>
             </div>
           </div>

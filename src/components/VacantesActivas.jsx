@@ -50,9 +50,9 @@ const VacantesActivas = () => {
       });
 
       const data = await manejarRespuesta(res); 
-      setTotalElements(data.totalElements || 0);
+      setTotalElements(data.totalElements );
       setVacantes(data.vacantes || []);
-      setTotalPages(data.totalPages || 0);
+      setTotalPages(data.totalPages);
     } catch (err) {
       console.error('Error:', err);
     }
@@ -253,7 +253,7 @@ const VacantesActivas = () => {
                       {vacantes.tipo}
                     </span>
                   </td>
-                  {searchIsActive ? (<td className="px-4 py-4">{vacantes.totalpostulaciones}</td>
+                  {searchIsActive ? (<td className="px-4 py-4">{vacantes.nPostulados}</td>
                   ) : (
                     <td className="px-4 py-4">{vacantes.comentarioAdmin}</td>
                   )}
@@ -285,14 +285,14 @@ const VacantesActivas = () => {
           </table>
 
 
-          <div className="p-4">
+        
             <Paginacion
               currentPage={currentPage}
               setCurrentPage={setCurrentPage}
               totalPages={totalPages}
             />
 
-          </div>
+          
         </div>
       </div>
     </div>

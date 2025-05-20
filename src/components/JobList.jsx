@@ -1,7 +1,7 @@
+import Swal from 'sweetalert2';
+import { API_URL } from '../javascripts/Api';
 import '../styles/pages/JobCard.css';
 import Paginacion from './Paginacion';
-import { API_URL } from '../javascripts/Api';
-import Swal from 'sweetalert2';
 
 
 const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJobs }) => {
@@ -131,7 +131,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJ
                     <circle cx="12" cy="7" r="4" />
                   </svg>
 
-                  <span>{job.totalpostulaciones} postulados</span>
+                  <span>{job.nPostulados} postulados</span>
                 </div>
               </div>
 
