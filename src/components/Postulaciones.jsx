@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
-import { API_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
 import Swal from 'sweetalert2';
 
 const Postulaciones = ({ itemsPerPage = 10 }) => {
@@ -20,7 +20,7 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
     setLoading(true);
     try {
       const res = await fetch(
-        `${API_URL}/api/postulados/lista/candidato?page=${page - 1}&size=${itemsPerPage}&estado=${estado}&fechaMinima=${fechaMinima}&tituloVacante=${tituloVacante}&empresa=${empresa}`,
+        `${API_CLIENT_URL}/api/postulados/lista/candidato?page=${page - 1}&size=${itemsPerPage}&estado=${estado}&fechaMinima=${fechaMinima}&tituloVacante=${tituloVacante}&empresa=${empresa}`,
         { credentials: 'include' }
       );
       const data = await manejarRespuesta(res); 
@@ -70,7 +70,7 @@ const Postulaciones = ({ itemsPerPage = 10 }) => {
 
 
     try {
-      const res = await fetch(`${API_URL}/api/postulados/cancelar/${nPostulacion}?estado=${estado}&nvacante=${nVacante}`, {
+      const res = await fetch(`${API_CLIENT_URL}/api/postulados/cancelar/${nPostulacion}?estado=${estado}&nvacante=${nVacante}`, {
         method: "PATCH",
         credentials: "include",
       });

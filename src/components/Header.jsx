@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import '../styles/pages/header.css'
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
-import { API_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
 
 
 const Header = () => {
@@ -10,7 +10,7 @@ const Header = () => {
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/usuarios/rol`, {
+        const res = await fetch(`${API_CLIENT_URL}/api/usuarios/rol`, {
           credentials: 'include',
         });
         const data = await manejarRespuesta(res); 
@@ -122,7 +122,7 @@ const Header = () => {
 
           {userRole && userRole !== 'ROLE_INVITADO' ? (
             <>
-              <a href={`${API_URL}/usuarios/cerrarSesion`} className="nav-link register-btn">Cerrar Sesión</a>
+              <a href={`${API_CLIENT_URL}/usuarios/cerrarSesion`} className="nav-link register-btn">Cerrar Sesión</a>
               <a className="nav-link register-btn">{getRoleDisplayName(userRole)}</a>
             </>
           ) : (

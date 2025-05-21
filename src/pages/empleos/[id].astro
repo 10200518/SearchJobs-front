@@ -1,8 +1,8 @@
 ---
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.jsx";
-import { API_URL } from '../../javascripts/Api';
-import { manejarRespuesta } from '../../javascripts/ManejarRespuesta';
+import { API_URL, API_CLIENT_URL } from '../../javascripts/Api.js';
+import { manejarRespuesta } from '../../javascripts/ManejarRespuesta.js';
 import Layout from "../../layouts/Layout.astro";
 
 interface Vacante {
@@ -75,7 +75,7 @@ if(rol=== "CANDIDATO"){
           >
             <div class="flex-shrink-0 w-20 h-20 overflow-hidden rounded-lg">
               <img
-                src={job.imagenEmpresa ? `${API_URL}`+"/img/"+ job.imagenEmpresa : `${API_URL}/images/imgEmpresa.png`}
+                src={job.imagenEmpresa ? `${API_CLIENT_URL}`+"/img/"+ job.imagenEmpresa : `${API_CLIENT_URL}/images/imgEmpresa.png`}
                 alt={`${job.nameEmpresa} logo`}
                 class="object-cover w-full h-full"
               />
@@ -313,7 +313,7 @@ if(rol=== "CANDIDATO"){
               </svg>
               <div>
                 <p class="text-sm text-text-light">Postulados</p>
-                <p class="font-medium">{job.nPostulados}</p>
+                <p class="font-medium">{job.totalpostulaciones}</p>
               </div>
             </div>
 
@@ -523,7 +523,7 @@ if(rol=== "CANDIDATO"){
               </svg>
               <div>
                 <p class="text-sm text-text-light">Postulados</p>
-                <p class="font-medium">{job.nPostulados}</p>
+                <p class="font-medium">{job.totalpostulaciones}</p>
               </div>
             </div>
           </div>
@@ -597,5 +597,5 @@ if(rol=== "CANDIDATO"){
   <Footer slot="footer" />
 </Layout>
 
-<script type="module" src="/src/javascripts/Postulacion.js"></script>
+<script src="../../javascripts/Postulacion.js"></script>
 

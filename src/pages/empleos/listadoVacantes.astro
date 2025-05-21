@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import JobBoard from "../../components/JobBoard";
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/empleos/empleos.css";
-import { API_URL } from '../../javascripts/Api';
+import { API_CLIENT_URL } from '../../javascripts/Api';
 ---
 
 <Layout title="Empleos | SearchJobs">
@@ -19,7 +19,7 @@ import { API_URL } from '../../javascripts/Api';
     </div>
 
    
-    <JobBoard client:load fetchUrl=`${API_URL}/api/vacantes/listar` rol="empresa"/>
+    <JobBoard client:load fetchUrl=`${API_CLIENT_URL}/api/vacantes/listar` rol="empresa"/>
     
   </div>
   <Footer slot="footer" />

@@ -3,8 +3,8 @@ import Footer from "../../../components/Footer.astro";
 import Header from "../../../components/Header.jsx";
 import Layout from "../../../layouts/Layout.astro";
 import "../../../styles/perfiles/candidato.css";
-import { manejarRespuesta } from "../../../javascripts/ManejarRespuesta";
-import { API_URL } from "../../../javascripts/Api";
+import { manejarRespuesta } from "../../../javascripts/ManejarRespuesta.js";
+import { API_URL, API_CLIENT_URL  } from "../../../javascripts/Api.js";
 
 const res = await fetch(`${API_URL}/api/candidatos/perfil`, {
   headers: Astro.request.headers,
@@ -39,8 +39,8 @@ console.log(candidato);
         <div class="candidato-imagen-container">
           <img
             src={candidato.imagen
-              ? `${API_URL}/img/${candidato.imagen}`
-              : `${API_URL}/images/imgCandidato.png`}
+              ? `${API_CLIENT_URL}/img/${candidato.imagen}`
+              : `${API_CLIENT_URL}/images/imgCandidato.png`}
             alt={`${candidato.nombre} ${candidato.apellido}`}
             class="h-32 w-32 object-cover shadow"
           />
@@ -87,7 +87,7 @@ console.log(candidato);
           </a>
           <a
             href={candidato.curriculo
-              ? `${API_URL}/pdf/${candidato.curriculo}`
+              ? `${API_CLIENT_URL}/pdf/${candidato.curriculo}`
               : "#"}
             class={"candidato-cv-button " +
               (!candidato.curriculo ? "pointer-events-none opacity-50" : "")}

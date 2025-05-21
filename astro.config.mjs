@@ -4,7 +4,7 @@ import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   output: 'server', 
-  site: 'https://searchjobs.com/',
+  // site: 'http://localhost:4321',
   integrations: [react()],
   adapter: node({ mode: 'standalone' }), 
   experimental: {

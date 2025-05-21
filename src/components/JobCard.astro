@@ -1,12 +1,12 @@
 ---
 const { job, rol } = Astro.props;
-import { API_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
 ---
 
 <a href={`/empleos/${job.nvacantes}`} class="card">
   <div class="header">
     <div class="logo">
-      <img src={job.imagenEmpresa ? `${API_URL}`+"/img/"+ job.imagenEmpresa : `${API_URL}/images/imgEmpresa.png`} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
+      <img src={job.imagenEmpresa ? `${API_CLIENT_URL}`+"/img/"+ job.imagenEmpresa : `${API_CLIENT_URL}/images/imgEmpresa.png`} alt={`${job.nameEmpresa} logo`} width="60" height="60" />
     </div>
     <div class="info">
       {!job.active && (
@@ -71,7 +71,7 @@ import { API_URL } from '../javascripts/Api';
         <circle cx="12" cy="7" r="4" />
       </svg>
 
-      <span>{job.nPostulados} postulados</span>
+      <span>{job.totalpostulaciones} postulados</span>
     </div>
   </div>
 

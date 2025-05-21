@@ -1,4 +1,4 @@
-import { API_URL } from '/src/javascripts/Api.js';
+import { API_CLIENT_URL } from '/src/javascripts/Api.js';
 import Swal from 'sweetalert2';
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const response = await fetch(
-                `${API_URL}/api/postulados/add/${jobId}`,
+                `${API_CLIENT_URL}/api/postulados/add/${jobId}`,
                 {
                     method: "POST",
                     headers: {

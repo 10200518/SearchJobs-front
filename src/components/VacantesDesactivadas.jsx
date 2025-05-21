@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
-import { API_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
 
 
 const VacantesDesactivadas = () => {
@@ -16,7 +16,7 @@ const VacantesDesactivadas = () => {
     useEffect(() => {
     const fetchVacantes = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/admin/listVacantes/desactivadas?page=${currentPage-1}&size=${pageSize}`,{
+        const res = await fetch(`${API_CLIENT_URL}/api/admin/listVacantes/desactivadas?page=${currentPage-1}&size=${pageSize}`,{
           credentials: 'include' 
         })
           
@@ -33,7 +33,7 @@ const VacantesDesactivadas = () => {
   }, [currentPage, pageSize]);
 
 //     const verVacante = (idUsuario) => {
-//     fetch(`${API_URL}/api/candidatos/perfil?idUsuario=${idUsuario}`, {
+//     fetch(`${API_CLIENT_URL}/api/candidatos/perfil?idUsuario=${idUsuario}`, {
 //       method: 'GET',
 //       headers: {
 //         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ const VacantesDesactivadas = () => {
 //   };
 
   const ActivarVacante = (nvacante, motivo = 'Falso Positivo') => {
-    fetch(`${API_URL}/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=true&comentario=${motivo}`, {
+    fetch(`${API_CLIENT_URL}/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=true&comentario=${motivo}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -62,7 +62,7 @@ const VacantesDesactivadas = () => {
       })
       .then(() => {
         // Recargar lista después de banear
-        return fetch(`${API_URL}/api/admin/listVacantes/desactivadas?page=${currentPage-1}&size=${pageSize}`,{
+        return fetch(`${API_CLIENT_URL}/api/admin/listVacantes/desactivadas?page=${currentPage-1}&size=${pageSize}`,{
           credentials: 'include' 
         });
       })

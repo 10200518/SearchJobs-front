@@ -4,7 +4,7 @@
 /* HistorialYEstudios.jsx */
 import React, { useEffect, useState, useRef } from "react";
 import Swal from "sweetalert2";
-import { API_URL } from "../javascripts/Api";
+import { API_CLIENT_URL } from "../javascripts/Api";
 import { manejarFormulario } from "../javascripts/MensajeErrorFrom";
 
 /* ------------ util ------------------------------ */
@@ -30,7 +30,7 @@ export default function HistorialYEstudios() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(`${API_URL}/api/candidatos/perfil`, {
+        const res = await fetch(`${API_CLIENT_URL}/api/candidatos/perfil`, {
           credentials: "include",
         });
         const data = await res.json();
@@ -112,13 +112,13 @@ export default function HistorialYEstudios() {
     /* ----------- 3. Enviar estudios e historial en paralelo ------------ */
     try {
       const [respEst, respHist] = await Promise.all([
-        fetch(`${API_URL}/api/estudios/replace/${candidato.idUsuario}`, {
+        fetch(`${API_CLIENT_URL}/api/estudios/replace/${candidato.idUsuario}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(estudiosEnviar),
           credentials: "include",
         }),
-        fetch(`${API_URL}/api/historialLaborals/replace/${candidato.idUsuario}`, {
+        fetch(`${API_CLIENT_URL}/api/historialLaborals/replace/${candidato.idUsuario}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(historialEnviar),
@@ -153,7 +153,7 @@ export default function HistorialYEstudios() {
           );
           return fd;
         },
-        endpointUrl: `${API_URL}/api/candidatos/edit/${candidato.idUsuario}`,
+        endpointUrl: `${API_CLIENT_URL}/api/candidatos/edit/${candidato.idUsuario}`,
         redirectUrl: "/perfil/candidato",         // ya redirigiremos al final
         metodo: "PUT",
         tipo: "multipart/form-data",
@@ -194,8 +194,8 @@ export default function HistorialYEstudios() {
                 previewImg
                   ? previewImg
                   : candidato.imagen
-                  ? `${API_URL}/img/${candidato.imagen}`
-                  : `${API_URL}/images/imgCandidato.png`
+                  ? `${API_CLIENT_URL}/img/${candidato.imagen}`
+                  : `${API_CLIENT_URL}/images/imgCandidato.png`
               }
               alt="avatar"
               className="h-32 w-32 rounded-full object-cover shadow"
@@ -285,7 +285,7 @@ export default function HistorialYEstudios() {
               {/* Link para ver CV existente */}
               {candidato.curriculo && (
                 <a
-                  href={`${API_URL}/pdf/${candidato.curriculo}`}
+                  href={`${API_CLIENT_URL}/pdf/${candidato.curriculo}`}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex w-max cursor-pointer items-center gap-2 rounded-full bg-blue-500 px-4 py-2 font-medium text-white shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"

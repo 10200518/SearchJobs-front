@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('vacanteForm');
     const endpointUrl = form.dataset.endpointUrl;
+    console.log(endpointUrl)
     const metodo = form.dataset.metodo;
     const tipoSelect = document.getElementById('tipo');
     const experienciaInput = document.getElementById('experiencia');
@@ -42,6 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(form);
+                console.log({
+            titulo: formData.get('titulo'),
+            ciudad: formData.get('ciudad'),
+            departamento: formData.get('departamento'),
+            tipo: formData.get('tipo'),
+            modalidad: formData.get('modalidad'),
+            sueldo: formData.get('sueldo'),
+            cargo: formData.get('cargo'),
+            experiencia: formData.get('experiencia' || 0),
+            descripcion: formData.get('descripcion'),
+            requerimientos: formData.get('requerimientos'),
+        })
+
         manejarFormulario({
             form,
             validateForm,

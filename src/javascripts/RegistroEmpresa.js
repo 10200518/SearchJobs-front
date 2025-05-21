@@ -1,5 +1,5 @@
 import { manejarFormulario } from './MensajeErrorFrom.js';
-import { API_URL } from './Api.js';
+import { API_CLIENT_URL } from './Api.js';
 import Swal from 'sweetalert2';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         telefono: formData.get('telefono'),
         nit: formData.get('nit'),
       }),
-      endpointUrl: `${API_URL}/api/empresas/add`,
+      endpointUrl: `${API_CLIENT_URL}/api/empresas/add`,
       redirectUrl: '/login',
       metodo:"POST"
     });

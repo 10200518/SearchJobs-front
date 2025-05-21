@@ -1,4 +1,4 @@
-import { API_URL } from './Api.js';
+import { API_CLIENT_URL } from './Api.js';
 import Swal from 'sweetalert2';
 
 export const manejarRespuesta = async (res) => {
@@ -13,11 +13,11 @@ export const manejarRespuesta = async (res) => {
     if (res.status === 401) {
       if (data.error === "TOKEN_EXPIRED") {
         await Swal.fire({ text: "Tu sesión ha expirado.", icon: 'error' });       
-        window.location.href=`${API_URL}/usuarios/cerrarSesion`;
+        window.location.href=`${API_CLIENT_URL}/usuarios/cerrarSesion`;
       } else {
         await Swal.fire({ text: "No estás autenticado.", icon: 'error' });      
       }
-      window.location.href =`${API_URL}/usuarios/cerrarSesion`;
+      window.location.href =`${API_CLIENT_URL}/usuarios/cerrarSesion`;
 
       // window.location.href = "/login";
       data= null

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { API_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
@@ -25,7 +25,7 @@ const UsuariosActivos = () => {
   
     const fetchUsuarios = async () => {
       try {
-        const url = `${API_URL}/api/admin/listar/filtrados?nombre=${searchTerm}&rolPrinciapl=${tipoUsuario}&estado=${!verBaneados}&page=${currentPage - 1}&size=${pageSize}`;
+        const url = `${API_CLIENT_URL}/api/admin/listar/filtrados?nombre=${searchTerm}&rolPrinciapl=${tipoUsuario}&estado=${!verBaneados}&page=${currentPage - 1}&size=${pageSize}`;
         const res = await fetch(url, { credentials: 'include' });
         const data = await manejarRespuesta(res); 
         if(!data){return}
@@ -39,7 +39,7 @@ const UsuariosActivos = () => {
 
 
     useEffect(() => {
-    fetch(`${API_URL}/api/usuarios/rol`, {
+    fetch(`${API_CLIENT_URL}/api/usuarios/rol`, {
     credentials: 'include', 
   })
     .then((res) => res.json())
@@ -70,7 +70,7 @@ const crearAdmin = async (idUsuario, estado) => {
 
   if (!confirmacion.isConfirmed) return;
 
-  fetch(`${API_URL}/api/admin/agregarRol?idUsuario=${idUsuario}&estado=${estado}`, {
+  fetch(`${API_CLIENT_URL}/api/admin/agregarRol?idUsuario=${idUsuario}&estado=${estado}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     credentials: 'include',
@@ -101,7 +101,7 @@ const crearAdmin = async (idUsuario, estado) => {
 
     if (!isConfirmed) return; // si el usuario cancela, no continúa
 
-    fetch(`${API_URL}/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=${isActive}&comentario=${encodeURIComponent(motivo)}`, {
+    fetch(`${API_CLIENT_URL}/api/admin/cambiar-estado/usuario?idUsuario=${idUsuario}&estado=${isActive}&comentario=${encodeURIComponent(motivo)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       credentials: 'include',

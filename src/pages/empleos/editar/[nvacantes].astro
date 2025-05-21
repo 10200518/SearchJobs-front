@@ -4,8 +4,8 @@ import Layout from '../../../layouts/Layout.astro';
 import Header from '../../../components/Header.jsx';
 import Footer from '../../../components/Footer.astro';
 import '../../../styles/pages/vacantes.css';
-import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta';
-import { API_URL } from '../../../javascripts/Api';
+import { manejarRespuesta } from '../../../javascripts/ManejarRespuesta.js';
+import { API_URL, API_CLIENT_URL } from '../../../javascripts/Api.js';
 
 const { nvacantes } = Astro.params;
 const res = await fetch(`${API_URL}/api/vacantes/seleccion/${nvacantes}`);
@@ -21,7 +21,7 @@ const vacante = data.vacanteSeleccionada;
     <p class="vacante-form-subtitle">Modifica los campos necesarios</p>
 
     {vacante ? (
-    <form id="vacanteForm" class="vacante-form" data-metodo="PUT" data-endpoint-url={`${API_URL}/api/vacantes/edit/${vacante.nvacantes}`}>
+    <form id="vacanteForm" class="vacante-form" data-metodo="PUT" data-endpoint-url={`${API_CLIENT_URL}/api/vacantes/edit/${vacante.nvacantes}`}>
       <input type="hidden" name="nvacantes" value={vacante.nvacantes} />
 
       <!-- Primera fila -->
@@ -125,5 +125,5 @@ const vacante = data.vacanteSeleccionada;
 
   <Footer slot="footer" />
 </Layout>
-<script type="module" src="/src/javascripts/RegistroVacante.js"></script>
+<script  src="../../../javascripts/RegistroVacante.js"></script>
 

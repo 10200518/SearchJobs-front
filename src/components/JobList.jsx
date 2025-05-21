@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
-import { API_URL } from '../javascripts/Api';
-import '../styles/pages/JobCard.css';
+import { API_CLIENT_URL } from '../javascripts/Api';
+import '../styles/pages/jobcard.css';
 import Paginacion from './Paginacion';
 
 
@@ -20,7 +20,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJ
     if (!isConfirmed) return;    // e
 
     try {
-      const response = await fetch(`${API_URL}/api/vacantes/estado/${id}?estado=${estado}`, {
+      const response = await fetch(`${API_CLIENT_URL}/api/vacantes/estado/${id}?estado=${estado}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJ
               <div className="header">
                 <div className="logo">
                   <img
-                    src={job.imagenEmpresa ? `${API_URL}`+"/img/"+ job.imagenEmpresa : `${API_URL}/images/imgEmpresa.png`}
+                    src={job.imagenEmpresa ? `${API_CLIENT_URL}`+"/img/"+ job.imagenEmpresa : `${API_CLIENT_URL}/images/imgEmpresa.png`}
                     alt={`${job.nameEmpresa} logo`}
                     width="60"
                     height="60"
@@ -131,7 +131,7 @@ const JobList = ({ jobs, rol, setCurrentPage, currentPage, totalPages, fetchAllJ
                     <circle cx="12" cy="7" r="4" />
                   </svg>
 
-                  <span>{job.nPostulados} postulados</span>
+                  <span>{job.totalpostulaciones} postulados</span>
                 </div>
               </div>
 

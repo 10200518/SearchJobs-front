@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { manejarRespuesta } from "../javascripts/ManejarRespuesta";
 import Paginacion from './Paginacion';
-import { API_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
 import Swal from 'sweetalert2';
 
 const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
@@ -19,7 +19,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
 
   const fetchUserRole = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/usuarios/rol`, {
+      const res = await fetch(`${API_CLIENT_URL}/api/usuarios/rol`, {
         credentials: 'include',
       });
       const data = await manejarRespuesta(res); 
@@ -44,7 +44,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
     });
 
     try {
-      const res = await fetch(`${API_URL}/api/postulados/lista?${params}`, {
+      const res = await fetch(`${API_CLIENT_URL}/api/postulados/lista?${params}`, {
         credentials: 'include',
       });
 
@@ -83,7 +83,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
 
   const abrirChat = async (candidatoId, vacanteId) => {
     try {
-      const response = await fetch(`${API_URL}/api/chats/crear`, {
+      const response = await fetch(`${API_CLIENT_URL}/api/chats/crear`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
     if (!isConfirmed) return;   
 
     try {
-      const res = await fetch(`${API_URL}/api/postulados/edit/${nPostulacion}`, {
+      const res = await fetch(`${API_CLIENT_URL}/api/postulados/edit/${nPostulacion}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -237,7 +237,7 @@ const Postulados = ({ vacanteId, itemsPerPage = 10 }) => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <a
-                        href={`${API_URL}/pdf/${postulado.candidato.curriculo}`}
+                        href={`${API_CLIENT_URL}/pdf/${postulado.candidato.curriculo}`}
                         target="_blank"
                         className="text-blue-500 hover:underline font-medium"
                       >

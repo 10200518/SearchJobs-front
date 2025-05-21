@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Client } from "@stomp/stompjs";
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
-import { API_URL } from '../javascripts/Api';
-import { WS_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
+import { WS_CLIENT_URL } from '../javascripts/Api';
 
 const ChatBox = ({ chatId }) => {
   const [messages, setMessages] = useState([]);
@@ -18,7 +18,7 @@ const ChatBox = ({ chatId }) => {
       if(chatId === "candidato" || chatId === "empresa"){return}
 
       try {
-        const res = await fetch(`${API_URL}/api/chats/${chatId}/info`, {
+        const res = await fetch(`${API_CLIENT_URL}/api/chats/${chatId}/info`, {
           credentials: "include",
         });
         if (!res.ok) throw new Error("Error al obtener la información del chat");
@@ -43,7 +43,7 @@ const ChatBox = ({ chatId }) => {
     const { userId } = chatInfo;
 
     const client = new Client({
-      brokerURL: `${WS_URL}/chats`,
+      brokerURL: `${WS_CLIENT_URL}/chats`,
       reconnectDelay: 5000,
 
       onConnect: () => {
@@ -63,7 +63,7 @@ const ChatBox = ({ chatId }) => {
         });
 
         // Cargar historial al conectar
-        fetch(`${API_URL}/api/chats/${chatId}/mensajes`, {
+        fetch(`${API_CLIENT_URL}/api/chats/${chatId}/mensajes`, {
           credentials: "include",
         })
           .then((res) => res.json())
@@ -122,7 +122,7 @@ const ChatBox = ({ chatId }) => {
   const cambiarEstadoChat = async (chatId, estado) => {
     let mensaje = estado? "Abrir":"Cerrar";
     try {
-      const response = await fetch(`${API_URL}/api/chats/${chatId}/estado?isActive=${estado}`, {
+      const response = await fetch(`${API_CLIENT_URL}/api/chats/${chatId}/estado?isActive=${estado}`, {
         method: 'PATCH',
         credentials: 'include', 
       });

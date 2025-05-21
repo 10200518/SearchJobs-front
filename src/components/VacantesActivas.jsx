@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { API_URL } from '../javascripts/Api';
+import { API_CLIENT_URL } from '../javascripts/Api';
 import { manejarRespuesta } from '../javascripts/ManejarRespuesta';
 import '../styles/empleos/empleos.css';
 import Paginacion from './Paginacion';
@@ -40,7 +40,7 @@ const VacantesActivas = () => {
 
       }; // Filtros aqui
 
-      const res = await fetch(`${API_URL}/api/admin/listar/filtrovacantes?page=${currentPage - 1}&size=${pageSize}`, {
+      const res = await fetch(`${API_CLIENT_URL}/api/admin/listar/filtrovacantes?page=${currentPage - 1}&size=${pageSize}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ const VacantesActivas = () => {
 
 
   //     const verVacante = (idUsuario) => {
-  //     fetch(`${API_URL}/api/candidatos/perfil?idUsuario=${idUsuario}`, {
+  //     fetch(`${API_CLIENT_URL}/api/candidatos/perfil?idUsuario=${idUsuario}`, {
   //       method: 'GET',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ const VacantesActivas = () => {
     }
 
     try {
-      const res = await fetch(`${API_URL}/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=${estado}&comentario=${encodeURIComponent(motivo)}`, {
+      const res = await fetch(`${API_CLIENT_URL}/api/admin/cambiar-estado/vacantes?nvacante=${nvacante}&estado=${estado}&comentario=${encodeURIComponent(motivo)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -253,7 +253,7 @@ const VacantesActivas = () => {
                       {vacantes.tipo}
                     </span>
                   </td>
-                  {searchIsActive ? (<td className="px-4 py-4">{vacantes.nPostulados}</td>
+                  {searchIsActive ? (<td className="px-4 py-4">{vacantes.totalpostulaciones}</td>
                   ) : (
                     <td className="px-4 py-4">{vacantes.comentarioAdmin}</td>
                   )}

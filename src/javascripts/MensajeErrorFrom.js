@@ -15,7 +15,9 @@ export async function manejarFormulario({ form, validateForm, buildData, endpoin
     if (tipo === "application/json") {
       response = await fetch(endpointUrl, {
         method: metodo,
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json" 
+        },
         body: JSON.stringify(data),
         credentials: 'include'
       });

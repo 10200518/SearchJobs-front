@@ -4,8 +4,8 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.jsx';
 import Footer from '../../components/Footer.astro';
 import '../../styles/pages/vacantes.css';
-import { API_URL } from '../../javascripts/Api';
-
+import { API_CLIENT_URL } from '../../javascripts/Api.js';
+console.log(API_CLIENT_URL)
 ---
 
 <Layout title="Crear Nueva Oferta">
@@ -15,7 +15,7 @@ import { API_URL } from '../../javascripts/Api';
     <h1 class="vacante-form-title">Crear Nueva Oferta</h1>
     <p class="vacante-form-subtitle">Complete todos los campos requeridos</p>
     
-    <form id="vacanteForm" class="vacante-form" data-metodo="POST" data-endpoint-url=`${API_URL}/api/vacantes/add`>
+    <form id="vacanteForm" class="vacante-form" data-metodo="POST" data-endpoint-url=`${API_CLIENT_URL}/api/vacantes/add`>
       <!-- Primera fila -->
       <div class="form-row">
         <div class="form-group">
@@ -106,4 +106,4 @@ import { API_URL } from '../../javascripts/Api';
   
   <Footer slot="footer" />
 </Layout>
-<script type="module" src="/src/javascripts/RegistroVacante.js"></script>
+<script  src="../../javascripts/RegistroVacante.js"></script>
