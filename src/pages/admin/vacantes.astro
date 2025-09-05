@@ -1,0 +1,276 @@
+---
+import AdminSidebar from "../../components/AdminSidebar.astro";
+import Footer from "../../components/Footer.astro";
+import Header from "../../components/Header.jsx";
+import VacantesActivas from "../../components/VacantesActivas.jsx";
+import Layout from "../../layouts/Layout.astro";
+
+---
+<Layout title="Gestión de Vacantes | SearchJobs">
+  <Header client:load /><br>
+    <div class="container px-4 py-6 mx-auto">
+        <div class="flex flex-col gap-6 md:flex-row">
+     
+      <AdminSidebar activeItem="vacantes" />
+      <div class="flex-1"> <VacantesActivas client:load /> </div>
+      
+        </div>
+    </div>
+    <Footer slot="footer" />
+</Layout>
+      
+
+  <!-- <VacantesDesactivadas client:load /> -->
+  
+  <!-- 
+      
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-6">
+          <h1 class="text-2xl font-bold">Gestión de Vacantes</h1>
+          
+          <div class="flex gap-2">
+            <div class="relative">
+              <input 
+                type="text" 
+                placeholder="Buscar vacantes..." 
+                class="py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2">
+                <circle cx="11" cy="11" class="absolute text-gray-400 -translate-y-1/2 left-3 top-1/2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            
+            <button class="flex items-center px-4 py-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              Nueva Vacante
+            </button>
+          </div>
+        </div>
+        
+        <div class="mb-6">
+          <div class="border-b border-gray-200">
+            <nav class="flex -mb-px">
+              <button id="tab-activas" class="px-4 py-3 font-medium text-blue-600 border-b-2 border-blue-600 tab-button active">
+                Vacantes Activas ({vacantesActivas.length})
+              </button>
+              <button id="tab-desactivadas" class="px-4 py-3 font-medium text-gray-500 border-b-2 border-transparent tab-button hover:text-gray-700 hover:border-gray-300">
+                Vacantes Desactivadas ({vacantesDesactivadas.length})
+              </button>
+            </nav>
+          </div>
+        </div>
+        
+        <div id="content-activas" class="tab-content">
+          <div class="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Título</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Empresa</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Ubicación</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Fecha</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Postulaciones</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {vacantesActivas.map((vacante) => (
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">{vacante.titulo}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.empresa}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.ubicacion}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.fechaPublicacion}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.postulaciones}</div>
+                    </td>
+                    <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                      <button class="mr-3 text-blue-600 hover:text-blue-900">Ver</button>
+                      <button class="text-red-600 hover:text-red-900 desactivar-btn" data-id={vacante.id} data-titulo={vacante.titulo}>Desactivar</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <div id="content-desactivadas" class="hidden tab-content">
+          <div class="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-sm">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Título</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Empresa</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Ubicación</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Fecha Desactivación</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">Motivo</th>
+                  <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-right text-gray-500 uppercase">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                {vacantesDesactivadas.map((vacante) => (
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm font-medium text-gray-900">{vacante.titulo}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.empresa}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.ubicacion}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.fechaDesactivacion}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-500">{vacante.motivo}</div>
+                    </td>
+                    <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                      <button class="mr-3 text-blue-600 hover:text-blue-900">Ver</button>
+                      <button class="text-green-600 hover:text-green-900 activar-btn" data-id={vacante.id} data-titulo={vacante.titulo}>Activar</button>
+                    </td>
+                  </tr> -->
+             
+              <!-- </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  
+  <!-- <div id="modal-desactivar" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+      <h3 class="mb-4 text-lg font-semibold">Desactivar Vacante</h3>
+      <p class="mb-4">¿Estás seguro de que deseas desactivar la vacante <span id="vacante-titulo-desactivar" class="font-medium"></span>?</p>
+      
+      <div class="mb-4">
+        <label for="motivo-desactivar" class="block mb-1 text-sm font-medium text-gray-700">Motivo de desactivación</label>
+        <textarea id="motivo-desactivar" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Explica el motivo de la desactivación..."></textarea>
+      </div>
+      
+      <div class="flex justify-end gap-3">
+        <button id="cancelar-desactivar" class="px-4 py-2 text-gray-700 transition-colors border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+        <button id="confirmar-desactivar" class="px-4 py-2 text-white transition-colors bg-red-600 rounded-md hover:bg-red-700">Desactivar</button>
+      </div>
+    </div>
+  </div>
+  
+  <div id="modal-activar" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" style="display: none;">
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-xl">
+      <h3 class="mb-4 text-lg font-semibold">Activar Vacante</h3>
+      <p class="mb-4">¿Estás seguro de que deseas activar la vacante <span id="vacante-titulo-activar" class="font-medium"></span>?</p>
+      
+      <div class="mb-4">
+        <label for="comentario-activar" class="block mb-1 text-sm font-medium text-gray-700">Comentario (opcional)</label>
+        <textarea id="comentario-activar" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Añade un comentario..."></textarea>
+      </div>
+      
+      <div class="flex justify-end gap-3">
+        <button id="cancelar-activar" class="px-4 py-2 text-gray-700 transition-colors border border-gray-300 rounded-md hover:bg-gray-50">Cancelar</button>
+        <button id="confirmar-activar" class="px-4 py-2 text-white transition-colors bg-green-600 rounded-md hover:bg-green-700">Activar</button>
+      </div>
+    </div>
+  </div> -->
+
+  
+
+<!-- <script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', () => {
+ 
+    const tabActivas = document.getElementById('tab-activas');
+    const tabDesactivadas = document.getElementById('tab-desactivadas');
+    const contentActivas = document.getElementById('content-activas');
+    const contentDesactivadas = document.getElementById('content-desactivadas');
+    
+    tabActivas.addEventListener('click', () => {
+      tabActivas.classList.add('active', 'border-blue-600', 'text-blue-600');
+      tabActivas.classList.remove('border-transparent', 'text-gray-500');
+      tabDesactivadas.classList.remove('active', 'border-blue-600', 'text-blue-600');
+      tabDesactivadas.classList.add('border-transparent', 'text-gray-500');
+      
+      contentActivas.classList.remove('hidden');
+      contentDesactivadas.classList.add('hidden');
+    });
+    
+    tabDesactivadas.addEventListener('click', () => {
+      tabDesactivadas.classList.add('active', 'border-blue-600', 'text-blue-600');
+      tabDesactivadas.classList.remove('border-transparent', 'text-gray-500');
+      tabActivas.classList.remove('active', 'border-blue-600', 'text-blue-600');
+      tabActivas.classList.add('border-transparent', 'text-gray-500');
+      
+      contentDesactivadas.classList.remove('hidden');
+      contentActivas.classList.add('hidden');
+    });
+    
+    const modalDesactivar = document.getElementById('modal-desactivar');
+    const vacanteDesactivarTitulo = document.getElementById('vacante-titulo-desactivar');
+    const cancelarDesactivar = document.getElementById('cancelar-desactivar');
+    const confirmarDesactivar = document.getElementById('confirmar-desactivar');
+    const desactivarBtns = document.querySelectorAll('.desactivar-btn');
+    
+    desactivarBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const titulo = btn.getAttribute('data-titulo');
+        
+        vacanteDesactivarTitulo.textContent = titulo;
+        modalDesactivar.classList.remove('hidden');
+      });
+    });
+    
+    cancelarDesactivar.addEventListener('click', () => {
+      modalDesactivar.classList.add('hidden');
+    });
+    
+    confirmarDesactivar.addEventListener('click', () => {
+     
+      await Swal.fire({ text: 'Vacante desactivada correctamente', icon: 'info' });      modalDesactivar.classList.add('hidden');
+    });
+    
+    const modalActivar = document.getElementById('modal-activar');
+    const vacanteActivarTitulo = document.getElementById('vacante-titulo-activar');
+    const cancelarActivar = document.getElementById('cancelar-activar');
+    const confirmarActivar = document.getElementById('confirmar-activar');
+    const activarBtns = document.querySelectorAll('.activar-btn');
+    
+    activarBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const titulo = btn.getAttribute('data-titulo');
+        
+        vacanteActivarTitulo.textContent = titulo;
+        modalActivar.classList.remove('hidden');
+      });
+    });
+    
+    cancelarActivar.addEventListener('click', () => {
+      modalActivar.classList.add('hidden');
+    });
+    
+    confirmarActivar.addEventListener('click', () => {
+     
+      await Swal.fire({ text: 'Vacante activada correctamente', icon: 'info' });      modalActivar.classList.add('hidden');
+    });
+  });
+</script> -->
+
+<style>
+  .tab-button.active {
+    border-bottom-width: 2px;
+  }
+</style>
+

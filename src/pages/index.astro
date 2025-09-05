@@ -1,42 +1,37 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import JobCard from '../components/JobCard.astro';
 import FeatureCard from '../components/FeatureCard.astro';
-import'../styles/pages/index.css'
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.jsx';
+import JobCard from '../components/JobCard.astro';
+import Layout from '../layouts/Layout.astro';
+import '../styles/pages/index.css';
+import { API_URL } from '../javascripts/Api.js';
 
-// Datos de ejemplo para empleos destacados
-const featuredJobs = [
-  {
-    id: 1,
-    title: "Desarrollador Frontend",
-    company: "TechCorp",
-    location: "Bogotá, Colombia",
-    type: "Tiempo completo",
-    experience: "2-3 años",
-    logo: "/placeholder.svg?height=80&width=80",
-  },
-  {
-    id: 2,
-    title: "Diseñador UX/UI",
-    company: "CreativeStudio",
-    location: "Remoto",
-    type: "Tiempo completo",
-    experience: "3-5 años",
-    logo: "/placeholder.svg?height=80&width=80",
-  },
-  {
-    id: 3,
-    title: "Analista de Marketing Digital",
-    company: "GrowthAgency",
-    location: "Medellín, Colombia",
-    type: "Tiempo completo",
-    experience: "1-2 años",
-    logo: "/placeholder.svg?height=80&width=80",
-  },
-];
 
+interface Job {
+  nvacantes: String;
+  titulo: string;
+  nameEmpresa: string;
+  ciudad: string;
+  tipo: string;
+  experiencia: string;
+  imagenEmpresa: string;
+  totalpostulaciones:Number;
+}
+
+const response = await fetch(`${API_URL}/api/vacantes/Top/listar`,{
+  headers: Astro.request.headers
+});
+console.log(API_URL)
+const data = await response.json();
+
+const res = await fetch(`${API_URL}/api/usuarios/rol`, {
+  headers: Astro.request.headers
+});
+const dataUser = await res.json();
+let rol = dataUser.rolPrincipal;
+
+const featuredJobs: Job[] = data.vacantes || []; 
 const features = [
   {
     icon: "search",
@@ -62,7 +57,7 @@ const features = [
 ---
 
 <Layout title="SearchJobs | Encuentra empleo">
-  <Header slot="header" />
+  <Header client:load/>
   
   <section class="hero">
     <div class="container">
@@ -90,7 +85,7 @@ const features = [
       
       <div class="jobs-grid">
         {featuredJobs.map(job => (
-          <JobCard job={job} />
+          <JobCard job={job} rol={rol} />
         ))}
       </div>
       
@@ -135,7 +130,6 @@ const features = [
       </div>
     </div>
   </section>
-
   <Footer slot="footer" />
 </Layout>
 
